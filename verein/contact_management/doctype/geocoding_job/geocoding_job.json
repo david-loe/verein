@@ -1,0 +1,91 @@
+{
+    "actions": [
+        {
+            "action": "verein.contact_management.doctype.geocoding_job.geocoding_job.run_job_async",
+            "action_type": "Server Action",
+            "label": "Run"
+        }
+    ],
+    "allow_rename": 1,
+    "creation": "2025-02-26 13:42:05.640108",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "supporter",
+        "column_break_nyki",
+        "status",
+        "section_break_csjd",
+        "error_message"
+    ],
+    "fields": [
+        {
+            "fieldname": "supporter",
+            "fieldtype": "Link",
+            "in_list_view": 1,
+            "label": "Supporter",
+            "options": "Supporter",
+            "reqd": 1
+        },
+        {
+            "default": "Pending",
+            "fieldname": "status",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Status",
+            "options": "Pending\nCompleted\nFailed",
+            "reqd": 1
+        },
+        {
+            "fieldname": "column_break_nyki",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "section_break_csjd",
+            "fieldtype": "Section Break"
+        },
+        {
+            "depends_on": "eval:doc.status === \"Failed\"",
+            "fieldname": "error_message",
+            "fieldtype": "Text",
+            "label": "Error Message"
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "links": [],
+    "modified": "2025-02-27 16:20:31.980989",
+    "modified_by": "Administrator",
+    "module": "Contact Management",
+    "name": "Geocoding Job",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": [
+        {
+            "color": "Blue",
+            "title": "Pending"
+        },
+        {
+            "color": "Green",
+            "title": "Completed"
+        },
+        {
+            "color": "Red",
+            "title": "Failed"
+        }
+    ]
+}

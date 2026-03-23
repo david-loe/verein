@@ -1,0 +1,101 @@
+{
+    "actions": [],
+    "allow_rename": 1,
+    "creation": "2025-02-26 12:47:22.668461",
+    "doctype": "DocType",
+    "engine": "InnoDB",
+    "field_order": [
+        "section_break_jvja",
+        "url",
+        "result_parameter_section",
+        "lat_param",
+        "column_break_vxhk",
+        "lon_param",
+        "section_break_ytpm",
+        "req_interval_ms",
+        "section_break_hirm",
+        "headers"
+    ],
+    "fields": [
+        {
+            "fieldname": "url",
+            "fieldtype": "Small Text",
+            "in_list_view": 1,
+            "label": "URL",
+            "reqd": 1
+        },
+        {
+            "fieldname": "lat_param",
+            "fieldtype": "Data",
+            "in_list_view": 1,
+            "label": "Latitude",
+            "reqd": 1
+        },
+        {
+            "description": "Insert the API URL using Jinja templating language.\ne.g.: https://map.service.com/get?adr={{ address_line_1 }}, {{ city }}..\n(You have direct access to all address fields of a Supporter.)",
+            "fieldname": "section_break_jvja",
+            "fieldtype": "Section Break"
+        },
+        {
+            "description": "Specify the parameter of the API response that holds the responding values. For nested access, use dot notation.",
+            "fieldname": "result_parameter_section",
+            "fieldtype": "Section Break",
+            "label": "Result Parameter"
+        },
+        {
+            "fieldname": "column_break_vxhk",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "lon_param",
+            "fieldtype": "Data",
+            "label": "Longitude ",
+            "reqd": 1
+        },
+        {
+            "fieldname": "section_break_ytpm",
+            "fieldtype": "Section Break"
+        },
+        {
+            "default": "1000",
+            "description": "The time interval to wait between API requests. (in milliseconds)",
+            "fieldname": "req_interval_ms",
+            "fieldtype": "Int",
+            "label": "Request Interval [ms]",
+            "reqd": 1
+        },
+        {
+            "description": "Optional: Provide additional header values to be used for the API requests.",
+            "fieldname": "section_break_hirm",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "headers",
+            "fieldtype": "JSON",
+            "label": "Headers"
+        }
+    ],
+    "index_web_pages_for_search": 1,
+    "issingle": 1,
+    "links": [],
+    "modified": "2025-02-26 14:25:11.337344",
+    "modified_by": "Administrator",
+    "module": "Contact Management",
+    "name": "Geocoding API Settings",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "print": 1,
+            "read": 1,
+            "role": "System Manager",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": []
+}

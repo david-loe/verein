@@ -143,23 +143,10 @@ app_license = "agpl-3.0"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"verein.tasks.all"
-# 	],
-# 	"daily": [
-# 		"verein.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"verein.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"verein.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"verein.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "hourly_long": ["verein.contact_management.doctype.geocoding_job.geocoding_job.process_geocoding_queue"],
+    "daily": ["verein.contact_management.doctype.geocoding_job.geocoding_job.delete_successfull_jobs_older_than_1_week"],
+}
 
 # Testing
 # -------
@@ -239,7 +226,7 @@ app_license = "agpl-3.0"
 # ]
 
 # Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
+export_python_type_annotations = True
 
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
