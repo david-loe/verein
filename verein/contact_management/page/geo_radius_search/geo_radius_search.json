@@ -1,0 +1,24 @@
+{
+ "content": null,
+ "creation": "2026-03-23 00:00:00",
+ "docstatus": 0,
+ "doctype": "Page",
+ "icon": "",
+ "idx": 0,
+ "modified": "2026-03-23 15:01:27.972346",
+ "modified_by": "Administrator",
+ "module": "Contact Management",
+ "name": "geo-radius-search",
+ "owner": "Administrator",
+ "page_name": "geo-radius-search",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Geo Radius Search"
+}

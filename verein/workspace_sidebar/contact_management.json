@@ -1,0 +1,64 @@
+{
+ "app": "verein",
+ "creation": "2026-03-23 14:51:45.467672",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "book-user",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "users",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Supporter",
+   "link_to": "Supporter",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "network",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Network",
+   "link_to": "Network",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "calendar-1",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Experience",
+   "link_to": "Experience",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "map-pinned",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Radius Search",
+   "link_to": "geo-radius-search",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-03-23 14:51:45.467672",
+ "modified_by": "Administrator",
+ "name": "Contact Management",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "Contact Management"
+}

@@ -11,6 +11,8 @@
     "doctype": "DocType",
     "engine": "InnoDB",
     "field_order": [
+        "reference_doctype",
+        "reference_name",
         "supporter",
         "column_break_nyki",
         "status",
@@ -19,12 +21,27 @@
     ],
     "fields": [
         {
+            "fieldname": "reference_doctype",
+            "fieldtype": "Select",
+            "in_list_view": 1,
+            "label": "Reference DocType",
+            "options": "Supporter\nNetwork",
+            "reqd": 1
+        },
+        {
+            "fieldname": "reference_name",
+            "fieldtype": "Dynamic Link",
+            "in_list_view": 1,
+            "label": "Reference Name",
+            "options": "reference_doctype",
+            "reqd": 1
+        },
+        {
             "fieldname": "supporter",
             "fieldtype": "Link",
-            "in_list_view": 1,
+            "hidden": 1,
             "label": "Supporter",
-            "options": "Supporter",
-            "reqd": 1
+            "options": "Supporter"
         },
         {
             "default": "Pending",
@@ -53,7 +70,7 @@
     ],
     "index_web_pages_for_search": 1,
     "links": [],
-    "modified": "2025-02-27 16:20:31.980989",
+    "modified": "2026-03-23 00:00:00.000000",
     "modified_by": "Administrator",
     "module": "Contact Management",
     "name": "Geocoding Job",

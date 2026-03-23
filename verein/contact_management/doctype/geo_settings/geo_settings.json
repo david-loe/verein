@@ -14,7 +14,12 @@
         "section_break_ytpm",
         "req_interval_ms",
         "section_break_hirm",
-        "headers"
+        "headers",
+        "default_map_section",
+        "default_map_latitude",
+        "column_break_map",
+        "default_map_longitude",
+        "default_map_zoom"
     ],
     "fields": [
         {
@@ -32,7 +37,7 @@
             "reqd": 1
         },
         {
-            "description": "Insert the API URL using Jinja templating language.\ne.g.: https://map.service.com/get?adr={{ address_line_1 }}, {{ city }}..\n(You have direct access to all address fields of a Supporter.)",
+            "description": "Insert the API URL using Jinja templating language.\ne.g.: https://map.service.com/get?adr={{ address_line_1 }}, {{ city }}..\n(You have direct access to all address fields of the referenced document.)",
             "fieldname": "section_break_jvja",
             "fieldtype": "Section Break"
         },
@@ -49,7 +54,7 @@
         {
             "fieldname": "lon_param",
             "fieldtype": "Data",
-            "label": "Longitude ",
+            "label": "Longitude",
             "reqd": 1
         },
         {
@@ -73,15 +78,45 @@
             "fieldname": "headers",
             "fieldtype": "JSON",
             "label": "Headers"
+        },
+        {
+            "fieldname": "default_map_section",
+            "fieldtype": "Section Break",
+            "label": "Default Map"
+        },
+        {
+            "default": "51.1657",
+            "fieldname": "default_map_latitude",
+            "fieldtype": "Float",
+            "label": "Default Latitude",
+            "reqd": 1
+        },
+        {
+            "fieldname": "column_break_map",
+            "fieldtype": "Column Break"
+        },
+        {
+            "default": "10.4515",
+            "fieldname": "default_map_longitude",
+            "fieldtype": "Float",
+            "label": "Default Longitude",
+            "reqd": 1
+        },
+        {
+            "default": "6",
+            "fieldname": "default_map_zoom",
+            "fieldtype": "Int",
+            "label": "Default Zoom",
+            "reqd": 1
         }
     ],
     "index_web_pages_for_search": 1,
     "issingle": 1,
     "links": [],
-    "modified": "2025-02-26 14:25:11.337344",
+    "modified": "2026-03-23 00:00:00.000000",
     "modified_by": "Administrator",
     "module": "Contact Management",
-    "name": "Geocoding API Settings",
+    "name": "Geo Settings",
     "owner": "Administrator",
     "permissions": [
         {

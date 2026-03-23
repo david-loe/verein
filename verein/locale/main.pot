@@ -1,0 +1,666 @@
+# Translations template for Verein.
+# Copyright (C) 2026 david-loe
+# This file is distributed under the same license as the Verein project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Verein VERSION\n"
+"Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
+"POT-Creation-Date: 2026-03-23 14:21+0000\n"
+"PO-Revision-Date: 2026-03-23 14:21+0000\n"
+"Last-Translator: kontakt@david-loe.de\n"
+"Language-Team: kontakt@david-loe.de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: verein/contact_management/doctype/supporter/supporter.py:112
+msgid "A supporter cannot be married to themselves."
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:6
+#: verein/contact_management/doctype/network/network.js:7
+msgid "Add Supporter"
+msgstr ""
+
+#. Label of the address_section (Section Break) field in DocType 'Network'
+#. Label of the address_section (Section Break) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Address"
+msgstr ""
+
+#. Label of the address_line_1 (Data) field in DocType 'Network'
+#. Label of the address_line_1 (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Address Line 1"
+msgstr ""
+
+#. Label of the address_line_2 (Data) field in DocType 'Network'
+#. Label of the address_line_2 (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Address Line 2"
+msgstr ""
+
+#. Label of the city (Data) field in DocType 'Network'
+#. Label of the city (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:20
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:44
+msgid "City"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Completed"
+msgstr ""
+
+#. Label of the contact_section (Section Break) field in DocType 'Supporter'
+#. Label of the contact_tab (Tab Break) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Contact"
+msgstr ""
+
+#. Label of a Desktop Icon
+#. Title of a Workspace Sidebar
+#: verein/desktop_icon/contact_management.json
+#: verein/workspace_sidebar/contact_management.json
+msgid "Contact Management"
+msgstr ""
+
+#. Name of a role
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/experience_type/experience_type.json
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/network_type/network_type.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Contact Manager"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:695
+msgid "Coordinates"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:568
+msgid "Could not resolve the place."
+msgstr ""
+
+#. Label of the country (Link) field in DocType 'Network'
+#. Label of the country (Link) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Country"
+msgstr ""
+
+#. Label of the date (Date) field in DocType 'Experience'
+#. Label of the date (Date) field in DocType 'Supporter Experience'
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/supporter_experience/supporter_experience.json
+msgid "Date"
+msgstr ""
+
+#. Label of the date_of_birth (Date) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Date of Birth"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:442
+msgid "Default"
+msgstr ""
+
+#. Label of the default_map_latitude (Float) field in DocType 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Default Latitude"
+msgstr ""
+
+#. Label of the default_map_longitude (Float) field in DocType 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Default Longitude"
+msgstr ""
+
+#. Label of the default_map_section (Section Break) field in DocType 'Geo
+#. Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Default Map"
+msgstr ""
+
+#. Label of the default_map_zoom (Int) field in DocType 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Default Zoom"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:795
+msgid "Distance"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:17
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:42
+msgid "Distance (km)"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:18
+msgid "Email"
+msgstr ""
+
+#. Label of the email_address (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Email Address"
+msgstr ""
+
+#. Label of the error_message (Text) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Error Message"
+msgstr ""
+
+#. Name of a DocType
+#. Label of the experience (Link) field in DocType 'Supporter Experience'
+#. Label of a Workspace Sidebar Item
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/supporter_experience/supporter_experience.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:865
+#: verein/workspace_sidebar/contact_management.json
+msgid "Experience"
+msgstr ""
+
+#. Name of a DocType
+#: verein/contact_management/doctype/experience_type/experience_type.json
+msgid "Experience Type"
+msgstr ""
+
+#. Label of the experiences (Table) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:237
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Experiences"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Export Excel"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Failed"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Find Place"
+msgstr ""
+
+#. Label of the first_name (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "First Name"
+msgstr ""
+
+#. Label of the full_name (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Full Name"
+msgstr ""
+
+#. Label of the gender (Link) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Gender"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:35
+msgid "Geo Radius Search"
+msgstr ""
+
+#. Name of a DocType
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Geo Settings"
+msgstr ""
+
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:113
+msgid "Geocoding Error"
+msgstr ""
+
+#. Name of a DocType
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Geocoding Job"
+msgstr ""
+
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:16
+msgid "Geocoding job has been queued."
+msgstr ""
+
+#. Label of the headers (JSON) field in DocType 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Headers"
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:132
+#: verein/contact_management/doctype/network/network.js:196
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:15
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:40
+msgid "ID"
+msgstr ""
+
+#. Label of the image (Attach Image) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Image"
+msgstr ""
+
+#. Description of the 'section_break_jvja' (Section Break) field in DocType
+#. 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid ""
+"Insert the API URL using Jinja templating language.\n"
+"e.g.: https://map.service.com/get?adr={{ address_line_1 }}, {{ city }}..\n"
+"(You have direct access to all address fields of the referenced document.)"
+msgstr ""
+
+#. Label of the last_name (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Last Name"
+msgstr ""
+
+#. Label of the lat_param (Data) field in DocType 'Geo Settings'
+#. Label of the latitude (Float) field in DocType 'Network'
+#. Label of the latitude (Float) field in DocType 'Supporter'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Latitude"
+msgstr ""
+
+#. Label of the supporters_section (Section Break) field in DocType
+#. 'Experience'
+#. Label of the supporters_section (Section Break) field in DocType 'Network'
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/network/network.json
+msgid "Linked Supporters"
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:23
+#: verein/contact_management/doctype/network/network.js:24
+msgid "Loading linked supporters..."
+msgstr ""
+
+#. Label of the lon_param (Data) field in DocType 'Geo Settings'
+#. Label of the longitude (Float) field in DocType 'Network'
+#. Label of the longitude (Float) field in DocType 'Supporter'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Longitude"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:623
+msgid "Manually moved pin"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:451
+msgid "Manually placed pin"
+msgstr ""
+
+#. Label of the geo_map_preview (HTML) field in DocType 'Network'
+#. Label of the geo_map_preview (HTML) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Map"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:774
+msgid "Matched By"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:23
+msgid "Matched Experiences"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:22
+msgid "Matched Networks"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "More Filters"
+msgstr ""
+
+#. Label of the experience_name (Data) field in DocType 'Experience'
+#. Label of the type_name (Data) field in DocType 'Experience Type'
+#. Label of the type_name (Data) field in DocType 'Network Type'
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/experience_type/experience_type.json
+#: verein/contact_management/doctype/network_type/network_type.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:16
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:41
+msgid "Name"
+msgstr ""
+
+#. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
+#. Name of a DocType
+#. Label of the network (Link) field in DocType 'Supporter Network'
+#. Label of a Workspace Sidebar Item
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter_network/supporter_network.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:858
+#: verein/workspace_sidebar/contact_management.json
+msgid "Network"
+msgstr ""
+
+#. Name of a DocType
+#. Label of the network_type (Data) field in DocType 'Supporter Network'
+#: verein/contact_management/doctype/network_type/network_type.json
+#: verein/contact_management/doctype/supporter_network/supporter_network.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:244
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Network Type"
+msgstr ""
+
+#. Label of the networks (Table) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:230
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Networks"
+msgstr ""
+
+#. Label of the networks_tab (Tab Break) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Networks & Experiences"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:878
+msgid "No filter match"
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:53
+#: verein/contact_management/doctype/network/network.js:54
+msgid "No linked supporters yet."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:576
+msgid "No matching places found."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:762
+msgid "No results"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:767
+msgid "No results within the radius."
+msgstr ""
+
+#. Label of the note (Data) field in DocType 'Supporter Experience'
+#. Label of the note (Data) field in DocType 'Supporter Network'
+#: verein/contact_management/doctype/supporter_experience/supporter_experience.json
+#: verein/contact_management/doctype/supporter_network/supporter_network.json
+msgid "Note"
+msgstr ""
+
+#. Description of the 'section_break_hirm' (Section Break) field in DocType
+#. 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Optional: Provide additional header values to be used for the API requests."
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Pending"
+msgstr ""
+
+#. Label of the phone (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:19
+msgid "Phone"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:544
+msgid "Please enter a place or address first."
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:19
+#: verein/contact_management/doctype/network/network.js:20
+msgid "Please save first."
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:105
+#: verein/contact_management/doctype/network/network.js:106
+msgid "Please select at least one supporter."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:737
+msgid "Please set a start point before exporting."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:717
+msgid "Please set a start point first using place search or a map pin."
+msgstr ""
+
+#. Label of the postal_code (Data) field in DocType 'Network'
+#. Label of the postal_code (Data) field in DocType 'Supporter'
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter/supporter.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:21
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:45
+msgid "Postal Code"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:522
+msgid "Preset start point"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Radius"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:222
+msgid "Radius (km)"
+msgstr ""
+
+#. Label of a Workspace Sidebar Item
+#: verein/workspace_sidebar/contact_management.json
+msgid "Radius Search"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:722
+msgid "Radius must be a whole number greater than 0."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:130
+msgid "Radius must be greater than zero."
+msgstr ""
+
+#. Label of the reference_doctype (Select) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Reference DocType"
+msgstr ""
+
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:43
+msgid "Reference DocType must be one of the following values: {0}"
+msgstr ""
+
+#. Label of the reference_name (Dynamic Link) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Reference Name"
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:72
+#: verein/contact_management/doctype/network/network.js:73
+msgid "Remove"
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:38
+#: verein/contact_management/doctype/network/network.js:39
+msgid "Remove supporter link?"
+msgstr ""
+
+#. Label of the req_interval_ms (Int) field in DocType 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Request Interval [ms]"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:795
+msgid "Result"
+msgstr ""
+
+#. Label of the result_parameter_section (Section Break) field in DocType 'Geo
+#. Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Result Parameter"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Results"
+msgstr ""
+
+#. Label of the salutation (Link) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Salutation"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:443
+msgid "Satellite"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:252
+msgid "Search"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:214
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Search For"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Search Settings"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:710
+msgid "Search for a place or set the start point directly on the map."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:548
+msgid "Searching for place..."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:726
+msgid "Searching..."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:602
+msgid "Selected place"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:701
+msgid "Selected start point: {0}"
+msgstr ""
+
+#. Description of the 'Result Parameter' (Section Break) field in DocType 'Geo
+#. Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "Specify the parameter of the API response that holds the responding values. For nested access, use dot notation."
+msgstr ""
+
+#. Label of the spouse (Link) field in DocType 'Supporter'
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "Spouse"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Start Point"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+msgid "Start point, radius, and optional filters in one compact view."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:513
+msgid "Start point: {0} {1}"
+msgstr ""
+
+#. Label of the status (Select) field in DocType 'Geocoding Job'
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+msgid "Status"
+msgstr ""
+
+#. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
+#. Label of the supporter (Link) field in DocType 'Geocoding Job'
+#. Name of a DocType
+#. Label of a Workspace Sidebar Item
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/contact_management/doctype/supporter/supporter.json
+#: verein/workspace_sidebar/contact_management.json
+msgid "Supporter"
+msgstr ""
+
+#. Name of a DocType
+#: verein/contact_management/doctype/supporter_experience/supporter_experience.json
+msgid "Supporter Experience"
+msgstr ""
+
+#. Name of a DocType
+#: verein/contact_management/doctype/supporter_network/supporter_network.json
+msgid "Supporter Network"
+msgstr ""
+
+#. Label of the linked_supporters_html (HTML) field in DocType 'Experience'
+#. Label of the linked_supporters_html (HTML) field in DocType 'Network'
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/network/network.json
+msgid "Supporters"
+msgstr ""
+
+#. Name of a role
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/experience_type/experience_type.json
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/network_type/network_type.json
+#: verein/contact_management/doctype/supporter/supporter.json
+msgid "System Manager"
+msgstr ""
+
+#: verein/contact_management/doctype/supporter/supporter.py:116
+msgid "The selected spouse does not exist."
+msgstr ""
+
+#. Description of the 'Request Interval [ms]' (Int) field in DocType 'Geo
+#. Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "The time interval to wait between API requests. (in milliseconds)"
+msgstr ""
+
+#. Label of the network_name (Data) field in DocType 'Network'
+#: verein/contact_management/doctype/network/network.json
+msgid "Title"
+msgstr ""
+
+#. Label of the type (Link) field in DocType 'Experience'
+#. Label of the type (Link) field in DocType 'Network'
+#. Label of the type (Data) field in DocType 'Supporter Experience'
+#: verein/contact_management/doctype/experience/experience.json
+#: verein/contact_management/doctype/network/network.json
+#: verein/contact_management/doctype/supporter_experience/supporter_experience.json
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:43
+msgid "Type"
+msgstr ""
+
+#. Label of the url (Small Text) field in DocType 'Geo Settings'
+#: verein/contact_management/doctype/geo_settings/geo_settings.json
+msgid "URL"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:124
+msgid "Unsupported search doctype: {0}"
+msgstr ""
+
+#: verein/contact_management/doctype/supporter/supporter.py:120
+msgid "{0} is already linked to {1}."
+msgstr ""
+
+#: verein/contact_management/doctype/supporter/supporter.py:100
+msgid "{0} may only be linked once: {1}"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:762
+msgid "{0} results"
+msgstr ""
+

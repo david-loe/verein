@@ -153,14 +153,6 @@ scheduler_events = {
 
 # before_tests = "verein.install.before_tests"
 
-# Extend DocType Class
-# ------------------------------
-#
-# Specify custom mixins to extend the standard doctype controller.
-# extend_doctype_class = {
-# 	"Task": "verein.custom.task.CustomTaskMixin"
-# }
-
 # Overriding Methods
 # ------------------------------
 #
@@ -236,4 +228,3 @@ export_python_type_annotations = True
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

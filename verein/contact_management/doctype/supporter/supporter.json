@@ -1,226 +1,268 @@
 {
-    "actions": [],
-    "allow_rename": 1,
-    "creation": "2025-02-20 13:48:35.712017",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "contact_tab",
-        "person_section",
-        "first_name",
-        "last_name",
-        "date_of_birth",
-        "full_name",
-        "column_break_rvfi",
-        "salutation",
-        "gender",
-        "image",
-        "contact_section",
-        "email_address",
-        "column_break_kohk",
-        "phone",
-        "address_section",
-        "address_line_1",
-        "city",
-        "postal_code",
-        "column_break_dlws",
-        "address_line_2",
-        "country",
-        "column_break_eetp",
-        "location",
-        "section_break_jpqs",
-        "contact_or_address_modified",
-        "networks_tab",
-        "networks",
-        "section_break_rnjv",
-        "experiences"
-    ],
-    "fields": [
-        {
-            "allow_in_quick_entry": 1,
-            "fieldname": "first_name",
-            "fieldtype": "Data",
-            "label": "First Name"
-        },
-        {
-            "allow_in_quick_entry": 1,
-            "fieldname": "last_name",
-            "fieldtype": "Data",
-            "label": "Last Name"
-        },
-        {
-            "allow_in_quick_entry": 1,
-            "fieldname": "gender",
-            "fieldtype": "Link",
-            "label": "Gender",
-            "options": "Gender"
-        },
-        {
-            "fieldname": "salutation",
-            "fieldtype": "Link",
-            "label": "Salutation",
-            "options": "Salutation"
-        },
-        {
-            "fieldname": "date_of_birth",
-            "fieldtype": "Date",
-            "label": "Date of Birth"
-        },
-        {
-            "fieldname": "column_break_rvfi",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "person_section",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "contact_section",
-            "fieldtype": "Section Break",
-            "label": "Contact"
-        },
-        {
-            "fieldname": "address_line_1",
-            "fieldtype": "Data",
-            "label": "Address Line 1"
-        },
-        {
-            "fieldname": "country",
-            "fieldtype": "Link",
-            "label": "Country",
-            "options": "Country"
-        },
-        {
-            "fieldname": "city",
-            "fieldtype": "Data",
-            "label": "City"
-        },
-        {
-            "fieldname": "postal_code",
-            "fieldtype": "Data",
-            "label": "Postal Code"
-        },
-        {
-            "allow_in_quick_entry": 1,
-            "fieldname": "email_address",
-            "fieldtype": "Data",
-            "in_list_view": 1,
-            "in_standard_filter": 1,
-            "label": "Email Address"
-        },
-        {
-            "allow_in_quick_entry": 1,
-            "fieldname": "phone",
-            "fieldtype": "Data",
-            "in_list_view": 1,
-            "label": "Phone"
-        },
-        {
-            "fieldname": "address_section",
-            "fieldtype": "Section Break",
-            "label": "Address"
-        },
-        {
-            "fieldname": "column_break_dlws",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "column_break_kohk",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "address_line_2",
-            "fieldtype": "Data",
-            "label": "Address Line 2"
-        },
-        {
-            "fieldname": "image",
-            "fieldtype": "Attach Image",
-            "hidden": 1,
-            "label": "Image"
-        },
-        {
-            "fieldname": "column_break_eetp",
-            "fieldtype": "Column Break"
-        },
-        {
-            "depends_on": "eval:doc.location",
-            "fieldname": "location",
-            "fieldtype": "Geolocation",
-            "read_only": 1
-        },
-        {
-            "fieldname": "full_name",
-            "fieldtype": "Data",
-            "hidden": 1,
-            "in_filter": 1,
-            "in_list_view": 1,
-            "in_standard_filter": 1,
-            "label": "Full Name",
-            "read_only": 1
-        },
-        {
-            "fieldname": "contact_tab",
-            "fieldtype": "Tab Break",
-            "label": "Contact"
-        },
-        {
-            "fieldname": "networks_tab",
-            "fieldtype": "Tab Break",
-            "label": "Networks & Experiences"
-        },
-        {
-            "fieldname": "networks",
-            "fieldtype": "Table",
-            "label": "Networks",
-            "options": "Supporter Network"
-        },
-        {
-            "fieldname": "section_break_rnjv",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "experiences",
-            "fieldtype": "Table",
-            "label": "Experiences",
-            "options": "Supporter Experience"
-        },
-        {
-            "fieldname": "section_break_jpqs",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "contact_or_address_modified",
-            "fieldtype": "Data",
-            "hidden": 1,
-            "length": 26
-        }
-    ],
-    "image_field": "image",
-    "index_web_pages_for_search": 1,
-    "links": [],
-    "modified": "2025-03-04 15:27:02.410387",
-    "modified_by": "Administrator",
-    "module": "Contact Management",
-    "name": "Supporter",
-    "owner": "Administrator",
-    "permissions": [
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        }
-    ],
-    "show_title_field_in_link": 1,
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "states": [],
-    "title_field": "full_name"
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-20 13:48:35.712017",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "contact_tab",
+  "person_section",
+  "first_name",
+  "last_name",
+  "date_of_birth",
+  "spouse",
+  "full_name",
+  "column_break_rvfi",
+  "salutation",
+  "gender",
+  "image",
+  "contact_section",
+  "email_address",
+  "column_break_kohk",
+  "phone",
+  "address_section",
+  "address_line_1",
+  "city",
+  "postal_code",
+  "column_break_dlws",
+  "address_line_2",
+  "country",
+  "column_break_eetp",
+  "latitude",
+  "longitude",
+  "geo_map_preview",
+  "section_break_jpqs",
+  "contact_or_address_modified",
+  "networks_tab",
+  "networks",
+  "section_break_rnjv",
+  "experiences"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "gender",
+   "fieldtype": "Link",
+   "label": "Gender",
+   "options": "Gender"
+  },
+  {
+   "fieldname": "salutation",
+   "fieldtype": "Link",
+   "label": "Salutation",
+   "options": "Salutation"
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "spouse",
+   "fieldtype": "Link",
+   "label": "Spouse",
+   "options": "Supporter"
+  },
+  {
+   "fieldname": "column_break_rvfi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "person_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "contact_section",
+   "fieldtype": "Section Break",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "address_line_1",
+   "fieldtype": "Data",
+   "label": "Address Line 1"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "postal_code",
+   "fieldtype": "Data",
+   "label": "Postal Code"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "email_address",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Email Address"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "column_break_dlws",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_kohk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address_line_2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image"
+  },
+  {
+   "fieldname": "column_break_eetp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.latitude!=null && doc.longitude!=null",
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Latitude",
+   "precision": "6",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.latitude!=null && doc.longitude!=null",
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Longitude",
+   "precision": "6",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.latitude!=null && doc.longitude!=null",
+   "fieldname": "geo_map_preview",
+   "fieldtype": "HTML",
+   "label": "Map"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Full Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_tab",
+   "fieldtype": "Tab Break",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "networks_tab",
+   "fieldtype": "Tab Break",
+   "label": "Networks & Experiences"
+  },
+  {
+   "fieldname": "networks",
+   "fieldtype": "Table",
+   "label": "Networks",
+   "options": "Supporter Network"
+  },
+  {
+   "fieldname": "section_break_rnjv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "experiences",
+   "fieldtype": "Table",
+   "label": "Experiences",
+   "options": "Supporter Experience"
+  },
+  {
+   "fieldname": "section_break_jpqs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "contact_or_address_modified",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "length": 26
+  }
+ ],
+ "image_field": "image",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-23 15:04:15.222959",
+ "modified_by": "Administrator",
+ "module": "Contact Management",
+ "name": "Supporter",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Contact Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "full_name"
 }
