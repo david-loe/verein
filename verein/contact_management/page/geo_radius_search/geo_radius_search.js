@@ -80,9 +80,32 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 
 			.geo-origin-search-row {
 				display: grid;
-				grid-template-columns: minmax(0, 1fr) auto;
+				grid-template-columns: minmax(0, 1fr) auto auto;
 				gap: 0.75rem;
-				align-items: center;
+				align-items: end;
+				margin-bottom: 0.35rem;
+			}
+
+			.geo-origin-location-shell,
+			.geo-origin-radius-shell {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.geo-origin-location-shell {
+				min-width: 0;
+				width: 100%;
+			}
+
+			.geo-origin-radius-shell {
+				width: fit-content;
+				justify-self: end;
+				align-items: flex-end;
+				margin-left: 1.8rem;
+			}
+
+			.geo-origin-search-row .geocode-location {
+				align-self: end;
 			}
 
 			.geo-field-label {
@@ -96,15 +119,23 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 
 			.geo-compact-grid {
 				display: grid;
-				grid-template-columns: minmax(150px, 0.9fr) minmax(110px, 0.55fr) minmax(0, 1fr) minmax(0, 1fr);
+				grid-template-columns: minmax(110px, 0.7fr) repeat(3, minmax(0, 1fr));
 				gap: 0.9rem 1rem;
 				align-items: start;
+			}
+
+			.geo-radius-search .geo-field-shell {
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
 			}
 
 			.geo-radius-search .form-group.frappe-control {
 				width: 100%;
 				max-width: none;
 				margin-bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
 			}
 
 			.geo-radius-search .form-group.frappe-control .control-label,
@@ -123,10 +154,14 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				white-space: nowrap;
 			}
 
-			.geo-radius-search .radius-search-info {
-				font-size: 0.875rem;
-				color: var(--text-muted);
-				margin: 0;
+			.geo-radius-search .radius-inline-control .form-group.frappe-control,
+			.geo-radius-search .radius-inline-control input {
+				width: 6ch;
+				min-width: 6ch;
+			}
+
+			.geo-radius-search .radius-inline-control input {
+				text-align: right;
 			}
 
 			.geo-radius-search .selected-coordinates {
@@ -134,6 +169,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				border: 1px solid var(--border-color);
 				border-radius: var(--border-radius-md);
 				background: var(--subtle-accent);
+				margin-bottom: 0.35rem;
 			}
 
 			.geo-radius-search .selected-coordinates.is-empty {
@@ -177,6 +213,11 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				align-items: center;
 				gap: 1rem;
 				flex-wrap: wrap;
+			}
+
+			.geo-settings-actions {
+				display: flex;
+				justify-content: flex-end;
 			}
 
 			.geo-radius-search .table-responsive {
@@ -269,22 +310,24 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 								<div class="geo-radius-panel-header">
 									<div>
 										<h4 class="geo-panel-title">${__("Search Settings")}</h4>
-										<div class="geo-panel-subtitle">
-											${__("Start point, radius, and optional filters in one compact view.")}
-										</div>
 									</div>
 								</div>
 
 								<div class="geo-origin-block">
-									<div class="geo-field-label">${__("Start Point")}</div>
-									<div class="radius-search-info"></div>
 									<div class="geo-origin-search-row">
-										<input
-											type="text"
-											class="form-control location-query"
-											placeholder="${frappe.utils.escape_html(__("Enter a place or set a pin on the map"))}"
-										/>
+										<div class="geo-origin-location-shell">
+											<div class="geo-field-label">${__("Start Point")}</div>
+											<input
+												type="text"
+												class="form-control location-query"
+												placeholder="${frappe.utils.escape_html(__("Enter a place or set a pin on the map"))}"
+											/>
+										</div>
 										<button class="btn btn-default geocode-location">${__("Find Place")}</button>
+										<div class="geo-origin-radius-shell">
+											<div class="geo-field-label">${__("Radius")}</div>
+											<div class="radius-inline-control"></div>
+										</div>
 									</div>
 									<div class="selected-coordinates small is-empty"></div>
 									<div class="geocode-results"></div>
@@ -294,10 +337,6 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 									<div class="geo-field-shell">
 										<div class="geo-field-label">${__("Search For")}</div>
 										<div class="search-doctype-control"></div>
-									</div>
-									<div class="geo-field-shell">
-										<div class="geo-field-label">${__("Radius")}</div>
-										<div class="radius-control"></div>
 									</div>
 									<div class="geo-field-shell network-field-shell">
 										<div class="geo-field-label">${__("Networks")}</div>
@@ -321,6 +360,10 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 									<summary>${__("More Filters")}</summary>
 									<div class="radius-search-filters"></div>
 								</details>
+
+								<div class="geo-settings-actions">
+									<button class="btn btn-primary btn-sm card-search-action">${__("Search")}</button>
+								</div>
 							</div>
 						</div>
 
@@ -349,9 +392,8 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			</div>
 		`).appendTo(this.page.main);
 
-		this.info = this.content.find(".radius-search-info");
 		this.searchDoctypeWrapper = this.content.find(".search-doctype-control");
-		this.radiusWrapper = this.content.find(".radius-control");
+		this.radiusWrapper = this.content.find(".radius-inline-control");
 		this.networkWrapper = this.content.find(".network-control");
 		this.experienceWrapper = this.content.find(".experience-control");
 		this.tagWrapper = this.content.find(".tag-control");
@@ -362,6 +404,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		this.mapWrapper = this.content.find(".radius-search-map");
 		this.queryInput = this.content.find(".location-query");
 		this.findLocationButton = this.content.find(".geocode-location");
+		this.cardSearchButton = this.content.find(".card-search-action");
 		this.exportButton = this.content.find(".export-results");
 		this.geocodeResultsWrapper = this.content.find(".geocode-results");
 		this.selectedCoordinatesWrapper = this.content.find(".selected-coordinates");
@@ -379,6 +422,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		this.move_control(this.networkTypeField, this.networkTypeWrapper);
 
 		this.findLocationButton.on("click", () => this.geocode_location());
+		this.cardSearchButton.on("click", () => this.search());
 		this.exportButton.on("click", () => this.export_results());
 		this.queryInput.on("keydown", (event) => {
 			if (event.key === "Enter") {
@@ -394,8 +438,6 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				lon: button.attr("data-longitude"),
 			});
 		});
-
-		this.update_info();
 		this.init_map();
 		this.on_doctype_change();
 	}
@@ -485,7 +527,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		this.filterGroup = new frappe.ui.FilterGroup({
 			parent: this.filtersWrapper,
 			doctype: searchDoctype,
-			on_change: () => {},
+			on_change: () => { },
 		});
 	}
 
@@ -541,7 +583,6 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			this.search();
 		} else {
 			this.set_default_map_view();
-			this.update_info();
 		}
 
 		setTimeout(() => this.map?.invalidateSize(), 50);
@@ -646,7 +687,6 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 
 		this.update_radius_circle(options);
 		this.render_selected_coordinates();
-		this.update_info();
 	}
 
 	update_radius_circle(options = {}) {
@@ -713,20 +753,6 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		);
 	}
 
-	update_info() {
-		if (this.selectedLocationLabel) {
-			this.info.text(__("Selected start point: {0}", [this.selectedLocationLabel]));
-			return;
-		}
-
-		if (this.sourceContext) {
-			this.info.text(this.sourceContext);
-			return;
-		}
-
-		this.info.text(__("Search for a place or set the start point directly on the map."));
-	}
-
 	search() {
 		const radius = Number(this.radiusField.get_value());
 
@@ -788,18 +814,22 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 
 		const isSupporterSearch = this.searchDoctypeField.get_value() === "Supporter";
 		const searchDoctype = this.searchDoctypeField.get_value();
-		const doctypeRoute = frappe.router.slug(searchDoctype);
 		const reasonHeader = isSupporterSearch ? `<th>${__("Matched By")}</th>` : "";
 		const rows = results
 			.map((result) => {
 				const secondaryValues = (result.secondary_values || [])
 					.map((value) => frappe.utils.escape_html(String(value)))
 					.join(" · ");
+				const docLink = frappe.utils.get_form_link(searchDoctype, result.name);
 				const matchReasons = isSupporterSearch ? this.render_match_reasons(result) : "";
 				return `
 					<tr>
 						<td>
-							<a href="/app/${doctypeRoute}/${encodeURIComponent(result.name)}">
+							<a
+								href="${docLink}"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								${frappe.utils.escape_html(result.title || result.name)}
 							</a>
 							${secondaryValues ? `<div class="small text-muted mt-1">${secondaryValues}</div>` : ""}
@@ -851,9 +881,9 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 
 	build_result_popup(result) {
 		const searchDoctype = this.searchDoctypeField.get_value();
-		const doctypeRoute = frappe.router.slug(searchDoctype);
+		const docLink = frappe.utils.get_form_link(searchDoctype, result.name);
 		const lines = [
-			`<div><a href="/app/${doctypeRoute}/${encodeURIComponent(result.name)}"><strong>${frappe.utils.escape_html(result.title || result.name || "")}</strong></a></div>`,
+			`<div><a href="${docLink}" target="_blank" rel="noopener noreferrer"><strong>${frappe.utils.escape_html(result.title || result.name || "")}</strong></a></div>`,
 			`<div>${frappe.utils.escape_html(format_distance(result.distance_km))}</div>`,
 		];
 		if ((result.secondary_values || []).length) {
