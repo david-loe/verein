@@ -6,6 +6,7 @@ import frappe
 from frappe.tests.utils import FrappeTestCase
 
 from verein.contact_management.doctype.geocoding_job.geocoding_job import get_nested_value
+from verein.contact_management.utils import enqueue_geocoding_job
 
 
 class TestGeocodingJob(FrappeTestCase):
@@ -50,7 +51,7 @@ class TestGeocodingJob(FrappeTestCase):
 		self.assertEqual(network.longitude, 13.405)
 		self.assertEqual(cast_job.status, "Completed")
 
-	def test_supporter_field_backfills_reference_fields(self):
+	def test_supporter_jobs_use_reference_name_only(self):
 		supporter = frappe.get_doc(
 			{
 				"doctype": "Supporter",
@@ -58,11 +59,16 @@ class TestGeocodingJob(FrappeTestCase):
 				"last_name": frappe.generate_hash(length=6),
 			}
 		).insert()
-		job = frappe.get_doc({"doctype": "Geocoding Job", "supporter": supporter.name})
-		job.sync_reference_fields()
+		enqueue_geocoding_job("Supporter", supporter.name)
 
-		self.assertEqual(job.reference_doctype, "Supporter")
-		self.assertEqual(job.reference_name, supporter.name)
+		jobs = frappe.get_all(
+			"Geocoding Job",
+			filters={"reference_doctype": "Supporter", "reference_name": supporter.name},
+			fields=["name", "reference_doctype", "reference_name"],
+		)
+		self.assertEqual(len(jobs), 1)
+		self.assertEqual(jobs[0].reference_doctype, "Supporter")
+		self.assertEqual(jobs[0].reference_name, supporter.name)
 
 
 class MockResponse:

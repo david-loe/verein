@@ -13,7 +13,6 @@
     "field_order": [
         "reference_doctype",
         "reference_name",
-        "supporter",
         "column_break_nyki",
         "status",
         "section_break_csjd",
@@ -35,13 +34,6 @@
             "label": "Reference Name",
             "options": "reference_doctype",
             "reqd": 1
-        },
-        {
-            "fieldname": "supporter",
-            "fieldtype": "Link",
-            "hidden": 1,
-            "label": "Supporter",
-            "options": "Supporter"
         },
         {
             "default": "Pending",

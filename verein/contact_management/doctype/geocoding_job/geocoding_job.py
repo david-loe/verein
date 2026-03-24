@@ -29,29 +29,15 @@ class GeocodingJob(Document):
 		reference_doctype: DF.Link | None
 		reference_name: DF.DynamicLink | None
 		status: DF.Literal["Completed", "Failed", "Pending"]
-		supporter: DF.Link | None
 	# end: auto-generated types
 
-	def before_validate(self) -> None:
-		self.sync_reference_fields()
-
 	def validate(self) -> None:
-		self.sync_reference_fields()
-
 		if self.reference_doctype and self.reference_doctype not in GEO_REFERENCE_DOCTYPES:
 			frappe.throw(
 				frappe._("Reference DocType must be one of the following values: {0}").format(
 					", ".join(GEO_REFERENCE_DOCTYPES)
 				)
 			)
-
-	def sync_reference_fields(self) -> None:
-		if not self.reference_doctype and self.supporter:
-			self.reference_doctype = "Supporter"
-			self.reference_name = self.supporter
-
-		if self.reference_doctype == "Supporter" and self.reference_name and not self.supporter:
-			self.supporter = self.reference_name
 
 	def run(self, settings: dict | None = None):
 		settings = settings or frappe.get_single("Geo Settings")
@@ -118,8 +104,6 @@ class GeocodingJob(Document):
 	def get_reference(self) -> tuple[str | None, str | None]:
 		if self.reference_doctype and self.reference_name:
 			return self.reference_doctype, self.reference_name
-		if self.supporter:
-			return "Supporter", self.supporter
 		return None, None
 
 

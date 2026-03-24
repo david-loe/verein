@@ -35,15 +35,6 @@ def enqueue_geocoding_job(reference_doctype: str, reference_name: str) -> None:
 		},
 		"name",
 	)
-	if not existing_job and reference_doctype == "Supporter":
-		existing_job = frappe.db.get_value(
-			"Geocoding Job",
-			{
-				"supporter": reference_name,
-				"status": "Pending",
-			},
-			"name",
-		)
 	if existing_job:
 		return
 
@@ -52,8 +43,6 @@ def enqueue_geocoding_job(reference_doctype: str, reference_name: str) -> None:
 		"reference_doctype": reference_doctype,
 		"reference_name": reference_name,
 	}
-	if reference_doctype == "Supporter":
-		job_values["supporter"] = reference_name
 
 	frappe.get_doc(job_values).insert(ignore_permissions=True)
 

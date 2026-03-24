@@ -3,7 +3,9 @@
 # Read docs to understand patches: https://frappeframework.com/docs/v14/user/en/database-migrations
 verein.patches.rename_geocoding_api_settings_to_geo_settings
 verein.patches.backfill_latitude_longitude_from_location
+verein.patches.backfill_geocoding_job_reference_name
 
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 verein.patches.drop_legacy_location_columns
+verein.patches.drop_legacy_geocoding_job_supporter_column
