@@ -31,7 +31,10 @@ def backfill_coordinates(doctype: str) -> None:
 		SELECT name, location
 		FROM `tab{doctype}`
 		WHERE COALESCE(location, '') != ''
-		  AND (latitude IS NULL OR longitude IS NULL)
+		  AND (
+				latitude IS NULL OR latitude = 0
+				OR longitude IS NULL OR longitude = 0
+			);
 		""",
 		as_dict=True,
 	)
