@@ -3,6 +3,7 @@ from __future__ import annotations
 from unittest.mock import patch
 
 import frappe
+from frappe.desk.doctype.tag.tag import add_tag
 from frappe.tests.utils import FrappeTestCase
 
 from verein.contact_management.doctype.supporter.supporter import get_full_name
@@ -60,16 +61,19 @@ class TestSupporter(FrappeTestCase):
 		with self.assertRaises(frappe.ValidationError):
 			supporter.save()
 
-	def test_supporter_radius_search_combines_network_and_experience_filters(self):
+	def test_supporter_radius_search_combines_network_experience_and_tag_filters(self):
 		matching_network = make_network(network_name="Matching Network")
 		other_network = make_network(network_name="Other Network")
 		matching_experience = make_experience(experience_name="Matching Experience")
 		other_experience = make_experience(experience_name="Other Experience")
+		matching_tag = "geo-match"
+		other_tag = "geo-other"
 
 		matching = make_supporter(first_name="Match", latitude=52.5200, longitude=13.4050)
 		matching.append("networks", {"network": matching_network.name})
 		matching.append("experiences", {"experience": matching_experience.name})
 		matching.save()
+		add_tag(matching_tag, "Supporter", matching.name)
 
 		wrong_relation = make_supporter(
 			first_name="Wrong Relation", latitude=52.5210, longitude=13.4060
@@ -77,11 +81,13 @@ class TestSupporter(FrappeTestCase):
 		wrong_relation.append("networks", {"network": other_network.name})
 		wrong_relation.append("experiences", {"experience": matching_experience.name})
 		wrong_relation.save()
+		add_tag(matching_tag, "Supporter", wrong_relation.name)
 
 		too_far = make_supporter(first_name="Too Far", latitude=48.1371, longitude=11.5754)
 		too_far.append("networks", {"network": matching_network.name})
 		too_far.append("experiences", {"experience": matching_experience.name})
 		too_far.save()
+		add_tag(matching_tag, "Supporter", too_far.name)
 
 		wrong_experience = make_supporter(
 			first_name="Wrong Experience", latitude=52.5220, longitude=13.4070
@@ -89,6 +95,13 @@ class TestSupporter(FrappeTestCase):
 		wrong_experience.append("networks", {"network": matching_network.name})
 		wrong_experience.append("experiences", {"experience": other_experience.name})
 		wrong_experience.save()
+		add_tag(matching_tag, "Supporter", wrong_experience.name)
+
+		wrong_tag = make_supporter(first_name="Wrong Tag", latitude=52.5230, longitude=13.4080)
+		wrong_tag.append("networks", {"network": matching_network.name})
+		wrong_tag.append("experiences", {"experience": matching_experience.name})
+		wrong_tag.save()
+		add_tag(other_tag, "Supporter", wrong_tag.name)
 
 		results = search_records(
 			search_doctype="Supporter",
@@ -97,21 +110,25 @@ class TestSupporter(FrappeTestCase):
 			radius_km=10,
 			networks=[matching_network.name],
 			experiences=[matching_experience.name],
+			tags=[matching_tag],
 		)
 
 		self.assertEqual([row["name"] for row in results], [matching.name])
 		self.assertEqual(results[0]["matched_networks"], [matching_network.name])
 		self.assertEqual(results[0]["matched_experiences"], [matching_experience.name])
+		self.assertEqual(results[0]["matched_tags"], [matching_tag])
 		self.assertEqual(results[0]["latitude"], 52.52)
 		self.assertEqual(results[0]["longitude"], 13.405)
 
 	def test_supporter_radius_export_contains_match_columns(self):
 		network = make_network(network_name="Export Network")
 		experience = make_experience(experience_name="Export Experience")
+		tag = "geo-export"
 		supporter = make_supporter(first_name="Export", latitude=52.5200, longitude=13.4050)
 		supporter.append("networks", {"network": network.name})
 		supporter.append("experiences", {"experience": experience.name})
 		supporter.save()
+		add_tag(tag, "Supporter", supporter.name)
 
 		with patch(
 			"verein.contact_management.page.geo_radius_search.geo_radius_search.build_xlsx_response"
@@ -123,12 +140,13 @@ class TestSupporter(FrappeTestCase):
 				radius_km=10,
 				networks=[network.name],
 				experiences=[experience.name],
+				tags=[tag],
 			)
 
 		headers = build_response.call_args.args[0][0]
 		row = build_response.call_args.args[0][1]
-		self.assertEqual(headers[-2:], ["Matched Networks", "Matched Experiences"])
-		self.assertEqual(row[-2:], [network.name, experience.name])
+		self.assertEqual(headers[-3:], ["Matched Networks", "Matched Experiences", "Matched Tags"])
+		self.assertEqual(row[-3:], [network.name, experience.name, tag])
 
 
 def make_supporter(**overrides):

@@ -21,6 +21,7 @@ SEARCH_CONFIG = {
 			("postal_code", _("Postal Code")),
 			("matched_networks_display", _("Matched Networks")),
 			("matched_experiences_display", _("Matched Experiences")),
+			("matched_tags_display", _("Matched Tags")),
 		],
 		"fields": [
 			"name",
@@ -65,6 +66,7 @@ def search_records(
 	filters: list[Any] | str | None = None,
 	networks: list[str] | str | None = None,
 	experiences: list[str] | str | None = None,
+	tags: list[str] | str | None = None,
 	network_type: str | None = None,
 ) -> list[dict[str, Any]]:
 	return get_search_results(
@@ -75,6 +77,7 @@ def search_records(
 		filters=filters,
 		networks=networks,
 		experiences=experiences,
+		tags=tags,
 		network_type=network_type,
 	)
 
@@ -88,6 +91,7 @@ def export_records(
 	filters: list[Any] | str | None = None,
 	networks: list[str] | str | None = None,
 	experiences: list[str] | str | None = None,
+	tags: list[str] | str | None = None,
 	network_type: str | None = None,
 ) -> None:
 	results = get_search_results(
@@ -98,6 +102,7 @@ def export_records(
 		filters=filters,
 		networks=networks,
 		experiences=experiences,
+		tags=tags,
 		network_type=network_type,
 	)
 
@@ -117,6 +122,7 @@ def get_search_results(
 	filters: list[Any] | str | None = None,
 	networks: list[str] | str | None = None,
 	experiences: list[str] | str | None = None,
+	tags: list[str] | str | None = None,
 	network_type: str | None = None,
 ) -> list[dict[str, Any]]:
 	config = SEARCH_CONFIG.get(search_doctype)
@@ -136,6 +142,7 @@ def get_search_results(
 
 	selected_networks = normalize_names(networks)
 	selected_experiences = normalize_names(experiences)
+	selected_tags = normalize_names(tags)
 	normalized_filters = normalize_filters(filters, search_doctype)
 	selected_network_type = cstr(network_type).strip()
 	normalized_filters.extend(
@@ -148,6 +155,9 @@ def get_search_results(
 	)
 
 	if search_doctype == "Supporter":
+		if selected_tags and not frappe.db.has_column(search_doctype, "_user_tags"):
+			return []
+
 		supporter_name_filter = get_supporter_name_filter(
 			networks=selected_networks,
 			experiences=selected_experiences,
@@ -156,6 +166,8 @@ def get_search_results(
 			return []
 		if supporter_name_filter is not None:
 			normalized_filters.append([search_doctype, "name", "in", supporter_name_filter])
+		for tag in selected_tags:
+			normalized_filters.append([search_doctype, "_user_tags", "like", f"%{tag}%"])
 	elif search_doctype == "Network" and selected_network_type:
 		normalized_filters.append([search_doctype, "type", "=", selected_network_type])
 
@@ -173,6 +185,7 @@ def get_search_results(
 			supporter_names=[record.name for record in records],
 			networks=selected_networks,
 			experiences=selected_experiences,
+			tags=selected_tags,
 		)
 
 	results = []
@@ -206,6 +219,8 @@ def get_search_results(
 				"matched_experiences_display": ", ".join(match_context.get("experiences", [])),
 				"matched_networks": match_context.get("networks", []),
 				"matched_networks_display": ", ".join(match_context.get("networks", [])),
+				"matched_tags": match_context.get("tags", []),
+				"matched_tags_display": ", ".join(match_context.get("tags", [])),
 				"name": record.name,
 				"phone": record.get("phone"),
 				"postal_code": record.get("postal_code"),
@@ -255,11 +270,9 @@ def get_supporter_match_context(
 	supporter_names: list[str],
 	networks: list[str] | None = None,
 	experiences: list[str] | None = None,
+	tags: list[str] | None = None,
 ) -> dict[str, dict[str, list[str]]]:
-	context = {
-		name: {"networks": [], "experiences": []}
-		for name in supporter_names
-	}
+	context = {name: {"networks": [], "experiences": [], "tags": []} for name in supporter_names}
 	if not supporter_names:
 		return context
 
@@ -273,7 +286,7 @@ def get_supporter_match_context(
 			},
 			limit_page_length=0,
 		):
-			context.setdefault(row.parent, {"networks": [], "experiences": []})
+			context.setdefault(row.parent, {"networks": [], "experiences": [], "tags": []})
 			context[row.parent]["networks"].append(row.network)
 
 	if experiences:
@@ -286,12 +299,25 @@ def get_supporter_match_context(
 			},
 			limit_page_length=0,
 		):
-			context.setdefault(row.parent, {"networks": [], "experiences": []})
+			context.setdefault(row.parent, {"networks": [], "experiences": [], "tags": []})
 			context[row.parent]["experiences"].append(row.experience)
+
+	if tags and frappe.db.has_column("Supporter", "_user_tags"):
+		selected_tags = set(tags)
+		for row in frappe.get_all(
+			"Supporter",
+			fields=["name", "_user_tags"],
+			filters={"name": ["in", supporter_names]},
+			limit_page_length=0,
+		):
+			context.setdefault(row.name, {"networks": [], "experiences": [], "tags": []})
+			row_tags = [cstr(tag).strip() for tag in cstr(row.get("_user_tags")).split(",") if cstr(tag).strip()]
+			context[row.name]["tags"].extend(tag for tag in row_tags if tag in selected_tags)
 
 	for values in context.values():
 		values["networks"] = sorted(dict.fromkeys(values["networks"]))
 		values["experiences"] = sorted(dict.fromkeys(values["experiences"]))
+		values["tags"] = sorted(dict.fromkeys(values["tags"]))
 
 	return context
 

@@ -239,6 +239,13 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			options: "Experience",
 			get_data: (txt) => frappe.db.get_link_options("Experience", txt),
 		});
+		this.tagField = this.page.add_field({
+			fieldname: "tags",
+			label: __("Tags"),
+			fieldtype: "MultiSelectList",
+			options: "Tag",
+			get_data: (txt) => frappe.db.get_link_options("Tag", txt),
+		});
 		this.networkTypeField = this.page.add_field({
 			fieldname: "network_type",
 			label: __("Network Type"),
@@ -300,6 +307,10 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 										<div class="geo-field-label">${__("Experiences")}</div>
 										<div class="experience-control"></div>
 									</div>
+									<div class="geo-field-shell tag-field-shell">
+										<div class="geo-field-label">${__("Tags")}</div>
+										<div class="tag-control"></div>
+									</div>
 									<div class="geo-field-shell network-type-field-shell">
 										<div class="geo-field-label">${__("Network Type")}</div>
 										<div class="network-type-control"></div>
@@ -343,6 +354,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		this.radiusWrapper = this.content.find(".radius-control");
 		this.networkWrapper = this.content.find(".network-control");
 		this.experienceWrapper = this.content.find(".experience-control");
+		this.tagWrapper = this.content.find(".tag-control");
 		this.networkTypeWrapper = this.content.find(".network-type-control");
 		this.filtersWrapper = this.content.find(".radius-search-filters");
 		this.resultsWrapper = this.content.find(".radius-search-results");
@@ -356,12 +368,14 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		this.additionalFiltersDetails = this.content.find(".additional-filters");
 		this.networkFieldShell = this.content.find(".network-field-shell");
 		this.experienceFieldShell = this.content.find(".experience-field-shell");
+		this.tagFieldShell = this.content.find(".tag-field-shell");
 		this.networkTypeFieldShell = this.content.find(".network-type-field-shell");
 
 		this.move_control(this.searchDoctypeField, this.searchDoctypeWrapper);
 		this.move_control(this.radiusField, this.radiusWrapper);
 		this.move_control(this.networkField, this.networkWrapper);
 		this.move_control(this.experienceField, this.experienceWrapper);
+		this.move_control(this.tagField, this.tagWrapper);
 		this.move_control(this.networkTypeField, this.networkTypeWrapper);
 
 		this.findLocationButton.on("click", () => this.geocode_location());
@@ -478,10 +492,12 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 	toggle_special_filters(showSupporterFilters) {
 		this.networkFieldShell.toggle(showSupporterFilters);
 		this.experienceFieldShell.toggle(showSupporterFilters);
+		this.tagFieldShell.toggle(showSupporterFilters);
 		this.networkTypeFieldShell.toggle(!showSupporterFilters);
 		if (!showSupporterFilters) {
 			this.networkField.set_value([]);
 			this.experienceField.set_value([]);
+			this.tagField.set_value([]);
 			return;
 		}
 
@@ -506,6 +522,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 		this.experienceField.set_value(
 			routeOptions.experiences || (routeOptions.experience ? [routeOptions.experience] : [])
 		);
+		this.tagField.set_value(routeOptions.tags || (routeOptions.tag ? [routeOptions.tag] : []));
 		this.networkTypeField.set_value(routeOptions.network_type || "");
 
 		this.sourceContext =
@@ -753,6 +770,7 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			filters: JSON.stringify(this.filterGroup?.get_filters() || []),
 			networks: JSON.stringify(this.networkField.get_value() || []),
 			experiences: JSON.stringify(this.experienceField.get_value() || []),
+			tags: JSON.stringify(this.tagField.get_value() || []),
 			network_type: this.networkTypeField.get_value(),
 		};
 	}
@@ -864,6 +882,13 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			parts.push(
 				`<div><strong>${__("Experience")}:</strong> ${frappe.utils.escape_html(
 					result.matched_experiences.join(", ")
+				)}</div>`
+			);
+		}
+		if ((result.matched_tags || []).length) {
+			parts.push(
+				`<div><strong>${__("Tags")}:</strong> ${frappe.utils.escape_html(
+					result.matched_tags.join(", ")
 				)}</div>`
 			);
 		}
