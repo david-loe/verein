@@ -54,6 +54,13 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				align-items: start;
 			}
 
+			.geo-radius-search .card {
+				background: var(--card-bg);
+				border-color: var(--border-color);
+				color: var(--text-color);
+				box-shadow: none;
+			}
+
 			.geo-radius-settings-card .card-body,
 			.geo-radius-results-card .card-body {
 				display: flex;
@@ -150,6 +157,11 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				width: 100%;
 			}
 
+			.geo-radius-search input::placeholder {
+				color: var(--text-muted);
+				opacity: 1;
+			}
+
 			.geo-radius-search .geocode-location {
 				white-space: nowrap;
 			}
@@ -181,6 +193,16 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 				overflow: auto;
 			}
 
+			.geo-radius-search .geocode-results .btn {
+				border-color: var(--border-color);
+				background: var(--subtle-accent);
+				color: var(--text-color);
+			}
+
+			.geo-radius-search .geocode-results .btn:hover {
+				background: var(--card-bg);
+			}
+
 			.geo-radius-search .additional-filters {
 				border-top: 1px solid var(--border-color);
 				padding-top: 0.9rem;
@@ -202,9 +224,14 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			}
 
 			.geo-radius-search .radius-search-map {
+				position: relative;
 				width: 100%;
 				aspect-ratio: 1 / 1;
 				min-height: 420px;
+				background: var(--subtle-accent);
+				border: 1px solid var(--border-color) !important;
+				border-radius: var(--border-radius-md);
+				overflow: hidden;
 			}
 
 			.geo-radius-search .results-toolbar {
@@ -222,6 +249,74 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 
 			.geo-radius-search .table-responsive {
 				margin-bottom: 0;
+			}
+
+			.geo-radius-search .table {
+				margin-bottom: 0;
+				color: var(--text-color);
+				--bs-table-bg: transparent;
+				--bs-table-color: var(--text-color);
+				--bs-table-border-color: var(--border-color);
+				--bs-table-hover-bg: var(--subtle-accent);
+				--bs-table-hover-color: var(--text-color);
+			}
+
+			.geo-radius-search .table thead th {
+				color: var(--text-muted);
+				border-bottom-color: var(--border-color);
+			}
+
+			.geo-radius-search .table tbody td {
+				border-color: var(--border-color);
+			}
+
+			html[data-theme="dark"] .geo-radius-search .radius-search-map::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: rgba(0, 0, 0, 0.14);
+				pointer-events: none;
+				z-index: 400;
+			}
+
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-zoom a,
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-layers-toggle,
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-attribution,
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-layers {
+				background: var(--card-bg);
+				color: var(--text-color);
+				border-color: var(--border-color);
+			}
+
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-zoom a:hover,
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-layers-toggle:hover {
+				background: var(--subtle-accent);
+				color: var(--text-color);
+			}
+
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-attribution a,
+			html[data-theme="dark"] .geo-radius-search .leaflet-popup-content a {
+				color: var(--text-color);
+			}
+
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-layers-toggle {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-image: none;
+			}
+
+			html[data-theme="dark"] .geo-radius-search .leaflet-control-layers-toggle::before {
+				content: "≡";
+				color: var(--text-color);
+				font-size: 1rem;
+				line-height: 1;
+			}
+
+			html[data-theme="dark"] .geo-radius-search .leaflet-popup-content-wrapper,
+			html[data-theme="dark"] .geo-radius-search .leaflet-popup-tip {
+				background: var(--card-bg);
+				color: var(--text-color);
 			}
 
 			@media (max-width: 1399px) {
