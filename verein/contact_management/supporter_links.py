@@ -6,16 +6,12 @@ import frappe
 
 TARGET_CONFIG = {
 	"Experience": {
-		"label": "Experience",
 		"link_field": "experience",
 		"table_field": "experiences",
-		"target_doctype": "Experience",
 	},
 	"Network": {
-		"label": "Network",
 		"link_field": "network",
 		"table_field": "networks",
-		"target_doctype": "Network",
 	},
 }
 
@@ -86,7 +82,7 @@ def add_supporters_to_target(
 	if not names:
 		return get_linked_supporters_for_target(target_doctype, target_name)
 
-	frappe.get_doc(config["target_doctype"], target_name)
+	frappe.get_doc(target_doctype, target_name)
 
 	for supporter_name in names:
 		supporter = frappe.get_doc("Supporter", supporter_name)

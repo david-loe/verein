@@ -18,11 +18,7 @@ class GeoSettings(Document):
 
 @frappe.whitelist()
 def get_map_defaults() -> dict[str, float]:
-	try:
-		settings = frappe.get_single("Geo Settings")
-	except frappe.DoesNotExistError:
-		return DEFAULT_MAP_VALUES.copy()
-
+	settings = frappe.get_single("Geo Settings")
 	return {
 		"latitude": settings.default_map_latitude or DEFAULT_MAP_VALUES["latitude"],
 		"longitude": settings.default_map_longitude or DEFAULT_MAP_VALUES["longitude"],
