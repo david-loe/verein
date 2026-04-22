@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 import frappe
 from frappe.desk.doctype.tag.tag import add_tag
+from frappe.desk.search import search_link
 from frappe.tests.utils import FrappeTestCase
 
 from verein.contact_management.doctype.supporter.supporter import get_full_name
@@ -147,6 +148,24 @@ class TestSupporter(FrappeTestCase):
 		row = build_response.call_args.args[0][1]
 		self.assertEqual(headers[-3:], ["Matched Networks", "Matched Experiences", "Matched Tags"])
 		self.assertEqual(row[-3:], [network.name, experience.name, tag])
+
+	def test_experience_quick_filter_options_are_sorted_by_date_desc_and_limited_to_20(self):
+		for day in range(1, 23):
+			make_experience(
+				experience_name=f"Quick Filter Experience {day:02d}",
+				date=f"2026-01-{day:02d}",
+			)
+
+		options = search_link(
+			doctype="Experience",
+			txt="Quick Filter Experience",
+			page_length=20,
+			query="verein.contact_management.page.geo_radius_search.geo_radius_search.get_experience_quick_filter_options",
+		)
+
+		self.assertEqual(len(options), 20)
+		self.assertEqual(options[0]["value"], "Quick Filter Experience 22")
+		self.assertEqual(options[-1]["value"], "Quick Filter Experience 03")
 
 
 def make_supporter(**overrides):

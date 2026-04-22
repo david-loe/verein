@@ -58,6 +58,34 @@ SUPPORTER_RELATIONS = {
 
 
 @frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_experience_quick_filter_options(
+	doctype: str,
+	txt: str,
+	searchfield: str,
+	start: int,
+	page_len: int,
+	filters: dict[str, Any] | list[Any] | None,
+) -> list[tuple[str, Any, Any]]:
+	rows = frappe.get_all(
+		"Experience",
+		fields=["name"],
+		filters=filters or {},
+		or_filters=[
+			["Experience", "name", "like", f"%{txt}%"],
+			["Experience", "experience_name", "like", f"%{txt}%"],
+		]
+		if txt
+		else None,
+		limit_start=cint(start),
+		limit_page_length=min(cint(page_len) or 20, 20),
+		order_by="date desc, modified desc, name desc",
+		as_list=True,
+	)
+	return rows
+
+
+@frappe.whitelist()
 def search_records(
 	search_doctype: str,
 	latitude: float,

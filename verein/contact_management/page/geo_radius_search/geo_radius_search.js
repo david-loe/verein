@@ -6,6 +6,24 @@ const FALLBACK_MAP_DEFAULTS = {
 	zoom: 6,
 };
 
+function getQuickFilterLinkOptions(doctype, txt, extraArgs = {}) {
+	return new Promise((resolve) => {
+		frappe.call({
+			type: "GET",
+			method: "frappe.desk.search.search_link",
+			args: {
+				doctype,
+				txt,
+				page_length: 20,
+				...extraArgs,
+			},
+			callback(r) {
+				resolve(r.message || []);
+			},
+		});
+	});
+}
+
 frappe.pages["geo-radius-search"].on_page_load = function (wrapper) {
 	if (!wrapper.geoRadiusSearch) {
 		wrapper.geoRadiusSearch = new verein.contact_management.GeoRadiusSearchPage(wrapper);
@@ -155,6 +173,10 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			.geo-radius-search .frappe-control select,
 			.geo-radius-search .frappe-control input {
 				width: 100%;
+			}
+
+			.geo-radius-search .multiselect-list .selectable-items {
+				max-height: 320px;
 			}
 
 			.geo-radius-search input::placeholder {
@@ -366,21 +388,25 @@ verein.contact_management.GeoRadiusSearchPage = class GeoRadiusSearchPage {
 			label: __("Networks"),
 			fieldtype: "MultiSelectList",
 			options: "Network",
-			get_data: (txt) => frappe.db.get_link_options("Network", txt),
+			get_data: (txt) => getQuickFilterLinkOptions("Network", txt),
 		});
 		this.experienceField = this.page.add_field({
 			fieldname: "experiences",
 			label: __("Experiences"),
 			fieldtype: "MultiSelectList",
 			options: "Experience",
-			get_data: (txt) => frappe.db.get_link_options("Experience", txt),
+			get_data: (txt) =>
+				getQuickFilterLinkOptions("Experience", txt, {
+					query:
+						"verein.contact_management.page.geo_radius_search.geo_radius_search.get_experience_quick_filter_options",
+				}),
 		});
 		this.tagField = this.page.add_field({
 			fieldname: "tags",
 			label: __("Tags"),
 			fieldtype: "MultiSelectList",
 			options: "Tag",
-			get_data: (txt) => frappe.db.get_link_options("Tag", txt),
+			get_data: (txt) => getQuickFilterLinkOptions("Tag", txt),
 		});
 		this.networkTypeField = this.page.add_field({
 			fieldname: "network_type",
