@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-03-23 14:21+0000\n"
-"PO-Revision-Date: 2026-03-23 14:21+0000\n"
+"POT-Creation-Date: 2026-07-02 14:20+0000\n"
+"PO-Revision-Date: 2026-07-02 14:20+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language-Team: kontakt@david-loe.de\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.py:47
+msgid "A Cost Center Budget already exists for this cost center and start date."
+msgstr ""
+
 #: verein/contact_management/doctype/supporter/supporter.py:112
 msgid "A supporter cannot be married to themselves."
+msgstr ""
+
+#. Label of the access_level (Select) field in DocType 'Cost Center Access'
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+msgid "Access Level"
+msgstr ""
+
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.py:29
+msgid "Access Level must be View or Manage."
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:403
+msgid "Account"
+msgstr ""
+
+#. Label of the active (Check) field in DocType 'Cost Center Access'
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+msgid "Active"
 msgstr ""
 
 #: verein/contact_management/doctype/experience/experience.js:6
@@ -46,12 +68,55 @@ msgstr ""
 msgid "Address Line 2"
 msgstr ""
 
+#. Label of the amount_section (Section Break) field in DocType 'Cost Center
+#. Budget'
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+msgid "Amount"
+msgstr ""
+
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.py:45
+msgid "An active Cost Center Access already exists for this user and cost center."
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:337
+msgid "Balance"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:352
+msgid "Bookings could not be loaded."
+msgstr ""
+
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:33
+#: verein/workspace_sidebar/donation_management.json
+msgid "Buchungen"
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:361
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:408
+msgid "Budget"
+msgstr ""
+
+#. Label of the budget_amount (Currency) field in DocType 'Cost Center Budget'
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:436
+msgid "Budget Amount"
+msgstr ""
+
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.py:35
+msgid "Budget Amount cannot be negative."
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:340
+msgid "Budget Delta"
+msgstr ""
+
 #. Label of the city (Data) field in DocType 'Network'
 #. Label of the city (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:20
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:44
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:45
 msgid "City"
 msgstr ""
 
@@ -82,11 +147,51 @@ msgstr ""
 msgid "Contact Manager"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:695
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:873
 msgid "Coordinates"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:568
+#. Label of the cost_center (Link) field in DocType 'Cost Center Access'
+#. Label of the cost_center (Link) field in DocType 'Cost Center Budget'
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:183
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:161
+msgid "Cost Center"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+#: verein/workspace_sidebar/donation_management.json
+msgid "Cost Center Access"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/workspace_sidebar/donation_management.json
+msgid "Cost Center Budget"
+msgstr ""
+
+#. Name of a role
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+msgid "Cost Center Manager"
+msgstr ""
+
+#. Name of a role
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+msgid "Cost Center Viewer"
+msgstr ""
+
+#: verein/donation_management/cost_center_bookings.py:33
+#: verein/donation_management/cost_center_dashboard.py:67
+msgid "Cost Center {0} was not found."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:747
 msgid "Could not resolve the place."
 msgstr ""
 
@@ -97,10 +202,20 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:4
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:4
+msgid "Custom"
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:313
+msgid "Dashboard data could not be loaded."
+msgstr ""
+
 #. Label of the date (Date) field in DocType 'Experience'
 #. Label of the date (Date) field in DocType 'Supporter Experience'
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:402
 msgid "Date"
 msgstr ""
 
@@ -109,7 +224,7 @@ msgstr ""
 msgid "Date of Birth"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:442
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:619
 msgid "Default"
 msgstr ""
 
@@ -134,13 +249,32 @@ msgstr ""
 msgid "Default Zoom"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:795
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:409
+msgid "Delta"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:971
 msgid "Distance"
 msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:17
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:42
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:43
 msgid "Distance (km)"
+msgstr ""
+
+#. Label of a Desktop Icon
+#. Title of a Workspace Sidebar
+#: verein/desktop_icon/donation_management.json
+#: verein/workspace_sidebar/donation_management.json
+msgid "Donation Management"
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:384
+msgid "Edit"
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:424
+msgid "Edit Budget"
 msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:18
@@ -152,9 +286,20 @@ msgstr ""
 msgid "Email Address"
 msgstr ""
 
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:444
+msgid "Enter a place or set a pin on the map"
+msgstr ""
+
 #. Label of the error_message (Text) field in DocType 'Geocoding Job'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 msgid "Error Message"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:377
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:339
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:359
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:406
+msgid "Expense"
 msgstr ""
 
 #. Name of a DocType
@@ -162,7 +307,7 @@ msgstr ""
 #. Label of a Workspace Sidebar Item
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:865
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1034
 #: verein/workspace_sidebar/contact_management.json
 msgid "Experience"
 msgstr ""
@@ -174,12 +319,12 @@ msgstr ""
 
 #. Label of the experiences (Table) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:237
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:395
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:467
 msgid "Experiences"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:498
 msgid "Export Excel"
 msgstr ""
 
@@ -188,13 +333,25 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:447
 msgid "Find Place"
 msgstr ""
 
 #. Label of the first_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 msgid "First Name"
+msgstr ""
+
+#. Label of the from_date (Date) field in DocType 'Cost Center Budget'
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:198
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:176
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:429
+msgid "From Date"
+msgstr ""
+
+#: verein/donation_management/cost_center_dashboard.py:157
+msgid "From Date cannot be after To Date."
 msgstr ""
 
 #. Label of the full_name (Data) field in DocType 'Supporter'
@@ -207,7 +364,7 @@ msgstr ""
 msgid "Gender"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:35
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:53
 msgid "Geo Radius Search"
 msgstr ""
 
@@ -216,7 +373,7 @@ msgstr ""
 msgid "Geo Settings"
 msgstr ""
 
-#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:113
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:99
 msgid "Geocoding Error"
 msgstr ""
 
@@ -237,13 +394,20 @@ msgstr ""
 #: verein/contact_management/doctype/experience/experience.js:132
 #: verein/contact_management/doctype/network/network.js:196
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:15
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:40
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:41
 msgid "ID"
 msgstr ""
 
 #. Label of the image (Attach Image) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 msgid "Image"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:376
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:338
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:358
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:405
+msgid "Income"
 msgstr ""
 
 #. Description of the 'section_break_jvja' (Section Break) field in DocType
@@ -255,9 +419,29 @@ msgid ""
 "(You have direct access to all address fields of the referenced document.)"
 msgstr ""
 
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:6
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:6
+msgid "Last Half Year"
+msgstr ""
+
 #. Label of the last_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 msgid "Last Name"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:5
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:5
+msgid "Last Three Months"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:8
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:8
+msgid "Last Three Years"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:7
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:7
+msgid "Last Year"
 msgstr ""
 
 #. Label of the lat_param (Data) field in DocType 'Geo Settings'
@@ -277,6 +461,10 @@ msgstr ""
 msgid "Linked Supporters"
 msgstr ""
 
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:234
+msgid "Load More"
+msgstr ""
+
 #: verein/contact_management/doctype/experience/experience.js:23
 #: verein/contact_management/doctype/network/network.js:24
 msgid "Loading linked supporters..."
@@ -291,11 +479,16 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:623
+#. Option for the 'Access Level' (Select) field in DocType 'Cost Center Access'
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+msgid "Manage"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:802
 msgid "Manually moved pin"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:451
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:628
 msgid "Manually placed pin"
 msgstr ""
 
@@ -306,7 +499,7 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:774
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:938
 msgid "Matched By"
 msgstr ""
 
@@ -318,7 +511,21 @@ msgstr ""
 msgid "Matched Networks"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:24
+msgid "Matched Tags"
+msgstr ""
+
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:29
+#: verein/workspace_sidebar/donation_management.json
+msgid "Meine Kostenstellen"
+msgstr ""
+
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:404
+msgid "Month"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:481
 msgid "More Filters"
 msgstr ""
 
@@ -329,8 +536,15 @@ msgstr ""
 #: verein/contact_management/doctype/experience_type/experience_type.json
 #: verein/contact_management/doctype/network_type/network_type.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:16
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:41
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:42
 msgid "Name"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:378
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:405
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:360
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:407
+msgid "Net"
 msgstr ""
 
 #. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
@@ -340,7 +554,7 @@ msgstr ""
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter_network/supporter_network.json
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:858
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1027
 #: verein/workspace_sidebar/contact_management.json
 msgid "Network"
 msgstr ""
@@ -349,15 +563,15 @@ msgstr ""
 #. Label of the network_type (Data) field in DocType 'Supporter Network'
 #: verein/contact_management/doctype/network_type/network_type.json
 #: verein/contact_management/doctype/supporter_network/supporter_network.json
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:244
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:413
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:475
 msgid "Network Type"
 msgstr ""
 
 #. Label of the networks (Table) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:230
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:388
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:463
 msgid "Networks"
 msgstr ""
 
@@ -366,7 +580,16 @@ msgstr ""
 msgid "Networks & Experiences"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:878
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:393
+msgid "No bookings found for the selected period."
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:309
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:284
+msgid "No cost centers have been shared with you yet."
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1054
 msgid "No filter match"
 msgstr ""
 
@@ -375,15 +598,15 @@ msgstr ""
 msgid "No linked supporters yet."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:576
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:755
 msgid "No matching places found."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:762
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:927
 msgid "No results"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:767
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:932
 msgid "No results within the radius."
 msgstr ""
 
@@ -392,6 +615,11 @@ msgstr ""
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
 #: verein/contact_management/doctype/supporter_network/supporter_network.json
 msgid "Note"
+msgstr ""
+
+#. Label of the notes (Small Text) field in DocType 'Cost Center Budget'
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+msgid "Notes"
 msgstr ""
 
 #. Description of the 'section_break_hirm' (Section Break) field in DocType
@@ -405,13 +633,21 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
+#. Label of the period_section (Section Break) field in DocType 'Cost Center
+#. Budget'
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:190
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:168
+msgid "Period"
+msgstr ""
+
 #. Label of the phone (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:19
 msgid "Phone"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:544
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:723
 msgid "Please enter a place or address first."
 msgstr ""
 
@@ -425,11 +661,11 @@ msgstr ""
 msgid "Please select at least one supporter."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:737
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:901
 msgid "Please set a start point before exporting."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:717
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:881
 msgid "Please set a start point first using place search or a map pin."
 msgstr ""
 
@@ -438,19 +674,19 @@ msgstr ""
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:21
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:45
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:46
 msgid "Postal Code"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:522
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:702
 msgid "Preset start point"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:449
 msgid "Radius"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:222
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:380
 msgid "Radius (km)"
 msgstr ""
 
@@ -459,11 +695,11 @@ msgstr ""
 msgid "Radius Search"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:722
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:886
 msgid "Radius must be a whole number greater than 0."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:130
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:164
 msgid "Radius must be greater than zero."
 msgstr ""
 
@@ -472,7 +708,7 @@ msgstr ""
 msgid "Reference DocType"
 msgstr ""
 
-#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:43
+#: verein/contact_management/doctype/geocoding_job/geocoding_job.py:37
 msgid "Reference DocType must be one of the following values: {0}"
 msgstr ""
 
@@ -481,8 +717,17 @@ msgstr ""
 msgid "Reference Name"
 msgstr ""
 
-#: verein/contact_management/doctype/experience/experience.js:72
-#: verein/contact_management/doctype/network/network.js:73
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:226
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:204
+msgid "Refresh"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:404
+msgid "Remarks"
+msgstr ""
+
+#: verein/contact_management/doctype/experience/experience.js:77
+#: verein/contact_management/doctype/network/network.js:78
 msgid "Remove"
 msgstr ""
 
@@ -496,7 +741,7 @@ msgstr ""
 msgid "Request Interval [ms]"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:795
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:969
 msgid "Result"
 msgstr ""
 
@@ -506,7 +751,7 @@ msgstr ""
 msgid "Result Parameter"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:495
 msgid "Results"
 msgstr ""
 
@@ -515,41 +760,38 @@ msgstr ""
 msgid "Salutation"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:443
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:620
 msgid "Satellite"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:252
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:441
+msgid "Save"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:421
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:486
 msgid "Search"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:214
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:372
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:459
 msgid "Search For"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:433
 msgid "Search Settings"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:710
-msgid "Search for a place or set the start point directly on the map."
-msgstr ""
-
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:548
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:727
 msgid "Searching for place..."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:726
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:890
 msgid "Searching..."
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:602
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:781
 msgid "Selected place"
-msgstr ""
-
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:701
-msgid "Selected start point: {0}"
 msgstr ""
 
 #. Description of the 'Result Parameter' (Section Break) field in DocType 'Geo
@@ -563,15 +805,11 @@ msgstr ""
 msgid "Spouse"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:440
 msgid "Start Point"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:256
-msgid "Start point, radius, and optional filters in one compact view."
-msgstr ""
-
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:513
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:693
 msgid "Start point: {0} {1}"
 msgstr ""
 
@@ -581,7 +819,6 @@ msgid "Status"
 msgstr ""
 
 #. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
-#. Label of the supporter (Link) field in DocType 'Geocoding Job'
 #. Name of a DocType
 #. Label of a Workspace Sidebar Item
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
@@ -615,7 +852,15 @@ msgstr ""
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/network_type/network_type.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+#: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 msgid "System Manager"
+msgstr ""
+
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:406
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:471
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1041
+msgid "Tags"
 msgstr ""
 
 #: verein/contact_management/doctype/supporter/supporter.py:116
@@ -633,13 +878,18 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:204
+#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:182
+msgid "To Date"
+msgstr ""
+
 #. Label of the type (Link) field in DocType 'Experience'
 #. Label of the type (Link) field in DocType 'Network'
 #. Label of the type (Data) field in DocType 'Supporter Experience'
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:43
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:44
 msgid "Type"
 msgstr ""
 
@@ -648,8 +898,27 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:124
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.py:158
 msgid "Unsupported search doctype: {0}"
+msgstr ""
+
+#. Label of the user (Link) field in DocType 'Cost Center Access'
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+msgid "User"
+msgstr ""
+
+#. Option for the 'Access Level' (Select) field in DocType 'Cost Center Access'
+#: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+msgid "View"
+msgstr ""
+
+#: verein/donation_management/cost_center_bookings.py:28
+#: verein/donation_management/cost_center_dashboard.py:62
+msgid "You are not allowed to access this cost center."
+msgstr ""
+
+#: verein/donation_management/cost_center_dashboard.py:110
+msgid "You are not allowed to manage budgets for this cost center."
 msgstr ""
 
 #: verein/contact_management/doctype/supporter/supporter.py:120
@@ -660,7 +929,7 @@ msgstr ""
 msgid "{0} may only be linked once: {1}"
 msgstr ""
 
-#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:762
+#: verein/contact_management/page/geo_radius_search/geo_radius_search.js:927
 msgid "{0} results"
 msgstr ""
 

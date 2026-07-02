@@ -1,0 +1,64 @@
+{
+ "app": "verein",
+ "creation": "2026-07-02 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace Sidebar",
+ "header_icon": "chart-no-axes-combined",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "chart-column",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Meine Kostenstellen",
+   "link_to": "my-cost-centers",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "list",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Buchungen",
+   "link_to": "cost-center-bookings",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "key-round",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Cost Center Access",
+   "link_to": "Cost Center Access",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "wallet-cards",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Cost Center Budget",
+   "link_to": "Cost Center Budget",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-07-02 12:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "Donation Management",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "Donation Management"
+}

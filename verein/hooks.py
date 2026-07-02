@@ -120,13 +120,15 @@ app_license = "agpl-3.0"
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
-# has_permission = {
-# 	"Event": "frappe.desk.doctype.event.event.has_permission",
-# }
+permission_query_conditions = {
+    "Cost Center Access": "verein.donation_management.permissions.get_permission_query_conditions_for_access",
+    "Cost Center Budget": "verein.donation_management.permissions.get_permission_query_conditions_for_budget",
+}
+
+has_permission = {
+    "Cost Center Access": "verein.donation_management.permissions.has_access_permission",
+    "Cost Center Budget": "verein.donation_management.permissions.has_budget_permission",
+}
 
 # Document Events
 # ---------------
