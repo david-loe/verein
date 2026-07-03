@@ -86,7 +86,7 @@ app_license = "agpl-3.0"
 # ------------
 
 # before_install = "verein.install.before_install"
-# after_install = "verein.install.after_install"
+after_install = "verein.install.after_install"
 
 # Uninstallation
 # ------------
@@ -123,11 +123,13 @@ app_license = "agpl-3.0"
 permission_query_conditions = {
     "Cost Center Access": "verein.donation_management.permissions.get_permission_query_conditions_for_access",
     "Cost Center Budget": "verein.donation_management.permissions.get_permission_query_conditions_for_budget",
+    "Supporter Contact Change Request": "verein.donation_management.permissions.get_permission_query_conditions_for_supporter_contact_change_request",
 }
 
 has_permission = {
     "Cost Center Access": "verein.donation_management.permissions.has_access_permission",
     "Cost Center Budget": "verein.donation_management.permissions.has_budget_permission",
+    "Supporter Contact Change Request": "verein.donation_management.permissions.has_supporter_contact_change_request_permission",
 }
 
 # Document Events

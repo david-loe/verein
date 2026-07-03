@@ -79,6 +79,11 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 				min-width: 0;
 			}
 
+			.cost-center-bookings .load-more-row {
+				display: flex;
+				justify-content: center;
+			}
+
 			.cost-center-bookings .load-more-row .btn {
 				display: inline-flex;
 				align-items: center;
@@ -258,7 +263,7 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		this.$emptyState = $('<div class="empty-state">').hide().appendTo(this.$root);
 		this.$kpiGrid = $('<div class="kpi-grid">').appendTo(this.$root);
 		this.$tableShell = $('<div class="table-shell">').appendTo(this.$root);
-		this.$loadMoreRow = $('<div class="load-more-row d-flex justify-content-center">').appendTo(this.$root);
+		this.$loadMoreRow = $('<div class="load-more-row">').hide().appendTo(this.$root);
 		this.$loadMoreButton = $(
 			`<button class="btn btn-secondary">${this.get_icon("chevrons-down")}${__("Load More")}</button>`
 		)
@@ -486,6 +491,8 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		if (reset) {
 			this.entries = [];
 			this.nextLimitStart = 0;
+			this.hasMore = false;
+			this.$loadMoreRow.hide();
 		}
 
 		this.$loadMoreButton.prop("disabled", true);
@@ -561,9 +568,9 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 				<thead>
 					<tr>
 						<th class="date-cell">${this.render_sort_header("posting_date", __("Date"))}</th>
-						<th>${this.render_sort_header("account", __("Account"))}</th>
 						<th>${this.render_sort_header("remarks", __("Remarks"))}</th>
 						<th class="amount-cell">${this.render_sort_header("net", __("Net"))}</th>
+						<th>${this.render_sort_header("account", __("Account"))}</th>
 					</tr>
 				</thead>
 				<tbody>${rows}</tbody>
@@ -578,9 +585,9 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		return `
 			<tr>
 				<td class="date-cell">${frappe.datetime.str_to_user(row.posting_date)}</td>
-				<td>${this.escape(row.account_name || row.account)}</td>
 				<td class="remarks-cell" title="${this.escape_attr(row.remarks || "")}">${this.escape(row.remarks || "")}</td>
 				<td class="amount-cell">${this.format_currency(row.net)}</td>
+				<td>${this.escape(row.account_name || row.account)}</td>
 			</tr>
 		`;
 	}

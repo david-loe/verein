@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import frappe
+from frappe.utils import getdate
 
 
 def ensure_role(role_name: str):
@@ -111,6 +112,34 @@ def get_account(company: str, root_type: str) -> str:
 	return doc.name
 
 
+def ensure_fiscal_year_for_date(posting_date: str) -> str:
+	date = getdate(posting_date)
+	name = str(date.year)
+	if frappe.db.exists(
+		"Fiscal Year",
+		{
+			"year_start_date": ["<=", date],
+			"year_end_date": [">=", date],
+			"disabled": 0,
+		},
+	):
+		return name
+
+	if frappe.db.exists("Fiscal Year", name):
+		frappe.db.set_value("Fiscal Year", name, "disabled", 0)
+		return name
+
+	frappe.get_doc(
+		{
+			"doctype": "Fiscal Year",
+			"year": name,
+			"year_start_date": f"{date.year}-01-01",
+			"year_end_date": f"{date.year}-12-31",
+		}
+	).insert(ignore_permissions=True)
+	return name
+
+
 def make_access(user: str, cost_center: str, access_level: str = "View", active: int = 1):
 	return frappe.get_doc(
 		{
@@ -134,6 +163,17 @@ def make_budget(cost_center: str, from_date: str, budget_amount: float):
 	).insert(ignore_permissions=True)
 
 
+def make_supporter(**kwargs):
+	values = {
+		"doctype": "Supporter",
+		"first_name": "DM Test",
+		"last_name": frappe.generate_hash(length=8),
+		"email_address": f"dm-supporter-{frappe.generate_hash(length=8)}@example.com",
+	}
+	values.update(kwargs)
+	return frappe.get_doc(values).insert(ignore_permissions=True)
+
+
 def make_gl_entry(
 	cost_center: str,
 	account: str,
@@ -142,26 +182,29 @@ def make_gl_entry(
 	credit: float = 0,
 	is_cancelled: int = 0,
 	remarks: str | None = None,
+	supporter: str | None = None,
 ):
+	ensure_fiscal_year_for_date(posting_date)
 	company = frappe.db.get_value("Cost Center", cost_center, "company")
 	account_currency = frappe.db.get_value("Account", account, "account_currency")
-	doc = frappe.get_doc(
-		{
-			"doctype": "GL Entry",
-			"posting_date": posting_date,
-			"account": account,
-			"cost_center": cost_center,
-			"company": company,
-			"voucher_type": "Journal Entry",
-			"voucher_no": f"DM-TEST-{frappe.generate_hash(length=10)}",
-			"debit": debit,
-			"credit": credit,
-			"debit_in_account_currency": debit,
-			"credit_in_account_currency": credit,
-			"account_currency": account_currency,
-			"is_cancelled": is_cancelled,
-			"remarks": remarks,
-		}
-	)
+	values = {
+		"doctype": "GL Entry",
+		"posting_date": posting_date,
+		"account": account,
+		"cost_center": cost_center,
+		"company": company,
+		"voucher_type": "Journal Entry",
+		"voucher_no": f"DM-TEST-{frappe.generate_hash(length=10)}",
+		"debit": debit,
+		"credit": credit,
+		"debit_in_account_currency": debit,
+		"credit_in_account_currency": credit,
+		"account_currency": account_currency,
+		"is_cancelled": is_cancelled,
+		"remarks": remarks,
+	}
+	if supporter and frappe.get_meta("GL Entry").has_field("supporter"):
+		values["supporter"] = supporter
+	doc = frappe.get_doc(values)
 	doc.flags.from_repost = True
 	return doc.insert(ignore_permissions=True, ignore_links=True)

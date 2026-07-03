@@ -10,6 +10,7 @@ BUDGET_DOCTYPE = "Cost Center Budget"
 PRIVILEGED_VIEW_ROLES = {"System Manager", "Accounts Manager", "Cost Center Manager"}
 BUDGET_MANAGER_ROLES = {"System Manager", "Cost Center Manager"}
 ACCESS_MANAGER_ROLES = {"System Manager", "Cost Center Manager"}
+SUPPORTER_CHANGE_REVIEWER_ROLES = {"System Manager", "Supporter Change Reviewer"}
 
 
 def user_has_any_role(user: str | None, roles: set[str]) -> bool:
@@ -22,6 +23,10 @@ def can_view_all_cost_centers(user: str | None = None) -> bool:
 
 def can_manage_access_records(user: str | None = None) -> bool:
 	return user_has_any_role(user, ACCESS_MANAGER_ROLES)
+
+
+def can_review_supporter_contact_change_requests(user: str | None = None) -> bool:
+	return user_has_any_role(user, SUPPORTER_CHANGE_REVIEWER_ROLES)
 
 
 def can_manage_all_budgets(user: str | None = None) -> bool:
@@ -135,6 +140,16 @@ def get_permission_query_conditions_for_budget(user: str | None = None) -> str |
 	return f"`tabCost Center Budget`.`cost_center` in ({escaped_cost_centers})"
 
 
+def get_permission_query_conditions_for_supporter_contact_change_request(
+	user: str | None = None,
+) -> str | None:
+	user = user or frappe.session.user
+	if user == "Administrator" or can_review_supporter_contact_change_requests(user):
+		return None
+
+	return f"`tabSupporter Contact Change Request`.`requested_by` = {frappe.db.escape(user)}"
+
+
 def has_access_permission(doc, ptype: str, user: str | None = None, debug: bool = False) -> bool:
 	user = user or frappe.session.user
 	if user == "Administrator" or can_manage_access_records(user):
@@ -156,5 +171,24 @@ def has_budget_permission(doc, ptype: str, user: str | None = None, debug: bool 
 
 	if ptype in {"create", "write"}:
 		return has_cost_center_access(doc.cost_center, user=user, access_level="Manage")
+
+	return False
+
+
+def has_supporter_contact_change_request_permission(
+	doc,
+	ptype: str,
+	user: str | None = None,
+	debug: bool = False,
+) -> bool:
+	user = user or frappe.session.user
+	if user == "Administrator" or can_review_supporter_contact_change_requests(user):
+		return True
+
+	if ptype in {"read", "select"}:
+		return doc.requested_by == user
+
+	if ptype == "create":
+		return has_cost_center_access(doc.cost_center, user=user)
 
 	return False

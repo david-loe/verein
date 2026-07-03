@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-07-03 09:31+0000\n"
-"PO-Revision-Date: 2026-07-03 09:31+0000\n"
+"POT-Creation-Date: 2026-07-03 14:34+0000\n"
+"PO-Revision-Date: 2026-07-03 14:34+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language-Team: kontakt@david-loe.de\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,8 @@ msgstr ""
 msgid "Access Level must be View or Manage."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:564
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:566
+#: verein/donation_management/page/donors/donors.js:716
 msgid "Account"
 msgstr ""
 
@@ -51,6 +52,8 @@ msgstr ""
 #. Label of the address_section (Section Break) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/page/donors/donors.js:829
+#: verein/donation_management/page/donors/donors.js:833
 msgid "Address"
 msgstr ""
 
@@ -58,6 +61,8 @@ msgstr ""
 #. Label of the address_line_1 (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:21
+#: verein/donation_management/page/donors/donors.js:18
 msgid "Address Line 1"
 msgstr ""
 
@@ -65,7 +70,13 @@ msgstr ""
 #. Label of the address_line_2 (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:22
+#: verein/donation_management/page/donors/donors.js:19
 msgid "Address Line 2"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:625
+msgid "Address Modified"
 msgstr ""
 
 #. Label of the amount_section (Section Break) field in DocType 'Cost Center
@@ -78,6 +89,24 @@ msgstr ""
 msgid "An active Cost Center Access already exists for this user and cost center."
 msgstr ""
 
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:11
+msgid "Approve"
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:17
+msgid "Approve Request"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
+#. Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Approved"
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:83
+msgid "At least one change is required."
+msgstr ""
+
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:620
 msgid "Balance"
 msgstr ""
@@ -88,6 +117,7 @@ msgstr ""
 
 #. Label of a Workspace Sidebar Item
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:34
+#: verein/donation_management/page/donors/donors.js:623
 #: verein/workspace_sidebar/donation_management.json
 msgid "Bookings"
 msgstr ""
@@ -119,13 +149,25 @@ msgstr ""
 msgid "Budget Delta shows the difference between income and budget."
 msgstr ""
 
+#. Label of the changes (Table) field in DocType 'Supporter Contact Change
+#. Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Changes"
+msgstr ""
+
 #. Label of the city (Data) field in DocType 'Network'
 #. Label of the city (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:20
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:45
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:24
+#: verein/donation_management/page/donors/donors.js:21
 msgid "City"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:654
+msgid "Collapse"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Geocoding Job'
@@ -136,6 +178,7 @@ msgstr ""
 #. Label of the contact_section (Section Break) field in DocType 'Supporter'
 #. Label of the contact_tab (Tab Break) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/page/donors/donors.js:662
 msgid "Contact"
 msgstr ""
 
@@ -155,16 +198,24 @@ msgstr ""
 msgid "Contact Manager"
 msgstr ""
 
+#: verein/donation_management/page/donors/donors.js:866
+msgid "Contact change request created."
+msgstr ""
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:873
 msgid "Coordinates"
 msgstr ""
 
 #. Label of the cost_center (Link) field in DocType 'Cost Center Access'
 #. Label of the cost_center (Link) field in DocType 'Cost Center Budget'
+#. Label of the cost_center (Link) field in DocType 'Supporter Contact Change
+#. Request'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:214
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:258
+#: verein/donation_management/page/donors/donors.js:282
 msgid "Cost Center"
 msgstr ""
 
@@ -185,6 +236,7 @@ msgstr ""
 #. Name of a role
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Cost Center Manager"
 msgstr ""
 
@@ -197,12 +249,15 @@ msgstr ""
 #. Name of a role
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Cost Center Viewer"
 msgstr ""
 
 #: verein/donation_management/cost_center_bookings.py:33
 #: verein/donation_management/cost_center_dashboard.py:67
 #: verein/donation_management/cost_center_dashboard.py:110
+#: verein/donation_management/supporter_donors.py:39
+#: verein/donation_management/supporter_donors.py:204
 msgid "Cost Center {0} was not found."
 msgstr ""
 
@@ -214,11 +269,20 @@ msgstr ""
 #. Label of the country (Link) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:25
+#: verein/donation_management/page/donors/donors.js:22
 msgid "Country"
+msgstr ""
+
+#. Label of the current_value (Small Text) field in DocType 'Supporter Contact
+#. Change Request Field'
+#: verein/donation_management/doctype/supporter_contact_change_request_field/supporter_contact_change_request_field.json
+msgid "Current Value"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:4
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:4
+#: verein/donation_management/page/donors/donors.js:4
 msgid "Custom"
 msgstr ""
 
@@ -231,6 +295,7 @@ msgstr ""
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:563
+#: verein/donation_management/page/donors/donors.js:715
 msgid "Date"
 msgstr ""
 
@@ -273,11 +338,36 @@ msgstr ""
 msgid "Distance (km)"
 msgstr ""
 
+#: verein/donation_management/page/donors/donors.js:596
+#: verein/donation_management/page/donors/donors.js:624
+#: verein/donation_management/page/donors/donors.js:718
+msgid "Donation Amount"
+msgstr ""
+
 #. Label of a Desktop Icon
 #. Title of a Workspace Sidebar
 #: verein/desktop_icon/donation_management.json
 #: verein/workspace_sidebar/donation_management.json
 msgid "Donation Management"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:792
+msgid "Donation bookings could not be loaded."
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:621
+msgid "Donor"
+msgstr ""
+
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/page/donors/donors.js:48
+#: verein/donation_management/page/donors/donors.js:595
+#: verein/workspace_sidebar/donation_management.json
+msgid "Donors"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:571
+msgid "Donors could not be loaded."
 msgstr ""
 
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:734
@@ -294,6 +384,9 @@ msgstr ""
 
 #. Label of the email_address (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:19
+#: verein/donation_management/page/donors/donors.js:16
+#: verein/donation_management/page/donors/donors.js:827
 msgid "Email Address"
 msgstr ""
 
@@ -304,6 +397,10 @@ msgstr ""
 #. Label of the error_message (Text) field in DocType 'Geocoding Job'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 msgid "Error Message"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:654
+msgid "Expand"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:538
@@ -344,20 +441,47 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
+#. Label of the field_label (Data) field in DocType 'Supporter Contact Change
+#. Request Field'
+#: verein/donation_management/doctype/supporter_contact_change_request_field/supporter_contact_change_request_field.json
+msgid "Field Label"
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:88
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:189
+msgid "Field {0} cannot be changed through this request."
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:90
+msgid "Field {0} is listed more than once."
+msgstr ""
+
+#. Label of the fieldname (Data) field in DocType 'Supporter Contact Change
+#. Request Field'
+#: verein/donation_management/doctype/supporter_contact_change_request_field/supporter_contact_change_request_field.json
+msgid "Fieldname"
+msgstr ""
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:447
 msgid "Find Place"
 msgstr ""
 
 #. Label of the first_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:17
+#: verein/donation_management/page/donors/donors.js:14
 msgid "First Name"
 msgstr ""
 
 #. Label of the from_date (Date) field in DocType 'Cost Center Budget'
+#. Label of the from_date (Date) field in DocType 'Supporter Contact Change
+#. Request'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:229
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:273
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:797
+#: verein/donation_management/page/donors/donors.js:297
 msgid "From Date"
 msgstr ""
 
@@ -430,28 +554,42 @@ msgid ""
 "(You have direct access to all address fields of the referenced document.)"
 msgstr ""
 
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:79
+msgid "Invalid status: {0}"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:622
+msgid "Last Donation"
+msgstr ""
+
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:6
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:6
+#: verein/donation_management/page/donors/donors.js:6
 msgid "Last Half Year"
 msgstr ""
 
 #. Label of the last_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:18
+#: verein/donation_management/page/donors/donors.js:15
 msgid "Last Name"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:5
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:5
+#: verein/donation_management/page/donors/donors.js:5
 msgid "Last Three Months"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:8
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:8
+#: verein/donation_management/page/donors/donors.js:8
 msgid "Last Three Years"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:7
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:7
+#: verein/donation_management/page/donors/donors.js:7
 msgid "Last Year"
 msgstr ""
 
@@ -473,12 +611,21 @@ msgid "Linked Supporters"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:263
+#: verein/donation_management/page/donors/donors.js:337
 msgid "Load More"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:705
+msgid "Load More Bookings"
 msgstr ""
 
 #: verein/contact_management/doctype/experience/experience.js:23
 #: verein/contact_management/doctype/network/network.js:24
 msgid "Loading linked supporters..."
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:690
+msgid "Loading..."
 msgstr ""
 
 #. Label of the lon_param (Data) field in DocType 'Geo Settings'
@@ -546,7 +693,7 @@ msgid "Name"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:539
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:566
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:565
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:623
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:761
 msgid "Net"
@@ -589,9 +736,22 @@ msgstr ""
 msgid "No bookings found for the selected period."
 msgstr ""
 
+#: verein/donation_management/page/donors/donors.js:850
+msgid "No contact changes were entered."
+msgstr ""
+
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:472
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:516
+#: verein/donation_management/page/donors/donors.js:502
 msgid "No cost centers have been shared with you yet."
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:698
+msgid "No donation bookings found."
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:611
+msgid "No donors found for the selected period."
 msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1054
@@ -627,6 +787,14 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:97
+msgid "Only pending requests can be approved."
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:114
+msgid "Only pending requests can be rejected."
+msgstr ""
+
 #. Description of the 'section_break_hirm' (Section Break) field in DocType
 #. 'Geo Settings'
 #: verein/contact_management/doctype/geo_settings/geo_settings.json
@@ -634,21 +802,31 @@ msgid "Optional: Provide additional header values to be used for the API request
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Geocoding Job'
+#. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
+#. Request'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Pending"
 msgstr ""
 
 #. Label of the period_section (Section Break) field in DocType 'Cost Center
 #. Budget'
+#. Label of the period_section (Section Break) field in DocType 'Supporter
+#. Contact Change Request'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:221
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:265
+#: verein/donation_management/page/donors/donors.js:289
 msgid "Period"
 msgstr ""
 
 #. Label of the phone (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:19
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:20
+#: verein/donation_management/page/donors/donors.js:17
+#: verein/donation_management/page/donors/donors.js:828
 msgid "Phone"
 msgstr ""
 
@@ -680,6 +858,8 @@ msgstr ""
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:21
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:46
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:23
+#: verein/donation_management/page/donors/donors.js:20
 msgid "Postal Code"
 msgstr ""
 
@@ -722,7 +902,22 @@ msgstr ""
 msgid "Reference Name"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:565
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:12
+msgid "Reject"
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:17
+msgid "Reject Request"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
+#. Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Rejected"
+msgstr ""
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:564
+#: verein/donation_management/page/donors/donors.js:717
 msgid "Remarks"
 msgstr ""
 
@@ -736,9 +931,37 @@ msgstr ""
 msgid "Remove supporter link?"
 msgstr ""
 
+#. Label of the request_section (Section Break) field in DocType 'Supporter
+#. Contact Change Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Request"
+msgstr ""
+
+#: verein/donation_management/page/donors/donors.js:815
+msgid "Request Change"
+msgstr ""
+
 #. Label of the req_interval_ms (Int) field in DocType 'Geo Settings'
 #: verein/contact_management/doctype/geo_settings/geo_settings.json
 msgid "Request Interval [ms]"
+msgstr ""
+
+#. Label of the requested_by (Link) field in DocType 'Supporter Contact Change
+#. Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Requested By"
+msgstr ""
+
+#. Label of the requested_on (Datetime) field in DocType 'Supporter Contact
+#. Change Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Requested On"
+msgstr ""
+
+#. Label of the requested_value (Small Text) field in DocType 'Supporter
+#. Contact Change Request Field'
+#: verein/donation_management/doctype/supporter_contact_change_request_field/supporter_contact_change_request_field.json
+msgid "Requested Value"
 msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:969
@@ -753,6 +976,33 @@ msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:495
 msgid "Results"
+msgstr ""
+
+#. Label of the review_section (Section Break) field in DocType 'Supporter
+#. Contact Change Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:11
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:12
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Review"
+msgstr ""
+
+#. Label of the review_note (Small Text) field in DocType 'Supporter Contact
+#. Change Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:24
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Review Note"
+msgstr ""
+
+#. Label of the reviewed_by (Link) field in DocType 'Supporter Contact Change
+#. Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Reviewed By"
+msgstr ""
+
+#. Label of the reviewed_on (Datetime) field in DocType 'Supporter Contact
+#. Change Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Reviewed On"
 msgstr ""
 
 #. Label of the salutation (Link) field in DocType 'Supporter'
@@ -770,6 +1020,7 @@ msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:421
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:486
+#: verein/donation_management/page/donors/donors.js:309
 msgid "Search"
 msgstr ""
 
@@ -792,6 +1043,11 @@ msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:781
 msgid "Selected place"
+msgstr ""
+
+#. Label of a Workspace Sidebar Item
+#: verein/workspace_sidebar/donation_management.json
+msgid "Settings"
 msgstr ""
 
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:695
@@ -818,17 +1074,40 @@ msgid "Start point: {0} {1}"
 msgstr ""
 
 #. Label of the status (Select) field in DocType 'Geocoding Job'
+#. Label of the status (Select) field in DocType 'Supporter Contact Change
+#. Request'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Status"
 msgstr ""
 
 #. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
 #. Name of a DocType
+#. Label of the supporter (Link) field in DocType 'Supporter Contact Change
+#. Request'
 #. Label of a Workspace Sidebar Item
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/workspace_sidebar/contact_management.json
 msgid "Supporter"
+msgstr ""
+
+#. Name of a role
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+msgid "Supporter Change Reviewer"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+#: verein/workspace_sidebar/donation_management.json
+msgid "Supporter Contact Change Request"
+msgstr ""
+
+#. Name of a DocType
+#: verein/donation_management/doctype/supporter_contact_change_request_field/supporter_contact_change_request_field.json
+msgid "Supporter Contact Change Request Field"
 msgstr ""
 
 #. Name of a DocType
@@ -858,6 +1137,7 @@ msgstr ""
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "System Manager"
 msgstr ""
 
@@ -871,6 +1151,10 @@ msgstr ""
 msgid "The selected spouse does not exist."
 msgstr ""
 
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:75
+msgid "The supporter has no donations for this cost center in the selected period."
+msgstr ""
+
 #. Description of the 'Request Interval [ms]' (Int) field in DocType 'Geo
 #. Settings'
 #: verein/contact_management/doctype/geo_settings/geo_settings.json
@@ -882,8 +1166,12 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
+#. Label of the to_date (Date) field in DocType 'Supporter Contact Change
+#. Request'
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:235
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:279
+#: verein/donation_management/page/donors/donors.js:303
 msgid "To Date"
 msgstr ""
 
@@ -919,11 +1207,18 @@ msgstr ""
 #: verein/donation_management/cost_center_bookings.py:28
 #: verein/donation_management/cost_center_dashboard.py:62
 #: verein/donation_management/cost_center_dashboard.py:106
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:67
+#: verein/donation_management/supporter_donors.py:34
+#: verein/donation_management/supporter_donors.py:199
 msgid "You are not allowed to access this cost center."
 msgstr ""
 
 #: verein/donation_management/cost_center_dashboard.py:141
 msgid "You are not allowed to manage budgets for this cost center."
+msgstr ""
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:126
+msgid "You are not allowed to review supporter contact change requests."
 msgstr ""
 
 #: verein/contact_management/doctype/supporter/supporter.py:120
