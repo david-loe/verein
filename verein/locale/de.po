@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-07-02 14:20+0000\n"
+"POT-Creation-Date: 2026-07-03 09:31+0000\n"
 "PO-Revision-Date: 2026-03-23 12:50+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language: de\n"
@@ -35,7 +35,7 @@ msgstr "Zugriffsstufe"
 msgid "Access Level must be View or Manage."
 msgstr "Die Zugriffsstufe muss Ansehen oder Verwalten sein."
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:403
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:564
 msgid "Account"
 msgstr "Konto"
 
@@ -80,28 +80,32 @@ msgstr "Betrag"
 msgid "An active Cost Center Access already exists for this user and cost center."
 msgstr "Für diesen Benutzer und diese Kostenstelle existiert bereits ein aktiver Kostenstellenzugriff."
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:337
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:620
 msgid "Balance"
 msgstr "Saldo"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:352
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:569
+msgid "Balance could not be loaded."
+msgstr "Saldo konnte nicht geladen werden."
+
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:34
+#: verein/workspace_sidebar/donation_management.json
+msgid "Bookings"
+msgstr "Buchungen"
+
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:513
 msgid "Bookings could not be loaded."
 msgstr "Buchungen konnten nicht geladen werden."
 
-#. Label of a Workspace Sidebar Item
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:33
-#: verein/workspace_sidebar/donation_management.json
-msgid "Buchungen"
-msgstr "Buchungen"
-
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:361
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:408
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:683
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:762
 msgid "Budget"
 msgstr "Budget"
 
 #. Label of the budget_amount (Currency) field in DocType 'Cost Center Budget'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:436
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:804
 msgid "Budget Amount"
 msgstr "Budgetbetrag"
 
@@ -109,9 +113,13 @@ msgstr "Budgetbetrag"
 msgid "Budget Amount cannot be negative."
 msgstr "Der Budgetbetrag darf nicht negativ sein."
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:340
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:765
 msgid "Budget Delta"
 msgstr "Budgetabweichung"
+
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:726
+msgid "Budget Delta shows the difference between income and budget."
+msgstr "Budgetabweichung zeigt die Differenz zwischen Einnahmen und Budget."
 
 #. Label of the city (Data) field in DocType 'Network'
 #. Label of the city (Data) field in DocType 'Supporter'
@@ -157,8 +165,8 @@ msgstr "Koordinaten"
 #. Label of the cost_center (Link) field in DocType 'Cost Center Budget'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:183
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:161
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:214
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:258
 msgid "Cost Center"
 msgstr "Kostenstelle"
 
@@ -182,6 +190,12 @@ msgstr "Kostenstellenbudget"
 msgid "Cost Center Manager"
 msgstr "Kostenstellenmanager"
 
+#. Label of a Workspace Sidebar Item
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:38
+#: verein/workspace_sidebar/donation_management.json
+msgid "Cost Center Overview"
+msgstr "Kostenstellenübersicht"
+
 #. Name of a role
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
@@ -190,6 +204,7 @@ msgstr "Kostenstellen-Betrachter"
 
 #: verein/donation_management/cost_center_bookings.py:33
 #: verein/donation_management/cost_center_dashboard.py:67
+#: verein/donation_management/cost_center_dashboard.py:110
 msgid "Cost Center {0} was not found."
 msgstr "Kostenstelle {0} wurde nicht gefunden."
 
@@ -205,11 +220,11 @@ msgid "Country"
 msgstr "Land"
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:4
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:4
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:4
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:313
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:596
 msgid "Dashboard data could not be loaded."
 msgstr "Dashboard-Daten konnten nicht geladen werden."
 
@@ -217,7 +232,7 @@ msgstr "Dashboard-Daten konnten nicht geladen werden."
 #. Label of the date (Date) field in DocType 'Supporter Experience'
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:402
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:563
 msgid "Date"
 msgstr "Datum"
 
@@ -251,10 +266,6 @@ msgstr "Standardkarte"
 msgid "Default Zoom"
 msgstr "Standard-Zoom"
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:409
-msgid "Delta"
-msgstr "Abweichung"
-
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:971
 msgid "Distance"
 msgstr "Distanz"
@@ -271,11 +282,11 @@ msgstr "Distanz (km)"
 msgid "Donation Management"
 msgstr "Spendenverwaltung"
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:384
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:734
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:424
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:792
 msgid "Edit Budget"
 msgstr "Budget bearbeiten"
 
@@ -297,10 +308,10 @@ msgstr "Einen Ort eingeben oder einen Pin auf der Karte setzen"
 msgid "Error Message"
 msgstr "Fehlermeldung"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:377
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:339
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:359
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:406
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:538
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:622
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:677
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:760
 msgid "Expense"
 msgstr "Ausgaben"
 
@@ -346,13 +357,13 @@ msgstr "Vorname"
 
 #. Label of the from_date (Date) field in DocType 'Cost Center Budget'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:198
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:176
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:429
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:229
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:273
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:797
 msgid "From Date"
 msgstr "Von-Datum"
 
-#: verein/donation_management/cost_center_dashboard.py:157
+#: verein/donation_management/cost_center_dashboard.py:188
 msgid "From Date cannot be after To Date."
 msgstr "Das Von-Datum darf nicht nach dem Bis-Datum liegen."
 
@@ -405,10 +416,10 @@ msgstr "ID"
 msgid "Image"
 msgstr "Bild"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:376
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:338
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:358
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:405
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:537
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:621
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:671
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:759
 msgid "Income"
 msgstr "Einnahmen"
 
@@ -425,7 +436,7 @@ msgstr ""
 "(Es besteht direkter Zugriff auf alle Adressfelder des referenzierten Dokuments.)"
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:6
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:6
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:6
 msgid "Last Half Year"
 msgstr "Letztes Halbjahr"
 
@@ -435,17 +446,17 @@ msgid "Last Name"
 msgstr "Nachname"
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:5
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:5
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:5
 msgid "Last Three Months"
 msgstr "Letzte 3 Monate"
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:8
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:8
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:8
 msgid "Last Three Years"
 msgstr "Letzte 3 Jahre"
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:7
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:7
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:7
 msgid "Last Year"
 msgstr "Letztes Jahr"
 
@@ -466,7 +477,7 @@ msgstr "Breitengrad"
 msgid "Linked Supporters"
 msgstr "Verknüpfte Unterstützer"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:234
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:263
 msgid "Load More"
 msgstr "Mehr laden"
 
@@ -520,13 +531,7 @@ msgstr "Treffer durch Netzwerke"
 msgid "Matched Tags"
 msgstr "Treffer durch Tags"
 
-#. Label of a Workspace Sidebar Item
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:29
-#: verein/workspace_sidebar/donation_management.json
-msgid "Meine Kostenstellen"
-msgstr "Meine Kostenstellen"
-
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:404
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:758
 msgid "Month"
 msgstr "Monat"
 
@@ -545,10 +550,10 @@ msgstr "Weitere Kriterien"
 msgid "Name"
 msgstr "Name"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:378
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:405
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:360
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:407
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:539
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:566
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:623
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:761
 msgid "Net"
 msgstr "Netto"
 
@@ -585,12 +590,12 @@ msgstr "Netzwerke"
 msgid "Networks & Experiences"
 msgstr "Netzwerke & Begegnungen"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:393
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:554
 msgid "No bookings found for the selected period."
 msgstr "Für den ausgewählten Zeitraum wurden keine Buchungen gefunden."
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:309
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:284
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:472
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:516
 msgid "No cost centers have been shared with you yet."
 msgstr "Es wurden noch keine Kostenstellen für Sie freigegeben."
 
@@ -641,8 +646,8 @@ msgstr "Ausstehend"
 #. Label of the period_section (Section Break) field in DocType 'Cost Center
 #. Budget'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:190
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:168
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:221
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:265
 msgid "Period"
 msgstr "Zeitraum"
 
@@ -722,12 +727,7 @@ msgstr "Referenz-DocType muss einer der folgenden Werte sein: {0}"
 msgid "Reference Name"
 msgstr "Referenzname"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:226
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:204
-msgid "Refresh"
-msgstr "Aktualisieren"
-
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:404
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:565
 msgid "Remarks"
 msgstr "Bemerkungen"
 
@@ -769,7 +769,7 @@ msgstr "Anrede"
 msgid "Satellite"
 msgstr "Satellit"
 
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:441
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:809
 msgid "Save"
 msgstr "Speichern"
 
@@ -798,6 +798,10 @@ msgstr "Suche läuft..."
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:781
 msgid "Selected place"
 msgstr "Ausgewählter Ort"
+
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:695
+msgid "Show or hide {0}"
+msgstr "{0} ein- oder ausblenden"
 
 #. Description of the 'Result Parameter' (Section Break) field in DocType 'Geo
 #. Settings'
@@ -883,8 +887,8 @@ msgstr "Zeitintervall zwischen API-Anfragen (in Millisekunden)"
 msgid "Title"
 msgstr "Titel"
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:204
-#: verein/donation_management/page/my_cost_centers/my_cost_centers.js:182
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:235
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:279
 msgid "To Date"
 msgstr "Bis-Datum"
 
@@ -919,10 +923,11 @@ msgstr "Ansehen"
 
 #: verein/donation_management/cost_center_bookings.py:28
 #: verein/donation_management/cost_center_dashboard.py:62
+#: verein/donation_management/cost_center_dashboard.py:106
 msgid "You are not allowed to access this cost center."
 msgstr "Sie dürfen nicht auf diese Kostenstelle zugreifen."
 
-#: verein/donation_management/cost_center_dashboard.py:110
+#: verein/donation_management/cost_center_dashboard.py:141
 msgid "You are not allowed to manage budgets for this cost center."
 msgstr "Sie dürfen Budgets für diese Kostenstelle nicht verwalten."
 

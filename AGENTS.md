@@ -11,7 +11,7 @@ Important:
   * `web_form/*/*.json`
   * `notification/*/*.json`
   * Workspace/sidebar/desktop JSONs
-* Outdated `modified` values can quickly lead to sync or import issues that are difficult to trace.
+* Outdated `modified` values can quickly lead to verein or import issues that are difficult to trace.
 
 ## Automatic Typing
 
@@ -27,10 +27,10 @@ After changing any translatable string in Python, JavaScript, JSON, Web Forms,
 or notification templates, run these commands in this exact order:
 
 ```bash
-bench generate-pot-file --app sync
-bench update-po-files --app sync
+bench generate-pot-file --app verein
+bench update-po-files --app verein
 ```
 
-Then fill all missing German translations in `sync/locale/de.po`. No
+Then fill all missing German translations in `verein/locale/de.po`. No
 `msgstr ""` entries may remain after localization work, except the standard PO
 header.

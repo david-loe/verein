@@ -83,16 +83,12 @@ def get_dashboard_data(
 			continue
 		month_row["budget"] = flt(row["budget"])
 
-	for row in months:
-		row["budget_delta"] = flt(row["net"]) - flt(row["budget"])
-
 	summary = {
 		"income": sum(flt(row["income"]) for row in months),
 		"expense": sum(flt(row["expense"]) for row in months),
 		"net": sum(flt(row["net"]) for row in months),
 		"budget": sum(flt(row["budget"]) for row in months),
 	}
-	summary["budget_delta"] = summary["net"] - summary["budget"]
 
 	return {
 		"cost_center": cost_center,
@@ -102,6 +98,41 @@ def get_dashboard_data(
 		"summary": summary,
 		"months": months,
 	}
+
+
+@frappe.whitelist()
+def get_cost_center_balance(cost_center: str) -> float:
+	if not has_cost_center_access(cost_center):
+		frappe.throw(_("You are not allowed to access this cost center."))
+
+	cost_centers = get_descendant_cost_centers(cost_center)
+	if not cost_centers:
+		frappe.throw(_("Cost Center {0} was not found.").format(cost_center))
+
+	return calculate_cost_center_balance(cost_centers)
+
+
+def calculate_cost_center_balance(cost_centers: list[str], posting_date: str | date | None = None) -> float:
+	if not cost_centers:
+		return 0.0
+
+	posting_date = getdate(posting_date) if posting_date else getdate(today())
+	row = frappe.db.sql(
+		"""
+		select
+			sum(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`) as balance
+		from `tabGL Entry`
+		inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
+		where
+			`tabGL Entry`.`is_cancelled` = 0
+			and `tabGL Entry`.`cost_center` in %(cost_centers)s
+			and `tabGL Entry`.`posting_date` <= %(posting_date)s
+			and `tabAccount`.`root_type` in ('Income', 'Expense')
+		""",
+		{"cost_centers": tuple(cost_centers), "posting_date": posting_date},
+		as_dict=True,
+	)
+	return flt(row[0].balance if row else 0)
 
 
 @frappe.whitelist()
@@ -176,7 +207,6 @@ def make_month_rows(from_date: date, to_date: date) -> list[dict[str, Any]]:
 				"expense": 0.0,
 				"net": 0.0,
 				"budget": 0.0,
-				"budget_delta": 0.0,
 			}
 		)
 		cursor = add_months(cursor, 1)

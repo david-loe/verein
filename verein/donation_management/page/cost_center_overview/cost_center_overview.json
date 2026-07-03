@@ -5,12 +5,12 @@
  "doctype": "Page",
  "icon": "",
  "idx": 0,
- "modified": "2026-07-02 00:00:00.000000",
+ "modified": "2026-07-03 08:54:27.000000",
  "modified_by": "Administrator",
  "module": "Donation Management",
- "name": "my-cost-centers",
+ "name": "cost-center-overview",
  "owner": "Administrator",
- "page_name": "my-cost-centers",
+ "page_name": "cost-center-overview",
  "roles": [
   {
    "role": "System Manager"
@@ -26,5 +26,5 @@
  "standard": "Yes",
  "style": null,
  "system_page": 0,
- "title": "Meine Kostenstellen"
+ "title": "Cost Center Overview"
 }

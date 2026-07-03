@@ -12,8 +12,8 @@
    "icon": "chart-column",
    "indent": 0,
    "keep_closed": 0,
-   "label": "Meine Kostenstellen",
-   "link_to": "my-cost-centers",
+   "label": "Cost Center Overview",
+   "link_to": "cost-center-overview",
    "link_type": "Page",
    "show_arrow": 0,
    "type": "Link"
@@ -24,7 +24,7 @@
    "icon": "list",
    "indent": 0,
    "keep_closed": 0,
-   "label": "Buchungen",
+   "label": "Bookings",
    "link_to": "cost-center-bookings",
    "link_type": "Page",
    "show_arrow": 0,
@@ -55,7 +55,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-02 12:00:00.000000",
+ "modified": "2026-07-03 08:54:27.000000",
  "modified_by": "Administrator",
  "name": "Donation Management",
  "owner": "Administrator",
