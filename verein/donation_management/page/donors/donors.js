@@ -173,7 +173,13 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			}
 
 			.donors-page .donor-cell .contact-button {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
 				flex: 0 0 auto;
+				gap: 6px;
+				min-height: 28px;
+				white-space: nowrap;
 			}
 
 			.donors-page .expand-cell {
@@ -277,6 +283,33 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				.donors-page .filter-row,
 				.donors-page .kpi-grid {
 					grid-template-columns: minmax(0, 1fr);
+				}
+
+				.donors-page .filter-row {
+					gap: 8px;
+				}
+
+				.donors-page .form-group.frappe-control,
+				.donors-page .form-group.horizontal {
+					margin-bottom: 0 !important;
+					padding: 0 !important;
+				}
+
+				.donors-page .control-label {
+					margin-bottom: 2px;
+					line-height: 1.2;
+					min-height: 0;
+				}
+
+				.donors-page .control-input-wrapper,
+				.donors-page .control-input {
+					margin: 0 !important;
+					padding: 0 !important;
+				}
+
+				.donors-page .input-with-feedback,
+				.donors-page select {
+					margin: 0 !important;
 				}
 
 				.donors-page .load-more-row .btn {
@@ -734,9 +767,9 @@ verein.donation_management.DonorsPage = class DonorsPage {
 					<thead>
 						<tr>
 							<th class="date-cell">${this.escape(__("Date"))}</th>
+							<th class="amount-cell">${this.escape(__("Donation Amount"))}</th>
 							<th>${this.escape(__("Account"))}</th>
 							<th>${this.escape(__("Remarks"))}</th>
-							<th class="amount-cell">${this.escape(__("Donation Amount"))}</th>
 						</tr>
 					</thead>
 					<tbody>${rows}</tbody>
@@ -750,9 +783,9 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		return `
 			<tr>
 				<td class="date-cell">${frappe.datetime.str_to_user(booking.posting_date)}</td>
+				<td class="amount-cell">${this.format_currency(booking.amount)}</td>
 				<td>${this.escape(booking.account_name || booking.account)}</td>
 				<td class="booking-remarks-cell" title="${this.escape_attr(booking.remarks || "")}">${this.escape(booking.remarks || "")}</td>
-				<td class="amount-cell">${this.format_currency(booking.amount)}</td>
 			</tr>
 		`;
 	}

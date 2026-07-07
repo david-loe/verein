@@ -5,6 +5,7 @@ from datetime import date
 from typing import Any
 
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
 from frappe.utils import add_months, flt, get_first_day, get_last_day, getdate, today
 
@@ -109,14 +110,26 @@ def get_cost_center_balance(cost_center: str) -> float:
 	if not cost_centers:
 		frappe.throw(_("Cost Center {0} was not found.").format(cost_center))
 
-	return calculate_cost_center_balance(cost_centers)
+	company = frappe.db.get_value("Cost Center", cost_center, "company")
+	return calculate_cost_center_balance(cost_centers, company)
 
 
-def calculate_cost_center_balance(cost_centers: list[str], posting_date: str | date | None = None) -> float:
+def calculate_cost_center_balance(
+	cost_centers: list[str], company: str, posting_date: str | date | None = None
+) -> float:
 	if not cost_centers:
 		return 0.0
 
 	posting_date = getdate(posting_date) if posting_date else getdate(today())
+	_, fiscal_year_start, _ = get_fiscal_year(posting_date, company=company)
+	fiscal_year_start = getdate(fiscal_year_start)
+
+	return get_opening_balance(cost_centers, fiscal_year_start) + get_current_fiscal_year_net(
+		cost_centers, fiscal_year_start, posting_date
+	)
+
+
+def get_opening_balance(cost_centers: list[str], fiscal_year_start: date) -> float:
 	row = frappe.db.sql(
 		"""
 		select
@@ -126,13 +139,45 @@ def calculate_cost_center_balance(cost_centers: list[str], posting_date: str | d
 		where
 			`tabGL Entry`.`is_cancelled` = 0
 			and `tabGL Entry`.`cost_center` in %(cost_centers)s
-			and `tabGL Entry`.`posting_date` <= %(posting_date)s
-			and `tabAccount`.`root_type` in ('Income', 'Expense')
+			and `tabGL Entry`.`posting_date` = %(fiscal_year_start)s
+			and `tabAccount`.`root_type` not in ('Income', 'Expense')
 		""",
-		{"cost_centers": tuple(cost_centers), "posting_date": posting_date},
+		{"cost_centers": tuple(cost_centers), "fiscal_year_start": fiscal_year_start},
 		as_dict=True,
 	)
 	return flt(row[0].balance if row else 0)
+
+
+def get_current_fiscal_year_net(cost_centers: list[str], from_date: date, to_date: date) -> float:
+	row = frappe.db.sql(
+		"""
+		select
+			sum(
+				case when `tabAccount`.`root_type` = 'Income'
+				then `tabGL Entry`.`credit` - `tabGL Entry`.`debit`
+				else 0 end
+			) as income,
+			sum(
+				case when `tabAccount`.`root_type` = 'Expense'
+				then `tabGL Entry`.`debit` - `tabGL Entry`.`credit`
+				else 0 end
+			) as expense
+		from `tabGL Entry`
+		inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
+		where
+			`tabGL Entry`.`is_cancelled` = 0
+			and `tabGL Entry`.`cost_center` in %(cost_centers)s
+			and `tabGL Entry`.`posting_date` between %(from_date)s and %(to_date)s
+			and coalesce(`tabGL Entry`.`voucher_type`, '') != 'Period Closing Voucher'
+			and `tabAccount`.`root_type` in ('Income', 'Expense')
+		""",
+		{"cost_centers": tuple(cost_centers), "from_date": from_date, "to_date": to_date},
+		as_dict=True,
+	)
+	if not row:
+		return 0.0
+
+	return flt(row[0].income) - flt(row[0].expense)
 
 
 @frappe.whitelist()

@@ -206,6 +206,33 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 					grid-template-columns: minmax(0, 1fr);
 				}
 
+				.cost-center-bookings .filter-row {
+					gap: 8px;
+				}
+
+				.cost-center-bookings .form-group.frappe-control,
+				.cost-center-bookings .form-group.horizontal {
+					margin-bottom: 0 !important;
+					padding: 0 !important;
+				}
+
+				.cost-center-bookings .control-label {
+					margin-bottom: 2px;
+					line-height: 1.2;
+					min-height: 0;
+				}
+
+				.cost-center-bookings .control-input-wrapper,
+				.cost-center-bookings .control-input {
+					margin: 0 !important;
+					padding: 0 !important;
+				}
+
+				.cost-center-bookings .input-with-feedback,
+				.cost-center-bookings select {
+					margin: 0 !important;
+				}
+
 				.cost-center-bookings .load-more-row .btn {
 					width: 100%;
 				}
@@ -568,9 +595,9 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 				<thead>
 					<tr>
 						<th class="date-cell">${this.render_sort_header("posting_date", __("Date"))}</th>
-						<th>${this.render_sort_header("remarks", __("Remarks"))}</th>
-						<th class="amount-cell">${this.render_sort_header("net", __("Net"))}</th>
+						<th class="amount-cell">${this.render_sort_header("net", __("Donation Amount"))}</th>
 						<th>${this.render_sort_header("account", __("Account"))}</th>
+						<th>${this.render_sort_header("remarks", __("Remarks"))}</th>
 					</tr>
 				</thead>
 				<tbody>${rows}</tbody>
@@ -585,9 +612,9 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		return `
 			<tr>
 				<td class="date-cell">${frappe.datetime.str_to_user(row.posting_date)}</td>
-				<td class="remarks-cell" title="${this.escape_attr(row.remarks || "")}">${this.escape(row.remarks || "")}</td>
 				<td class="amount-cell">${this.format_currency(row.net)}</td>
 				<td>${this.escape(row.account_name || row.account)}</td>
+				<td class="remarks-cell" title="${this.escape_attr(row.remarks || "")}">${this.escape(row.remarks || "")}</td>
 			</tr>
 		`;
 	}

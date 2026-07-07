@@ -88,7 +88,7 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 				align-items: center;
 				justify-content: center;
 				gap: 6px;
-				min-height: 32px;
+				min-height: 28px;
 				white-space: nowrap;
 			}
 
@@ -248,6 +248,47 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 					grid-template-columns: minmax(0, 1fr);
 				}
 
+				.cost-center-overview .filter-row {
+					gap: 8px;
+				}
+
+				.cost-center-overview .form-group.frappe-control,
+				.cost-center-overview .form-group.horizontal {
+					margin-bottom: 0 !important;
+					padding: 0 !important;
+				}
+
+				.cost-center-overview .control-label {
+					margin-bottom: 2px;
+					line-height: 1.2;
+					min-height: 0;
+				}
+
+				.cost-center-overview .control-input-wrapper,
+				.cost-center-overview .control-input {
+					margin: 0 !important;
+					padding: 0 !important;
+				}
+
+				.cost-center-overview .input-with-feedback,
+				.cost-center-overview select {
+					margin: 0 !important;
+				}
+
+				.cost-center-overview .chart-shell {
+					border: 0;
+					border-radius: 0;
+					background: transparent;
+					padding: 0;
+					margin-left: -0.5rem;
+					margin-right: -0.5rem;
+					min-height: 280px;
+				}
+
+				.cost-center-overview .chart-series-controls {
+					padding-left: 4px;
+					padding-right: 4px;
+				}
 			}
 		</style>`).appendTo("head");
 	}

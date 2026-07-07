@@ -183,6 +183,7 @@ def make_gl_entry(
 	is_cancelled: int = 0,
 	remarks: str | None = None,
 	supporter: str | None = None,
+	voucher_type: str = "Journal Entry",
 ):
 	ensure_fiscal_year_for_date(posting_date)
 	company = frappe.db.get_value("Cost Center", cost_center, "company")
@@ -193,7 +194,7 @@ def make_gl_entry(
 		"account": account,
 		"cost_center": cost_center,
 		"company": company,
-		"voucher_type": "Journal Entry",
+		"voucher_type": voucher_type,
 		"voucher_no": f"DM-TEST-{frappe.generate_hash(length=10)}",
 		"debit": debit,
 		"credit": credit,

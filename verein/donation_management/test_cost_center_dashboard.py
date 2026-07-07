@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import frappe
+from erpnext.accounts.utils import get_fiscal_year
 from frappe.tests import UnitTestCase
-from frappe.utils import add_days, today
+from frappe.utils import add_days, getdate, today
 
 from verein.donation_management.cost_center_dashboard import get_cost_center_balance, get_dashboard_data
 from verein.donation_management.test_helpers import (
+	ensure_fiscal_year_for_date,
 	get_account,
 	get_company,
 	make_access,
@@ -19,6 +21,11 @@ from verein.donation_management.test_helpers import (
 class TestCostCenterDashboard(UnitTestCase):
 	def tearDown(self):
 		frappe.set_user("Administrator")
+
+	def get_current_fiscal_year_start(self, company: str):
+		ensure_fiscal_year_for_date(today())
+		_, year_start_date, _ = get_fiscal_year(today(), company=company)
+		return getdate(year_start_date)
 
 	def test_user_without_access_gets_error(self):
 		user = make_user(f"dm-no-access-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
@@ -110,34 +117,53 @@ class TestCostCenterDashboard(UnitTestCase):
 
 	def test_cost_center_balance_is_independent_from_selected_period(self):
 		company = get_company()
+		asset_account = get_account(company, "Asset")
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
 		user = make_user(f"dm-balance-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
 		cost_center = make_cost_center(company=company)
+		fiscal_year_start = self.get_current_fiscal_year_start(company)
 		make_access(user, cost_center)
-		make_gl_entry(cost_center, income_account, "2020-01-15", credit=500)
-		make_gl_entry(cost_center, expense_account, "2020-01-16", debit=125)
+		make_gl_entry(
+			cost_center,
+			asset_account,
+			fiscal_year_start,
+			credit=1000,
+		)
+		make_gl_entry(cost_center, income_account, fiscal_year_start, credit=50)
+		make_gl_entry(cost_center, income_account, add_days(fiscal_year_start, -1), credit=500)
+		make_gl_entry(cost_center, income_account, today(), credit=300)
+		make_gl_entry(cost_center, expense_account, today(), debit=75)
 		make_gl_entry(cost_center, income_account, add_days(today(), 1), credit=900)
-		make_gl_entry(cost_center, income_account, "2020-01-17", credit=700, is_cancelled=1)
+		make_gl_entry(cost_center, income_account, today(), credit=700, is_cancelled=1)
 
 		frappe.set_user(user)
 		data = get_dashboard_data(cost_center, "2026-05-01", "2026-05-31")
 
 		self.assertEqual(data["summary"]["net"], 0)
-		self.assertEqual(get_cost_center_balance(cost_center), 375)
+		self.assertEqual(get_cost_center_balance(cost_center), 1275)
 
 	def test_group_cost_center_balance_includes_child_cost_centers(self):
 		company = get_company()
+		asset_account = get_account(company, "Asset")
 		income_account = get_account(company, "Income")
+		expense_account = get_account(company, "Expense")
 		user = make_user(f"dm-group-balance-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
+		fiscal_year_start = self.get_current_fiscal_year_start(company)
 		make_access(user, group)
-		make_gl_entry(child, income_account, "2020-02-10", credit=175)
+		make_gl_entry(
+			child,
+			asset_account,
+			fiscal_year_start,
+			credit=175,
+		)
+		make_gl_entry(child, expense_account, today(), debit=25)
 
 		frappe.set_user(user)
 
-		self.assertEqual(get_cost_center_balance(group), 175)
+		self.assertEqual(get_cost_center_balance(group), 150)
 
 	def test_user_without_access_cannot_get_cost_center_balance(self):
 		user = make_user(f"dm-balance-no-access-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
