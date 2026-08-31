@@ -25,10 +25,12 @@ from verein.donation_management.test_helpers import (
 class TestCostCenterDashboard(UnitTestCase):
 	def setUp(self):
 		frappe.db.set_single_value("Donation Management Settings", "allow_group_cost_centers", 0)
+		frappe.db.set_single_value("Donation Management Settings", "cost_center_display", "Cost Center Name")
 
 	def tearDown(self):
 		frappe.set_user("Administrator")
 		frappe.db.set_single_value("Donation Management Settings", "allow_group_cost_centers", 0)
+		frappe.db.set_single_value("Donation Management Settings", "cost_center_display", "Cost Center Name")
 
 	def get_current_fiscal_year_start(self, company: str):
 		ensure_fiscal_year_for_date(today())
@@ -112,6 +114,42 @@ class TestCostCenterDashboard(UnitTestCase):
 		rows_by_name = {row.name: row for row in get_accessible_cost_centers()}
 
 		self.assertTrue(rows_by_name[child].can_manage_budget)
+
+	def test_cost_center_display_defaults_to_name(self):
+		company = get_company()
+		cost_center = make_cost_center(company=company)
+		frappe.db.set_value("Cost Center", cost_center, "cost_center_number", "4711")
+
+		rows_by_name = {row.name: row for row in get_accessible_cost_centers()}
+
+		self.assertEqual(rows_by_name[cost_center].display_name, rows_by_name[cost_center].cost_center_name)
+		self.assertEqual(rows_by_name[cost_center].cost_center_number, "4711")
+
+	def test_setting_displays_cost_center_number_before_name(self):
+		company = get_company()
+		cost_center = make_cost_center(company=company)
+		frappe.db.set_value("Cost Center", cost_center, "cost_center_number", "4711")
+		frappe.db.set_single_value(
+			"Donation Management Settings", "cost_center_display", "Cost Center Number and Name"
+		)
+
+		rows_by_name = {row.name: row for row in get_accessible_cost_centers()}
+
+		self.assertEqual(
+			rows_by_name[cost_center].display_name,
+			f"4711 – {rows_by_name[cost_center].cost_center_name}",
+		)
+
+	def test_cost_center_number_display_falls_back_to_name(self):
+		company = get_company()
+		cost_center = make_cost_center(company=company)
+		frappe.db.set_single_value(
+			"Donation Management Settings", "cost_center_display", "Cost Center Number and Name"
+		)
+
+		rows_by_name = {row.name: row for row in get_accessible_cost_centers()}
+
+		self.assertEqual(rows_by_name[cost_center].display_name, rows_by_name[cost_center].cost_center_name)
 
 	def test_aggregation_ignores_cancelled_entries_and_calculates_net(self):
 		company = get_company()

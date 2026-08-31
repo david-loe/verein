@@ -13,6 +13,7 @@ class DonationManagementSettings(Document):
 		from frappe.types import DF
 
 		allow_group_cost_centers: DF.Check
+		cost_center_display: DF.Literal["Cost Center Name", "Cost Center Number and Name"]
 	# end: auto-generated types
 
 	pass

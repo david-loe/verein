@@ -5,7 +5,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "allow_group_cost_centers"
+  "allow_group_cost_centers",
+  "cost_center_display"
  ],
  "fields": [
   {
@@ -14,12 +15,21 @@
    "fieldname": "allow_group_cost_centers",
    "fieldtype": "Check",
    "label": "Allow Group Cost Centers"
+  },
+  {
+   "default": "Cost Center Name",
+   "description": "Controls how cost centers are displayed in Donation Management selections.",
+   "fieldname": "cost_center_display",
+   "fieldtype": "Select",
+   "label": "Cost Center Display",
+   "options": "Cost Center Name\nCost Center Number and Name",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-08-31 00:00:00.000000",
+ "modified": "2026-08-31 08:41:16.920996",
  "modified_by": "Administrator",
  "module": "Donation Management",
  "name": "Donation Management Settings",

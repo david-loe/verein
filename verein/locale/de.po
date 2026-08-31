@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-08-31 08:07+0000\n"
+"POT-Creation-Date: 2026-08-31 08:44+0000\n"
 "PO-Revision-Date: 2026-03-23 12:50+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language: de\n"
@@ -216,6 +216,12 @@ msgstr "Kontaktmanager"
 msgid "Contact change request created."
 msgstr "Kontaktänderungsanfrage wurde erstellt."
 
+#. Description of the 'Cost Center Display' (Select) field in DocType 'Donation
+#. Management Settings'
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+msgid "Controls how cost centers are displayed in Donation Management selections."
+msgstr "Legt fest, wie Kostenstellen in den Auswahlen der Spendenverwaltung angezeigt werden."
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:873
 msgid "Coordinates"
 msgstr "Koordinaten"
@@ -247,6 +253,12 @@ msgstr "Kostenstellenzugriff"
 msgid "Cost Center Budget"
 msgstr "Kostenstellenbudget"
 
+#. Label of the cost_center_display (Select) field in DocType 'Donation
+#. Management Settings'
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+msgid "Cost Center Display"
+msgstr "Kostenstellenanzeige"
+
 #. Name of a role
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
@@ -254,6 +266,18 @@ msgstr "Kostenstellenbudget"
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Cost Center Manager"
 msgstr "Kostenstellenmanager"
+
+#. Option for the 'Cost Center Display' (Select) field in DocType 'Donation
+#. Management Settings'
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+msgid "Cost Center Name"
+msgstr "Kostenstellenname"
+
+#. Option for the 'Cost Center Display' (Select) field in DocType 'Donation
+#. Management Settings'
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+msgid "Cost Center Number and Name"
+msgstr "Kostenstellennummer und -name"
 
 #. Label of a Workspace Sidebar Item
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:39
@@ -269,8 +293,8 @@ msgid "Cost Center Viewer"
 msgstr "Kostenstellen-Betrachter"
 
 #: verein/donation_management/cost_center_bookings.py:33
-#: verein/donation_management/cost_center_dashboard.py:60
-#: verein/donation_management/cost_center_dashboard.py:103
+#: verein/donation_management/cost_center_dashboard.py:68
+#: verein/donation_management/cost_center_dashboard.py:111
 #: verein/donation_management/supporter_donors.py:39
 #: verein/donation_management/supporter_donors.py:224
 msgid "Cost Center {0} was not found."
@@ -508,7 +532,7 @@ msgstr "Vorname"
 msgid "From Date"
 msgstr "Von-Datum"
 
-#: verein/donation_management/cost_center_dashboard.py:225
+#: verein/donation_management/cost_center_dashboard.py:233
 msgid "From Date cannot be after To Date."
 msgstr "Das Von-Datum darf nicht nach dem Bis-Datum liegen."
 
@@ -1242,15 +1266,15 @@ msgid "View"
 msgstr "Ansehen"
 
 #: verein/donation_management/cost_center_bookings.py:28
-#: verein/donation_management/cost_center_dashboard.py:55
-#: verein/donation_management/cost_center_dashboard.py:99
+#: verein/donation_management/cost_center_dashboard.py:63
+#: verein/donation_management/cost_center_dashboard.py:107
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:67
 #: verein/donation_management/supporter_donors.py:34
 #: verein/donation_management/supporter_donors.py:219
 msgid "You are not allowed to access this cost center."
 msgstr "Sie dürfen nicht auf diese Kostenstelle zugreifen."
 
-#: verein/donation_management/cost_center_dashboard.py:178
+#: verein/donation_management/cost_center_dashboard.py:186
 msgid "You are not allowed to manage budgets for this cost center."
 msgstr "Sie dürfen Budgets für diese Kostenstelle nicht verwalten."
 

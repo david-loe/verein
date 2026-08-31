@@ -546,7 +546,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		});
 		this.costCenters = response.message || [];
 		const options = this.costCenters.map((row) => ({
-			label: row.cost_center_name || row.name,
+			label: row.display_name || row.cost_center_name || row.name,
 			value: row.name,
 		}));
 		this.costCenterControl.df.options = options;

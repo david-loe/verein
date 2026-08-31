@@ -7,7 +7,7 @@ from typing import Any
 import frappe
 from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
-from frappe.utils import add_months, cint, flt, get_first_day, get_last_day, getdate, today
+from frappe.utils import add_months, cint, cstr, flt, get_first_day, get_last_day, getdate, today
 
 from verein.donation_management.permissions import (
 	can_manage_all_budgets,
@@ -15,6 +15,8 @@ from verein.donation_management.permissions import (
 	get_descendant_cost_centers,
 	has_cost_center_access,
 )
+
+COST_CENTER_DISPLAY_NUMBER_AND_NAME = "Cost Center Number and Name"
 
 
 @frappe.whitelist()
@@ -34,12 +36,18 @@ def get_accessible_cost_centers() -> list[dict[str, Any]]:
 	rows = frappe.get_all(
 		"Cost Center",
 		filters=filters,
-		fields=["name", "cost_center_name", "company", "is_group"],
+		fields=["name", "cost_center_name", "cost_center_number", "company", "is_group"],
 		order_by="company asc, lft asc",
 	)
+	cost_center_display = frappe.db.get_single_value("Donation Management Settings", "cost_center_display")
 	can_manage_all = can_manage_all_budgets(user)
 	manageable_names = set() if can_manage_all else set(get_accessible_cost_center_names(user, access_level="Manage"))
 	for row in rows:
+		name = row.cost_center_name or row.name
+		number = cstr(row.cost_center_number).strip()
+		row["display_name"] = (
+			f"{number} – {name}" if cost_center_display == COST_CENTER_DISPLAY_NUMBER_AND_NAME and number else name
+		)
 		row["can_manage_budget"] = can_manage_all or row.name in manageable_names
 
 	return rows
