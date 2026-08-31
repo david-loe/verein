@@ -145,6 +145,7 @@ def make_access(user: str, cost_center: str, access_level: str = "View", active:
 		{
 			"doctype": "Cost Center Access",
 			"user": user,
+			"company": frappe.db.get_value("Cost Center", cost_center, "company"),
 			"cost_center": cost_center,
 			"access_level": access_level,
 			"active": active,

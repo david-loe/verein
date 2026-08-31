@@ -55,10 +55,14 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 
 			.cost-center-bookings .filter-row {
 				display: grid;
-				grid-template-columns: minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px);
+				grid-template-columns: minmax(180px, 240px) minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px);
 				gap: 12px;
 				align-items: end;
 				justify-content: start;
+			}
+
+			.cost-center-bookings .filter-row.company-filter-hidden {
+				grid-template-columns: minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px);
 			}
 
 			.cost-center-bookings .filter-row > * {
@@ -243,6 +247,13 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 	}
 
 	make_controls() {
+		this.companyControl = this.make_control({
+			fieldtype: "Select",
+			label: __("Company"),
+			fieldname: "company",
+			options: [],
+			change: () => this.handle_company_change(),
+		});
 		this.costCenterControl = this.make_control({
 			fieldtype: "Select",
 			label: __("Cost Center"),
@@ -284,6 +295,7 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 	make_layout() {
 		this.$root = $('<div class="cost-center-bookings d-flex flex-column m-2 m-sm-3">').appendTo(this.page.main);
 		this.$filterRow = $('<div class="filter-row">').appendTo(this.$root);
+		this.$filterRow.append(this.companyControl.$wrapper);
 		this.$filterRow.append(this.costCenterControl.$wrapper);
 		this.$filterRow.append(this.dateRangeControl.$wrapper);
 		this.$filterRow.append(this.fromDateControl.$wrapper);
@@ -298,6 +310,26 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		)
 			.on("click", () => this.load_bookings(false))
 			.appendTo(this.$loadMoreRow);
+	}
+
+	async handle_company_change() {
+		if (this.restoringFilters) {
+			return;
+		}
+
+		const options = this.set_cost_center_options(this.companyControl.get_value());
+		const currentCostCenter = this.costCenterControl.get_value();
+		const costCenter = options.some((option) => option.value === currentCostCenter)
+			? currentCostCenter
+			: options[0]?.value || "";
+		this.restoringFilters = true;
+		try {
+			await this.costCenterControl.set_value(costCenter);
+		} finally {
+			this.restoringFilters = false;
+		}
+		this.store_filters();
+		await this.load_bookings(true);
 	}
 
 	handle_cost_center_change() {
@@ -420,6 +452,7 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 			sessionStorage.setItem(
 				COST_CENTER_BOOKINGS_FILTER_STORAGE_KEY,
 				JSON.stringify({
+					company: this.companyControl.get_value() || null,
 					cost_center: this.costCenterControl.get_value() || null,
 					period: this.dateRangeControl.get_value() || null,
 					from_date: this.fromDateControl.get_value() || null,
@@ -431,9 +464,25 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		}
 	}
 
-	get_valid_stored_cost_center(options, storedFilters) {
-		const storedCostCenter = storedFilters?.cost_center;
-		return options.some((option) => option.value === storedCostCenter) ? storedCostCenter : null;
+	configure_company_filter() {
+		this.companies = [...new Set(this.costCenters.map((row) => row.company).filter(Boolean))];
+		this.companyControl.df.options = this.companies.map((company) => ({ label: company, value: company }));
+		this.companyControl.refresh();
+		const showCompany = this.companies.length > 1;
+		this.companyControl.$wrapper.toggle(showCompany);
+		this.$filterRow.toggleClass("company-filter-hidden", !showCompany);
+	}
+
+	set_cost_center_options(company) {
+		const options = this.costCenters
+			.filter((row) => row.company === company)
+			.map((row) => ({
+				label: row.display_name || row.cost_center_name || row.name,
+				value: row.name,
+			}));
+		this.costCenterControl.df.options = options;
+		this.costCenterControl.refresh();
+		return options;
 	}
 
 	get_valid_stored_period(storedFilters) {
@@ -445,9 +494,15 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		return Boolean(storedFilters?.from_date && storedFilters?.to_date);
 	}
 
-	async restore_filters(options) {
+	async restore_filters() {
 		const storedFilters = this.get_stored_filters();
-		const costCenter = this.get_valid_stored_cost_center(options, storedFilters) || options[0].value;
+		const storedCostCenter = this.costCenters.find((row) => row.name === storedFilters?.cost_center);
+		const company =
+			storedCostCenter?.company ||
+			(this.companies.includes(storedFilters?.company) ? storedFilters.company : this.companies[0]);
+		const options = this.set_cost_center_options(company);
+		const costCenter =
+			storedCostCenter?.company === company ? storedCostCenter.name : options[0]?.value || "";
 		const hasStoredDates = this.has_stored_dates(storedFilters);
 		let period = this.get_valid_stored_period(storedFilters) || BOOKING_DATE_RANGE_PRESETS.LAST_HALF_YEAR;
 		if (period === BOOKING_DATE_RANGE_PRESETS.CUSTOM && !hasStoredDates) {
@@ -463,6 +518,7 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 
 		this.restoringFilters = true;
 		try {
+			await this.companyControl.set_value(company);
 			await this.costCenterControl.set_value(costCenter);
 			await this.dateRangeControl.set_value(period);
 			if (dates) {
@@ -495,19 +551,13 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 			method: "verein.donation_management.cost_center_dashboard.get_accessible_cost_centers",
 		});
 		this.costCenters = response.message || [];
-		const options = this.costCenters.map((row) => ({
-			label: row.display_name || row.cost_center_name || row.name,
-			value: row.name,
-		}));
-		this.costCenterControl.df.options = options;
-		this.costCenterControl.refresh();
-
-		if (!options.length) {
+		if (!this.costCenters.length) {
 			this.show_empty(__("No cost centers have been shared with you yet."));
 			return;
 		}
 
-		await this.restore_filters(options);
+		this.configure_company_filter();
+		await this.restore_filters();
 		await this.load_bookings(true);
 	}
 

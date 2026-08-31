@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "user",
+  "company",
   "cost_center",
   "active",
   "access_level"
@@ -19,6 +20,16 @@
    "in_standard_filter": 1,
    "label": "User",
    "options": "User",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
    "reqd": 1,
    "search_index": 1
   },
@@ -53,7 +64,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-02 00:00:00.000000",
+ "modified": "2026-08-31 12:30:00.000000",
  "modified_by": "Administrator",
  "module": "Donation Management",
  "name": "Cost Center Access",

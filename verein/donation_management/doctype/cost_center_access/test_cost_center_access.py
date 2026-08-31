@@ -18,6 +18,24 @@ class TestCostCenterAccess(UnitTestCase):
 		with self.assertRaises(frappe.ValidationError):
 			make_access(user, cost_center)
 
+	def test_company_is_derived_from_cost_center(self):
+		cost_center = make_cost_center()
+		access = frappe.new_doc("Cost Center Access")
+		access.cost_center = cost_center
+		access.company = None
+		access.validate_company()
+
+		self.assertEqual(access.company, frappe.db.get_value("Cost Center", cost_center, "company"))
+
+	def test_cost_center_from_another_company_is_rejected(self):
+		cost_center = make_cost_center()
+		access = frappe.new_doc("Cost Center Access")
+		access.cost_center = cost_center
+		access.company = "Another Company"
+
+		with self.assertRaises(frappe.ValidationError):
+			access.validate_company()
+
 	def test_inactive_historical_duplicate_is_allowed(self):
 		user = make_user(f"dm-inactive-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
 		cost_center = make_cost_center()

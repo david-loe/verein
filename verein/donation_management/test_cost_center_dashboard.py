@@ -88,6 +88,7 @@ class TestCostCenterDashboard(UnitTestCase):
 		self.assertNotIn(group, rows_by_name)
 		self.assertIn(child, rows_by_name)
 		self.assertFalse(rows_by_name[child].can_manage_budget)
+		self.assertEqual(rows_by_name[child].company, company)
 
 	def test_setting_allows_group_cost_centers(self):
 		company = get_company()
