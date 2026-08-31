@@ -7,11 +7,11 @@ from typing import Any
 import frappe
 from erpnext.accounts.utils import get_fiscal_year
 from frappe import _
-from frappe.utils import add_months, flt, get_first_day, get_last_day, getdate, today
+from frappe.utils import add_months, cint, flt, get_first_day, get_last_day, getdate, today
 
 from verein.donation_management.permissions import (
 	can_manage_all_budgets,
-	can_view_all_cost_centers,
+	get_accessible_cost_center_names,
 	get_descendant_cost_centers,
 	has_cost_center_access,
 )
@@ -20,35 +20,27 @@ from verein.donation_management.permissions import (
 @frappe.whitelist()
 def get_accessible_cost_centers() -> list[dict[str, Any]]:
 	user = frappe.session.user
-	if can_view_all_cost_centers(user):
-		rows = frappe.get_all(
-			"Cost Center",
-			filters={"disabled": 0},
-			fields=["name", "cost_center_name", "company", "is_group"],
-			order_by="company asc, lft asc",
-		)
-		for row in rows:
-			row["can_manage_budget"] = can_manage_all_budgets(user)
-		return rows
-
-	access_rows = frappe.get_all(
-		"Cost Center Access",
-		filters={"user": user, "active": 1},
-		fields=["cost_center", "access_level"],
-		order_by="modified desc",
-	)
-	if not access_rows:
+	accessible_names = get_accessible_cost_center_names(user)
+	if not accessible_names:
 		return []
 
-	access_by_cost_center = {row.cost_center: row.access_level for row in access_rows}
+	filters: dict[str, Any] = {"name": ["in", accessible_names], "disabled": 0}
+	allow_group_cost_centers = cint(
+		frappe.db.get_single_value("Donation Management Settings", "allow_group_cost_centers")
+	)
+	if not allow_group_cost_centers:
+		filters["is_group"] = 0
+
 	rows = frappe.get_all(
 		"Cost Center",
-		filters={"name": ["in", list(access_by_cost_center)], "disabled": 0},
+		filters=filters,
 		fields=["name", "cost_center_name", "company", "is_group"],
 		order_by="company asc, lft asc",
 	)
+	can_manage_all = can_manage_all_budgets(user)
+	manageable_names = set() if can_manage_all else set(get_accessible_cost_center_names(user, access_level="Manage"))
 	for row in rows:
-		row["can_manage_budget"] = access_by_cost_center.get(row.name) == "Manage"
+		row["can_manage_budget"] = can_manage_all or row.name in manageable_names
 
 	return rows
 
@@ -317,17 +309,17 @@ def get_budget_rows(cost_centers: list[str], months: list[dict[str, Any]]):
 	for entry in budget_entries:
 		budgets_by_cost_center.setdefault(entry.cost_center, []).append(entry)
 
+	positions = {cost_center: 0 for cost_center in budgets_by_cost_center}
+	current_budgets = {cost_center: 0.0 for cost_center in budgets_by_cost_center}
 	rows = []
 	for month in months:
 		month_start = getdate(month["month_start"])
-		budget = 0.0
-		for entries in budgets_by_cost_center.values():
-			current_budget = 0.0
-			for entry in entries:
-				if getdate(entry.from_date) > month_start:
-					break
-				current_budget = flt(entry.budget_amount)
-			budget += current_budget
-		rows.append({"month": month["month"], "budget": budget})
+		for cost_center, entries in budgets_by_cost_center.items():
+			position = positions[cost_center]
+			while position < len(entries) and getdate(entries[position].from_date) <= month_start:
+				current_budgets[cost_center] = flt(entries[position].budget_amount)
+				position += 1
+			positions[cost_center] = position
+		rows.append({"month": month["month"], "budget": sum(current_budgets.values())})
 
 	return rows

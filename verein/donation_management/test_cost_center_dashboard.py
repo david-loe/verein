@@ -5,7 +5,11 @@ from erpnext.accounts.utils import get_fiscal_year
 from frappe.tests import UnitTestCase
 from frappe.utils import add_days, getdate, today
 
-from verein.donation_management.cost_center_dashboard import get_cost_center_balance, get_dashboard_data
+from verein.donation_management.cost_center_dashboard import (
+	get_accessible_cost_centers,
+	get_cost_center_balance,
+	get_dashboard_data,
+)
 from verein.donation_management.test_helpers import (
 	ensure_fiscal_year_for_date,
 	get_account,
@@ -19,8 +23,12 @@ from verein.donation_management.test_helpers import (
 
 
 class TestCostCenterDashboard(UnitTestCase):
+	def setUp(self):
+		frappe.db.set_single_value("Donation Management Settings", "allow_group_cost_centers", 0)
+
 	def tearDown(self):
 		frappe.set_user("Administrator")
+		frappe.db.set_single_value("Donation Management Settings", "allow_group_cost_centers", 0)
 
 	def get_current_fiscal_year_start(self, company: str):
 		ensure_fiscal_year_for_date(today())
@@ -63,6 +71,47 @@ class TestCostCenterDashboard(UnitTestCase):
 		data = get_dashboard_data(group, "2026-02-01", "2026-02-28")
 
 		self.assertEqual(data["summary"]["income"], 175)
+
+	def test_group_access_exposes_leaf_cost_centers_by_default(self):
+		company = get_company()
+		user = make_user(f"dm-group-options-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		group = make_cost_center(company=company, is_group=1)
+		child = make_cost_center(company=company, parent_cost_center=group)
+		make_access(user, group)
+
+		frappe.set_user(user)
+		rows = get_accessible_cost_centers()
+		rows_by_name = {row.name: row for row in rows}
+
+		self.assertNotIn(group, rows_by_name)
+		self.assertIn(child, rows_by_name)
+		self.assertFalse(rows_by_name[child].can_manage_budget)
+
+	def test_setting_allows_group_cost_centers(self):
+		company = get_company()
+		user = make_user(f"dm-group-options-enabled-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		group = make_cost_center(company=company, is_group=1)
+		child = make_cost_center(company=company, parent_cost_center=group)
+		make_access(user, group)
+		frappe.db.set_single_value("Donation Management Settings", "allow_group_cost_centers", 1)
+
+		frappe.set_user(user)
+		names = {row.name for row in get_accessible_cost_centers()}
+
+		self.assertIn(group, names)
+		self.assertIn(child, names)
+
+	def test_group_manage_access_is_inherited_by_leaf_options(self):
+		company = get_company()
+		user = make_user(f"dm-group-manage-options-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		group = make_cost_center(company=company, is_group=1)
+		child = make_cost_center(company=company, parent_cost_center=group)
+		make_access(user, group, access_level="Manage")
+
+		frappe.set_user(user)
+		rows_by_name = {row.name: row for row in get_accessible_cost_centers()}
+
+		self.assertTrue(rows_by_name[child].can_manage_budget)
 
 	def test_aggregation_ignores_cancelled_entries_and_calculates_net(self):
 		company = get_company()

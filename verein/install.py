@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import frappe
 
+from verein.donation_management.indexes import ensure_donation_management_indexes
+
 SUPPORTER_DIMENSION_LABEL = "Supporter"
 
 
 def after_install() -> None:
 	ensure_supporter_accounting_dimension()
+	ensure_donation_management_indexes()
 
 
 def ensure_supporter_accounting_dimension() -> str:

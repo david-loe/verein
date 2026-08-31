@@ -8,5 +8,6 @@ verein.patches.backfill_geocoding_job_reference_name
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 verein.patches.ensure_supporter_accounting_dimension
+verein.patches.add_donation_management_gl_entry_index
 verein.patches.drop_legacy_location_columns
 verein.patches.drop_legacy_geocoding_job_supporter_column

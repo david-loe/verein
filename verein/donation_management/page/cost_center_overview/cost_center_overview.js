@@ -28,6 +28,7 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 		this.currentBalance = null;
 		this.balanceByCostCenter = {};
 		this.balancePromiseByCostCenter = {};
+		this.dashboardRequestGeneration = 0;
 		this.visibleChartSeries = {
 			income: true,
 			expense: true,
@@ -235,6 +236,12 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 				text-align: center;
 			}
 
+			.cost-center-overview .loading-state {
+				padding: 32px;
+				color: var(--text-muted);
+				text-align: center;
+			}
+
 			@media (max-width: 900px) {
 				.cost-center-overview .filter-row,
 				.cost-center-overview .kpi-grid {
@@ -376,7 +383,7 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 		}
 		this.store_filters();
 		clearTimeout(this.dateRefreshTimeout);
-		this.dateRefreshTimeout = setTimeout(() => this.load_dashboard(), 150);
+		this.dateRefreshTimeout = setTimeout(() => this.load_dashboard(), 300);
 	}
 
 	async mark_custom_date_range() {
@@ -620,6 +627,9 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 		if (!costCenter) {
 			return;
 		}
+		const requestGeneration = ++this.dashboardRequestGeneration;
+		this.data = null;
+		this.show_loading();
 
 		try {
 			const response = await frappe.call({
@@ -629,13 +639,27 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 					from_date: this.fromDateControl.get_value(),
 					to_date: this.toDateControl.get_value(),
 				},
-				freeze: true,
 			});
+			if (requestGeneration !== this.dashboardRequestGeneration) {
+				return;
+			}
 			this.data = response.message;
 			this.render();
 		} catch (error) {
+			if (requestGeneration !== this.dashboardRequestGeneration) {
+				return;
+			}
 			this.show_empty(error.message || __("Dashboard data could not be loaded."));
 		}
+	}
+
+	show_loading() {
+		this.$emptyState.hide();
+		this.$kpiGrid.hide();
+		this.$chartShell.hide();
+		this.$tableShell
+			.show()
+			.html(`<div class="loading-state">${this.get_icon("loader-circle")}${__("Loading data...")}</div>`);
 	}
 
 	render() {

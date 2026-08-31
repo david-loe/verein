@@ -125,6 +125,24 @@ class TestSupporterDonors(UnitTestCase):
 		self.assertEqual([row.name for row in ascending["donors"]], [older_supporter.name, newer_supporter.name])
 		self.assertEqual([row.name for row in descending["donors"]], [newer_supporter.name, older_supporter.name])
 
+	def test_search_filters_rows_and_summary(self):
+		company = get_company()
+		income_account = get_account(company, "Income")
+		user = make_user(f"dm-donors-search-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		cost_center = make_cost_center(company=company)
+		matching = make_supporter(first_name="UniqueSearch", last_name="Donor")
+		other = make_supporter(first_name="Different", last_name="Donor")
+		make_access(user, cost_center)
+		make_gl_entry(cost_center, income_account, "2026-02-10", credit=125, supporter=matching.name)
+		make_gl_entry(cost_center, income_account, "2026-02-11", credit=500, supporter=other.name)
+
+		frappe.set_user(user)
+		data = get_donors(cost_center, "2026-02-01", "2026-02-28", search="UniqueSearch")
+
+		self.assertEqual([row.name for row in data["donors"]], [matching.name])
+		self.assertEqual(data["summary"]["donor_count"], 1)
+		self.assertEqual(data["summary"]["amount"], 125)
+
 	def test_donor_bookings_require_cost_center_access(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
@@ -246,6 +264,22 @@ class TestSupporterDonors(UnitTestCase):
 
 		self.assertEqual(data["summary"]["donor_count"], 1)
 		self.assertEqual(data["donors"][0].name, supporter.name)
+
+	def test_out_of_range_page_keeps_summary(self):
+		company = get_company()
+		income_account = get_account(company, "Income")
+		user = make_user(f"dm-donors-empty-page-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		cost_center = make_cost_center(company=company)
+		supporter = make_supporter(first_name="Summary", last_name="Fallback")
+		make_access(user, cost_center)
+		make_gl_entry(cost_center, income_account, "2026-03-05", credit=125, supporter=supporter.name)
+
+		frappe.set_user(user)
+		data = get_donors(cost_center, "2026-03-01", "2026-03-31", limit_start=100, limit=20)
+
+		self.assertEqual(data["donors"], [])
+		self.assertEqual(data["summary"]["donor_count"], 1)
+		self.assertEqual(data["summary"]["amount"], 125)
 
 	def test_create_and_approve_contact_change_request(self):
 		company = get_company()

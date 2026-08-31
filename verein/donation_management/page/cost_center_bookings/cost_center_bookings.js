@@ -28,6 +28,7 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		this.summary = {};
 		this.hasMore = false;
 		this.nextLimitStart = 0;
+		this.bookingRequestGeneration = 0;
 		this.sort = { field: "posting_date", direction: "desc" };
 		this.page = frappe.ui.make_app_page({
 			parent: wrapper,
@@ -187,7 +188,8 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 				text-align: center;
 			}
 
-			.cost-center-bookings .table-empty-state {
+			.cost-center-bookings .table-empty-state,
+			.cost-center-bookings .loading-state {
 				padding: 32px;
 				color: var(--text-muted);
 				text-align: center;
@@ -323,7 +325,7 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		}
 		this.store_filters();
 		clearTimeout(this.dateRefreshTimeout);
-		this.dateRefreshTimeout = setTimeout(() => this.load_bookings(true), 150);
+		this.dateRefreshTimeout = setTimeout(() => this.load_bookings(true), 300);
 	}
 
 	async mark_custom_date_range() {
@@ -514,15 +516,18 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 		if (!costCenter) {
 			return;
 		}
+		const requestGeneration = ++this.bookingRequestGeneration;
 
 		if (reset) {
 			this.entries = [];
+			this.summary = {};
 			this.nextLimitStart = 0;
 			this.hasMore = false;
 			this.$loadMoreRow.hide();
+			this.show_loading();
 		}
 
-		this.$loadMoreButton.prop("disabled", true);
+		this.set_load_more_loading(true);
 		try {
 			const response = await frappe.call({
 				method: "verein.donation_management.cost_center_bookings.get_booking_entries",
@@ -535,8 +540,10 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 					order_by: this.sort.field,
 					order_direction: this.sort.direction,
 				},
-				freeze: true,
 			});
+			if (requestGeneration !== this.bookingRequestGeneration) {
+				return;
+			}
 			const data = response.message || {};
 			this.summary = data.summary || {};
 			this.hasMore = Boolean(data.has_more);
@@ -544,10 +551,33 @@ verein.donation_management.CostCenterBookingsPage = class CostCenterBookingsPage
 			this.entries = reset ? data.entries || [] : this.entries.concat(data.entries || []);
 			this.render();
 		} catch (error) {
+			if (requestGeneration !== this.bookingRequestGeneration) {
+				return;
+			}
 			this.show_empty(error.message || __("Bookings could not be loaded."));
 		} finally {
-			this.$loadMoreButton.prop("disabled", false);
+			if (requestGeneration === this.bookingRequestGeneration) {
+				this.set_load_more_loading(false);
+			}
 		}
+	}
+
+	show_loading() {
+		this.$emptyState.hide();
+		this.$kpiGrid.hide();
+		this.$tableShell
+			.show()
+			.html(`<div class="loading-state">${this.get_icon("loader-circle")}${__("Loading data...")}</div>`);
+	}
+
+	set_load_more_loading(loading) {
+		this.$loadMoreButton
+			.prop("disabled", loading)
+			.html(
+				loading
+					? `${this.get_icon("loader-circle")}${__("Loading...")}`
+					: `${this.get_icon("chevrons-down")}${__("Load More")}`
+			);
 	}
 
 	render() {

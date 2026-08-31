@@ -41,10 +41,11 @@ def get_donors(
 	limit_start = max(cint(limit_start), 0)
 	limit = min(max(cint(limit or DEFAULT_PAGE_LENGTH), 1), MAX_PAGE_LENGTH)
 	order_clause = get_order_clause(order_by, order_direction)
-	rows = get_donor_rows(cost_centers, from_date, to_date, search, limit_start, limit + 1, order_clause)
+	rows, summary = get_donor_rows_and_summary(
+		cost_centers, from_date, to_date, search, limit_start, limit + 1, order_clause
+	)
 	has_more = len(rows) > limit
 	rows = rows[:limit]
-	summary = get_donor_summary(cost_centers, from_date, to_date, search)
 
 	return {
 		"cost_center": cost_center,
@@ -59,7 +60,7 @@ def get_donors(
 	}
 
 
-def get_donor_rows(
+def get_donor_rows_and_summary(
 	cost_centers: list[str],
 	from_date: date,
 	to_date: date,
@@ -67,54 +68,66 @@ def get_donor_rows(
 	limit_start: int,
 	limit: int,
 	order_clause: str,
-) -> list[dict[str, Any]]:
-	conditions, values = get_donor_conditions(cost_centers, from_date, to_date, search)
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+	conditions, supporter_conditions, values = get_donor_conditions(cost_centers, from_date, to_date, search)
 	rows = frappe.db.sql(
 		f"""
-		select
-			`tabSupporter`.`name`,
-			`tabSupporter`.`full_name`,
-			`tabSupporter`.`first_name`,
-			`tabSupporter`.`last_name`,
-			`tabSupporter`.`email_address`,
-			`tabSupporter`.`phone`,
-			`tabSupporter`.`address_line_1`,
-			`tabSupporter`.`address_line_2`,
-			`tabSupporter`.`postal_code`,
-			`tabSupporter`.`city`,
-			`tabSupporter`.`country`,
-			`tabSupporter`.`contact_or_address_modified`,
-			sum(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`) as amount,
-			count(`tabGL Entry`.`name`) as booking_count,
-			max(`tabGL Entry`.`posting_date`) as last_donation_date
-		from `tabGL Entry`
-		inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
-		inner join `tabSupporter` on `tabSupporter`.`name` = `tabGL Entry`.`supporter`
-		where {conditions}
-		group by
-			`tabSupporter`.`name`,
-			`tabSupporter`.`full_name`,
-			`tabSupporter`.`first_name`,
-			`tabSupporter`.`last_name`,
-			`tabSupporter`.`email_address`,
-			`tabSupporter`.`phone`,
-			`tabSupporter`.`address_line_1`,
-			`tabSupporter`.`address_line_2`,
-			`tabSupporter`.`postal_code`,
-			`tabSupporter`.`city`,
-			`tabSupporter`.`country`,
-			`tabSupporter`.`contact_or_address_modified`
-		having amount > 0
+		with donor_totals as (
+			select
+				`tabGL Entry`.`supporter`,
+				sum(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`) as amount,
+				count(`tabGL Entry`.`name`) as booking_count,
+				max(`tabGL Entry`.`posting_date`) as last_donation_date
+			from `tabGL Entry`
+			inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
+			where {conditions}
+			group by `tabGL Entry`.`supporter`
+			having amount > 0
+		), donor_rows as (
+			select
+				`tabSupporter`.`name`,
+				`tabSupporter`.`full_name`,
+				`tabSupporter`.`first_name`,
+				`tabSupporter`.`last_name`,
+				`tabSupporter`.`email_address`,
+				`tabSupporter`.`phone`,
+				`tabSupporter`.`address_line_1`,
+				`tabSupporter`.`address_line_2`,
+				`tabSupporter`.`postal_code`,
+				`tabSupporter`.`city`,
+				`tabSupporter`.`country`,
+				`tabSupporter`.`contact_or_address_modified`,
+				`donor_totals`.`amount`,
+				`donor_totals`.`booking_count`,
+				`donor_totals`.`last_donation_date`,
+				count(*) over () as donor_count,
+				sum(`donor_totals`.`amount`) over () as summary_amount
+			from donor_totals
+			inner join `tabSupporter` on `tabSupporter`.`name` = `donor_totals`.`supporter`
+			where {supporter_conditions}
+		)
+		select * from donor_rows
 		order by {order_clause}
 		limit %(limit)s offset %(limit_start)s
 		""",
 		{**values, "limit": limit, "limit_start": limit_start},
 		as_dict=True,
 	)
+	summary = get_summary_from_donor_rows(rows)
+	if not rows and limit_start:
+		summary = get_donor_summary(cost_centers, from_date, to_date, search)
 	for row in rows:
 		row["amount"] = flt(row.amount)
 		row["booking_count"] = cint(row.booking_count)
-	return rows
+		row.pop("donor_count", None)
+		row.pop("summary_amount", None)
+	return rows, summary
+
+
+def get_summary_from_donor_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
+	if not rows:
+		return {"donor_count": 0, "amount": 0.0}
+	return {"donor_count": cint(rows[0].donor_count), "amount": flt(rows[0].summary_amount)}
 
 
 def get_donor_summary(
@@ -123,19 +136,23 @@ def get_donor_summary(
 	to_date: date,
 	search: str | None,
 ) -> dict[str, Any]:
-	conditions, values = get_donor_conditions(cost_centers, from_date, to_date, search)
+	conditions, supporter_conditions, values = get_donor_conditions(cost_centers, from_date, to_date, search)
 	row = frappe.db.sql(
 		f"""
-		select count(*) as donor_count, sum(amount) as amount
-		from (
-			select sum(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`) as amount
+		with donor_totals as (
+			select
+				`tabGL Entry`.`supporter`,
+				sum(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`) as amount
 			from `tabGL Entry`
 			inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
-			inner join `tabSupporter` on `tabSupporter`.`name` = `tabGL Entry`.`supporter`
 			where {conditions}
 			group by `tabGL Entry`.`supporter`
 			having amount > 0
-		) donor_totals
+		)
+		select count(*) as donor_count, sum(`donor_totals`.`amount`) as amount
+		from donor_totals
+		inner join `tabSupporter` on `tabSupporter`.`name` = `donor_totals`.`supporter`
+		where {supporter_conditions}
 		""",
 		values,
 		as_dict=True,
@@ -148,7 +165,7 @@ def get_donor_conditions(
 	from_date: date,
 	to_date: date,
 	search: str | None,
-) -> tuple[str, dict[str, Any]]:
+) -> tuple[str, str, dict[str, Any]]:
 	conditions = [
 		"`tabGL Entry`.`is_cancelled` = 0",
 		"`tabGL Entry`.`cost_center` in %(cost_centers)s",
@@ -162,32 +179,31 @@ def get_donor_conditions(
 		"from_date": from_date,
 		"to_date": to_date,
 	}
-	if search:
-		conditions.append(
-			"""(
+	supporter_conditions = "1 = 1"
+	if search and search.strip():
+		supporter_conditions = """(
 				`tabSupporter`.`name` like %(search)s
 				or `tabSupporter`.`full_name` like %(search)s
 				or `tabSupporter`.`email_address` like %(search)s
 				or `tabSupporter`.`city` like %(search)s
 			)"""
-		)
 		values["search"] = f"%{search.strip()}%"
-	return " and ".join(conditions), values
+	return " and ".join(conditions), supporter_conditions, values
 
 
 def get_order_clause(order_by: str | None, order_direction: str | None) -> str:
 	order_columns = {
-		"full_name": "coalesce(`tabSupporter`.`full_name`, `tabSupporter`.`name`)",
+		"full_name": "coalesce(`full_name`, `name`)",
 		"amount": "amount",
 		"last_donation_date": "last_donation_date",
 		"booking_count": "booking_count",
-		"contact_or_address_modified": "`tabSupporter`.`contact_or_address_modified`",
+		"contact_or_address_modified": "`contact_or_address_modified`",
 	}
 	if order_by not in order_columns:
 		order_by = "amount"
 		order_direction = "desc"
 	direction = "asc" if (order_direction or "").lower() == "asc" else "desc"
-	return f"{order_columns[order_by]} {direction}, coalesce(`tabSupporter`.`full_name`, `tabSupporter`.`name`) asc"
+	return f"{order_columns[order_by]} {direction}, coalesce(`full_name`, `name`) asc"
 
 
 @frappe.whitelist()

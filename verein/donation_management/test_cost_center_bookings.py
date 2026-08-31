@@ -108,6 +108,20 @@ class TestCostCenterBookings(UnitTestCase):
 		self.assertEqual(data["next_limit_start"], 2)
 		self.assertEqual(data["summary"]["income"], 600)
 
+	def test_out_of_range_page_keeps_summary_for_full_period(self):
+		company = get_company()
+		income_account = get_account(company, "Income")
+		user = make_user(f"dm-bookings-empty-page-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		cost_center = make_cost_center(company=company)
+		make_access(user, cost_center)
+		make_gl_entry(cost_center, income_account, "2026-04-01", credit=125)
+
+		frappe.set_user(user)
+		data = get_booking_entries(cost_center, "2026-04-01", "2026-04-30", limit_start=100, limit=20)
+
+		self.assertEqual(data["entries"], [])
+		self.assertEqual(data["summary"]["income"], 125)
+
 	def test_sorting_by_net_amount(self):
 		company = get_company()
 		income_account = get_account(company, "Income")

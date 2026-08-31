@@ -36,10 +36,11 @@ def get_booking_entries(
 	limit = min(max(int(limit or DEFAULT_PAGE_LENGTH), 1), MAX_PAGE_LENGTH)
 	order_clause = get_order_clause(order_by, order_direction)
 
-	rows = get_gl_entry_rows(cost_centers, from_date, to_date, limit_start, limit + 1, order_clause)
+	rows, summary = get_booking_rows_and_summary(
+		cost_centers, from_date, to_date, limit_start, limit + 1, order_clause
+	)
 	has_more = len(rows) > limit
 	rows = rows[:limit]
-	summary = get_booking_summary(cost_centers, from_date, to_date)
 
 	return {
 		"cost_center": cost_center,
@@ -54,51 +55,80 @@ def get_booking_entries(
 	}
 
 
-def get_gl_entry_rows(
+def get_booking_rows_and_summary(
 	cost_centers: list[str],
 	from_date: date,
 	to_date: date,
 	limit_start: int,
 	limit: int,
 	order_clause: str,
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], dict[str, float]]:
 	if not cost_centers:
-		return []
+		return [], empty_booking_summary()
 
 	rows = frappe.db.sql(
-		"""
+		f"""
+		with booking_rows as (
+			select
+				`tabGL Entry`.`name`,
+				`tabGL Entry`.`posting_date`,
+				`tabGL Entry`.`creation`,
+				`tabGL Entry`.`cost_center`,
+				`tabGL Entry`.`account`,
+				`tabAccount`.`account_name`,
+				`tabAccount`.`root_type`,
+				`tabGL Entry`.`voucher_type`,
+				`tabGL Entry`.`voucher_no`,
+				`tabGL Entry`.`remarks`,
+				`tabGL Entry`.`debit`,
+				`tabGL Entry`.`credit`,
+				case when `tabAccount`.`root_type` = 'Income'
+					then `tabGL Entry`.`credit` - `tabGL Entry`.`debit`
+					else 0
+				end as income,
+				case when `tabAccount`.`root_type` = 'Expense'
+					then `tabGL Entry`.`debit` - `tabGL Entry`.`credit`
+					else 0
+				end as expense,
+				`tabGL Entry`.`credit` - `tabGL Entry`.`debit` as net
+			from `tabGL Entry`
+			inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
+			where
+				`tabGL Entry`.`is_cancelled` = 0
+				and `tabGL Entry`.`cost_center` in %(cost_centers)s
+				and `tabGL Entry`.`posting_date` between %(from_date)s and %(to_date)s
+				and `tabAccount`.`root_type` in ('Income', 'Expense')
+		), booking_rows_with_summary as (
+			select
+				*,
+				sum(income) over () as summary_income,
+				sum(expense) over () as summary_expense
+			from booking_rows
+		)
 		select
-			`tabGL Entry`.`name`,
-			`tabGL Entry`.`posting_date`,
-			`tabGL Entry`.`cost_center`,
+			`booking_rows_with_summary`.`name`,
+			`booking_rows_with_summary`.`posting_date`,
+			`booking_rows_with_summary`.`cost_center`,
 			`tabCost Center`.`cost_center_name`,
-			`tabGL Entry`.`account`,
-			`tabAccount`.`account_name`,
-			`tabAccount`.`root_type`,
-			`tabGL Entry`.`voucher_type`,
-			`tabGL Entry`.`voucher_no`,
-			`tabGL Entry`.`remarks`,
-			`tabGL Entry`.`debit`,
-			`tabGL Entry`.`credit`,
-			case when `tabAccount`.`root_type` = 'Income'
-				then `tabGL Entry`.`credit` - `tabGL Entry`.`debit`
-				else 0
-			end as income,
-			case when `tabAccount`.`root_type` = 'Expense'
-				then `tabGL Entry`.`debit` - `tabGL Entry`.`credit`
-				else 0
-			end as expense
-		from `tabGL Entry`
-		inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
-		left join `tabCost Center` on `tabCost Center`.`name` = `tabGL Entry`.`cost_center`
-		where
-			`tabGL Entry`.`is_cancelled` = 0
-			and `tabGL Entry`.`cost_center` in %(cost_centers)s
-			and `tabGL Entry`.`posting_date` between %(from_date)s and %(to_date)s
-			and `tabAccount`.`root_type` in ('Income', 'Expense')
+			`booking_rows_with_summary`.`account`,
+			`booking_rows_with_summary`.`account_name`,
+			`booking_rows_with_summary`.`root_type`,
+			`booking_rows_with_summary`.`voucher_type`,
+			`booking_rows_with_summary`.`voucher_no`,
+			`booking_rows_with_summary`.`remarks`,
+			`booking_rows_with_summary`.`debit`,
+			`booking_rows_with_summary`.`credit`,
+			`booking_rows_with_summary`.`income`,
+			`booking_rows_with_summary`.`expense`,
+			`booking_rows_with_summary`.`net`,
+			`booking_rows_with_summary`.`summary_income`,
+			`booking_rows_with_summary`.`summary_expense`
+		from booking_rows_with_summary
+		left join `tabCost Center`
+			on `tabCost Center`.`name` = `booking_rows_with_summary`.`cost_center`
 		order by {order_clause}
 		limit %(limit)s offset %(limit_start)s
-		""".format(order_clause=order_clause),
+		""",
 		{
 			"cost_centers": tuple(cost_centers),
 			"from_date": from_date,
@@ -109,20 +139,37 @@ def get_gl_entry_rows(
 		as_dict=True,
 	)
 
+	summary = get_summary_from_booking_rows(rows)
+	if not rows and limit_start:
+		summary = get_booking_summary(cost_centers, from_date, to_date)
 	for row in rows:
 		row["income"] = flt(row.income)
 		row["expense"] = flt(row.expense)
-		row["net"] = row["income"] - row["expense"]
+		row["net"] = flt(row.net)
+		row.pop("summary_income", None)
+		row.pop("summary_expense", None)
 
-	return rows
+	return rows, summary
+
+
+def get_summary_from_booking_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
+	if not rows:
+		return empty_booking_summary()
+	income = flt(rows[0].summary_income)
+	expense = flt(rows[0].summary_expense)
+	return {"income": income, "expense": expense, "net": income - expense}
+
+
+def empty_booking_summary() -> dict[str, float]:
+	return {"income": 0.0, "expense": 0.0, "net": 0.0}
 
 
 def get_order_clause(order_by: str | None, order_direction: str | None) -> str:
 	order_columns = {
-		"posting_date": "`tabGL Entry`.`posting_date`",
-		"account": "coalesce(`tabAccount`.`account_name`, `tabGL Entry`.`account`)",
-		"remarks": "coalesce(`tabGL Entry`.`remarks`, '')",
-		"net": "(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`)",
+		"posting_date": "`booking_rows_with_summary`.`posting_date`",
+		"account": "coalesce(`booking_rows_with_summary`.`account_name`, `booking_rows_with_summary`.`account`)",
+		"remarks": "coalesce(`booking_rows_with_summary`.`remarks`, '')",
+		"net": "`booking_rows_with_summary`.`net`",
 	}
 	if order_by not in order_columns:
 		order_by = "posting_date"
@@ -132,15 +179,15 @@ def get_order_clause(order_by: str | None, order_direction: str | None) -> str:
 	tiebreaker_direction = direction if order_by in {"posting_date", "net"} else "asc"
 	return (
 		f"{column} {direction}, "
-		f"`tabGL Entry`.`posting_date` {tiebreaker_direction}, "
-		"`tabGL Entry`.`creation` desc, "
-		"`tabGL Entry`.`name` desc"
+		f"`booking_rows_with_summary`.`posting_date` {tiebreaker_direction}, "
+		"`booking_rows_with_summary`.`creation` desc, "
+		"`booking_rows_with_summary`.`name` desc"
 	)
 
 
 def get_booking_summary(cost_centers: list[str], from_date: date, to_date: date) -> dict[str, float]:
 	if not cost_centers:
-		return {"income": 0.0, "expense": 0.0, "net": 0.0}
+		return empty_booking_summary()
 
 	row = frappe.db.sql(
 		"""
