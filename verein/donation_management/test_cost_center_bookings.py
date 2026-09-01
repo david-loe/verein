@@ -19,7 +19,7 @@ class TestCostCenterBookings(UnitTestCase):
 		frappe.set_user("Administrator")
 
 	def test_user_without_access_gets_error(self):
-		user = make_user(f"dm-bookings-no-access-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-no-access-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 
 		frappe.set_user(user)
@@ -30,7 +30,7 @@ class TestCostCenterBookings(UnitTestCase):
 		company = get_company()
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-bookings-leaf-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-leaf-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		other = make_cost_center(company=company)
 		make_access(user, cost_center)
@@ -49,7 +49,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_group_access_includes_child_cost_centers(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-group-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-group-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		make_access(user, group)
@@ -65,7 +65,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_cancelled_entries_are_ignored(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-cancelled-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-cancelled-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-03-05", credit=300)
@@ -80,7 +80,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_period_over_36_months_is_allowed(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-period-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-period-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2023-01-15", credit=125)
@@ -93,7 +93,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_pagination_keeps_summary_for_full_period(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-page-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-page-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-04-01", credit=100)
@@ -111,7 +111,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_out_of_range_page_keeps_summary_for_full_period(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-empty-page-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-empty-page-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-04-01", credit=125)
@@ -126,7 +126,7 @@ class TestCostCenterBookings(UnitTestCase):
 		company = get_company()
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-bookings-sort-net-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-sort-net-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-05-01", credit=100)
@@ -148,7 +148,7 @@ class TestCostCenterBookings(UnitTestCase):
 		company = get_company()
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-bookings-sort-fields-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-sort-fields-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-06-01", credit=100)
@@ -173,7 +173,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_sorting_by_remarks(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-sort-remarks-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-sort-remarks-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-06-01", credit=100, remarks="Zulu")
@@ -189,7 +189,7 @@ class TestCostCenterBookings(UnitTestCase):
 	def test_sorted_pagination_is_stable(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-bookings-sort-page-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-bookings-sort-page-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		for amount in [40, 10, 30, 20]:

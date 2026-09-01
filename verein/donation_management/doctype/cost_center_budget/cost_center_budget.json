@@ -57,7 +57,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-02 19:00:00.000000",
+ "modified": "2026-09-01 19:00:00.000000",
  "modified_by": "Administrator",
  "module": "Donation Management",
  "name": "Cost Center Budget",
@@ -83,14 +83,14 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Cost Center Manager",
+   "role": "Donation Management Manager",
    "share": 1,
    "write": 1
   },
   {
    "create": 1,
    "read": 1,
-   "role": "Cost Center Viewer",
+   "role": "Donation Management User",
    "select": 1,
    "write": 1
   }

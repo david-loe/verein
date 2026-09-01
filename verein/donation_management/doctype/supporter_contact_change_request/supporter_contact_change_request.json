@@ -122,7 +122,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-07-03 00:00:00.000000",
+ "modified": "2026-09-01 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Donation Management",
  "name": "Supporter Contact Change Request",
@@ -153,13 +153,13 @@
   {
    "create": 1,
    "read": 1,
-   "role": "Cost Center Manager",
+   "role": "Donation Management Manager",
    "select": 1
   },
   {
    "create": 1,
    "read": 1,
-   "role": "Cost Center Viewer",
+   "role": "Donation Management User",
    "select": 1
   }
  ],

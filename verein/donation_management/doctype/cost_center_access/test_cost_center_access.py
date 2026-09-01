@@ -11,7 +11,7 @@ class TestCostCenterAccess(UnitTestCase):
 		frappe.set_user("Administrator")
 
 	def test_active_duplicate_is_rejected(self):
-		user = make_user(f"dm-viewer-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-viewer-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 		make_access(user, cost_center)
 
@@ -37,7 +37,7 @@ class TestCostCenterAccess(UnitTestCase):
 			access.validate_company()
 
 	def test_inactive_historical_duplicate_is_allowed(self):
-		user = make_user(f"dm-inactive-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-inactive-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 		make_access(user, cost_center, active=0)
 		active_access = make_access(user, cost_center, active=1)
@@ -45,8 +45,8 @@ class TestCostCenterAccess(UnitTestCase):
 		self.assertTrue(active_access.name)
 
 	def test_viewer_sees_only_own_active_access_rows(self):
-		viewer = make_user(f"dm-own-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
-		other = make_user(f"dm-other-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		viewer = make_user(f"dm-own-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
+		other = make_user(f"dm-other-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		viewer_access = make_access(viewer, make_cost_center())
 		make_access(viewer, make_cost_center(), active=0)
 		make_access(other, make_cost_center())
@@ -57,13 +57,13 @@ class TestCostCenterAccess(UnitTestCase):
 		self.assertEqual([row.name for row in rows], [viewer_access.name])
 
 	def test_manager_sees_all_access_rows(self):
-		manager = make_user(f"dm-manager-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Manager"])
+		manager = make_user(f"dm-manager-{frappe.generate_hash(length=6)}@example.com", ["Donation Management Manager"])
 		first = make_access(
-			make_user(f"dm-managed-a-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"]),
+			make_user(f"dm-managed-a-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"]),
 			make_cost_center(),
 		)
 		second = make_access(
-			make_user(f"dm-managed-b-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"]),
+			make_user(f"dm-managed-b-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"]),
 			make_cost_center(),
 		)
 

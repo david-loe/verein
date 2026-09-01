@@ -29,7 +29,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-08-31 08:41:16.920996",
+ "modified": "2026-09-01 08:41:16.920996",
  "modified_by": "Administrator",
  "module": "Donation Management",
  "name": "Donation Management Settings",
@@ -44,7 +44,7 @@
   {
    "create": 1,
    "read": 1,
-   "role": "Cost Center Manager",
+   "role": "Donation Management Manager",
    "write": 1
   }
  ],

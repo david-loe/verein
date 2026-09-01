@@ -272,8 +272,8 @@ msgstr "Kostenstellenanzeige"
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-msgid "Cost Center Manager"
-msgstr "Kostenstellenmanager"
+msgid "Donation Management Manager"
+msgstr "Spendenverwaltung Manager"
 
 #. Option for the 'Cost Center Display' (Select) field in DocType 'Donation
 #. Management Settings'
@@ -297,8 +297,8 @@ msgstr "Kostenstellenübersicht"
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-msgid "Cost Center Viewer"
-msgstr "Kostenstellen-Betrachter"
+msgid "Donation Management User"
+msgstr "Spendenverwaltung Benutzer"
 
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.py:40
 msgid "Cost Center {0} belongs to company {1}, not {2}."

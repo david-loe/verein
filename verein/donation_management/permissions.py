@@ -7,9 +7,9 @@ from frappe.utils import cint
 
 ACCESS_DOCTYPE = "Cost Center Access"
 BUDGET_DOCTYPE = "Cost Center Budget"
-PRIVILEGED_VIEW_ROLES = {"System Manager", "Accounts Manager", "Cost Center Manager"}
-BUDGET_MANAGER_ROLES = {"System Manager", "Cost Center Manager"}
-ACCESS_MANAGER_ROLES = {"System Manager", "Cost Center Manager"}
+PRIVILEGED_VIEW_ROLES = {"System Manager", "Accounts Manager", "Donation Management Manager"}
+BUDGET_MANAGER_ROLES = {"System Manager", "Donation Management Manager"}
+ACCESS_MANAGER_ROLES = {"System Manager", "Donation Management Manager"}
 SUPPORTER_CHANGE_REVIEWER_ROLES = {"System Manager", "Supporter Change Reviewer"}
 
 

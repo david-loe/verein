@@ -28,7 +28,7 @@ class TestSupporterDonors(UnitTestCase):
 		frappe.set_user("Administrator")
 
 	def test_user_without_access_gets_error(self):
-		user = make_user(f"dm-donors-no-access-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-no-access-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 
 		frappe.set_user(user)
@@ -39,7 +39,7 @@ class TestSupporterDonors(UnitTestCase):
 		company = get_company()
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-donors-leaf-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-leaf-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		other = make_cost_center(company=company)
 		supporter = make_supporter(first_name="Ada", last_name="Donor")
@@ -65,7 +65,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_group_access_includes_child_cost_centers(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-group-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-group-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		supporter = make_supporter(first_name="Group", last_name="Donor")
@@ -83,7 +83,7 @@ class TestSupporterDonors(UnitTestCase):
 		income_account = get_account(company, "Income")
 		user = make_user(
 			f"dm-donors-sort-address-modified-{frappe.generate_hash(length=6)}@example.com",
-			["Cost Center Viewer"],
+			["Donation Management User"],
 		)
 		cost_center = make_cost_center(company=company)
 		older_supporter = make_supporter(first_name="Older", last_name="Address")
@@ -128,7 +128,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_search_filters_rows_and_summary(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-search-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-search-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		matching = make_supporter(first_name="UniqueSearch", last_name="Donor")
 		other = make_supporter(first_name="Different", last_name="Donor")
@@ -148,7 +148,7 @@ class TestSupporterDonors(UnitTestCase):
 		income_account = get_account(company, "Income")
 		user = make_user(
 			f"dm-donor-bookings-no-access-{frappe.generate_hash(length=6)}@example.com",
-			["Cost Center Viewer"],
+			["Donation Management User"],
 		)
 		cost_center = make_cost_center(company=company)
 		supporter = make_supporter(first_name="No", last_name="Access")
@@ -164,7 +164,7 @@ class TestSupporterDonors(UnitTestCase):
 		expense_account = get_account(company, "Expense")
 		user = make_user(
 			f"dm-donor-bookings-leaf-{frappe.generate_hash(length=6)}@example.com",
-			["Cost Center Viewer"],
+			["Donation Management User"],
 		)
 		cost_center = make_cost_center(company=company)
 		other_cost_center = make_cost_center(company=company)
@@ -198,7 +198,7 @@ class TestSupporterDonors(UnitTestCase):
 		income_account = get_account(company, "Income")
 		user = make_user(
 			f"dm-donor-bookings-group-{frappe.generate_hash(length=6)}@example.com",
-			["Cost Center Viewer"],
+			["Donation Management User"],
 		)
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
@@ -217,7 +217,7 @@ class TestSupporterDonors(UnitTestCase):
 		income_account = get_account(company, "Income")
 		user = make_user(
 			f"dm-donor-bookings-page-{frappe.generate_hash(length=6)}@example.com",
-			["Cost Center Viewer"],
+			["Donation Management User"],
 		)
 		cost_center = make_cost_center(company=company)
 		supporter = make_supporter(first_name="Paged", last_name="Donor")
@@ -243,7 +243,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_cancelled_and_empty_supporter_entries_are_ignored(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-cancelled-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-cancelled-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		supporter = make_supporter(first_name="Valid", last_name="Donor")
 		cancelled_supporter = make_supporter(first_name="Cancelled", last_name="Donor")
@@ -268,7 +268,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_out_of_range_page_keeps_summary(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-empty-page-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-empty-page-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		supporter = make_supporter(first_name="Summary", last_name="Fallback")
 		make_access(user, cost_center)
@@ -284,7 +284,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_create_and_approve_contact_change_request(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-request-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-request-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		reviewer = make_user(
 			f"dm-donors-reviewer-{frappe.generate_hash(length=6)}@example.com",
 			["Supporter Change Reviewer"],
@@ -321,7 +321,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_reject_contact_change_request_keeps_supporter_unchanged(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-reject-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-reject-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		reviewer = make_user(
 			f"dm-donors-reject-reviewer-{frappe.generate_hash(length=6)}@example.com",
 			["Supporter Change Reviewer"],
@@ -350,7 +350,7 @@ class TestSupporterDonors(UnitTestCase):
 	def test_unsupported_change_field_is_rejected(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-donors-bad-field-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-donors-bad-field-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		supporter = make_supporter(first_name="Bad", last_name="Field")
 		make_access(user, cost_center)

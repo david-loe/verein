@@ -270,7 +270,7 @@ msgstr ""
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-msgid "Cost Center Manager"
+msgid "Donation Management Manager"
 msgstr ""
 
 #. Option for the 'Cost Center Display' (Select) field in DocType 'Donation
@@ -295,7 +295,7 @@ msgstr ""
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-msgid "Cost Center Viewer"
+msgid "Donation Management User"
 msgstr ""
 
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.py:40

@@ -38,7 +38,7 @@ class TestCostCenterDashboard(UnitTestCase):
 		return getdate(year_start_date)
 
 	def test_user_without_access_gets_error(self):
-		user = make_user(f"dm-no-access-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-no-access-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 
 		frappe.set_user(user)
@@ -48,7 +48,7 @@ class TestCostCenterDashboard(UnitTestCase):
 	def test_leaf_access_only_returns_leaf_entries(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-leaf-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-leaf-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		allowed = make_cost_center(company=company)
 		other = make_cost_center(company=company)
 		make_access(user, allowed)
@@ -63,7 +63,7 @@ class TestCostCenterDashboard(UnitTestCase):
 	def test_group_access_includes_child_cost_centers(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-group-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-group-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		make_access(user, group)
@@ -76,7 +76,7 @@ class TestCostCenterDashboard(UnitTestCase):
 
 	def test_group_access_exposes_leaf_cost_centers_by_default(self):
 		company = get_company()
-		user = make_user(f"dm-group-options-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-group-options-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		make_access(user, group)
@@ -92,7 +92,7 @@ class TestCostCenterDashboard(UnitTestCase):
 
 	def test_setting_allows_group_cost_centers(self):
 		company = get_company()
-		user = make_user(f"dm-group-options-enabled-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-group-options-enabled-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		make_access(user, group)
@@ -106,7 +106,7 @@ class TestCostCenterDashboard(UnitTestCase):
 
 	def test_group_manage_access_is_inherited_by_leaf_options(self):
 		company = get_company()
-		user = make_user(f"dm-group-manage-options-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-group-manage-options-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		make_access(user, group, access_level="Manage")
@@ -156,7 +156,7 @@ class TestCostCenterDashboard(UnitTestCase):
 		company = get_company()
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-aggregate-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-aggregate-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-03-05", credit=300, debit=20)
@@ -173,7 +173,7 @@ class TestCostCenterDashboard(UnitTestCase):
 	def test_budget_values_continue_until_next_change(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-budget-series-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-budget-series-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2026-04-01", credit=500)
@@ -190,7 +190,7 @@ class TestCostCenterDashboard(UnitTestCase):
 
 	def test_group_budget_sums_child_effective_budgets(self):
 		company = get_company()
-		user = make_user(f"dm-group-budget-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-group-budget-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		first_child = make_cost_center(company=company, parent_cost_center=group)
 		second_child = make_cost_center(company=company, parent_cost_center=group)
@@ -208,7 +208,7 @@ class TestCostCenterDashboard(UnitTestCase):
 		asset_account = get_account(company, "Asset")
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-balance-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-balance-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		fiscal_year_start = self.get_current_fiscal_year_start(company)
 		make_access(user, cost_center)
@@ -236,7 +236,7 @@ class TestCostCenterDashboard(UnitTestCase):
 		asset_account = get_account(company, "Asset")
 		income_account = get_account(company, "Income")
 		expense_account = get_account(company, "Expense")
-		user = make_user(f"dm-group-balance-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-group-balance-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		group = make_cost_center(company=company, is_group=1)
 		child = make_cost_center(company=company, parent_cost_center=group)
 		fiscal_year_start = self.get_current_fiscal_year_start(company)
@@ -254,7 +254,7 @@ class TestCostCenterDashboard(UnitTestCase):
 		self.assertEqual(get_cost_center_balance(group), 150)
 
 	def test_user_without_access_cannot_get_cost_center_balance(self):
-		user = make_user(f"dm-balance-no-access-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-balance-no-access-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 
 		frappe.set_user(user)
@@ -264,7 +264,7 @@ class TestCostCenterDashboard(UnitTestCase):
 	def test_period_over_36_months_is_allowed(self):
 		company = get_company()
 		income_account = get_account(company, "Income")
-		user = make_user(f"dm-period-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		user = make_user(f"dm-period-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 		make_access(user, cost_center)
 		make_gl_entry(cost_center, income_account, "2023-01-15", credit=125)

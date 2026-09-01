@@ -28,7 +28,7 @@ class TestCostCenterBudget(UnitTestCase):
 		self.assertEqual(str(budget.from_date), "2026-01-01")
 
 	def test_viewer_without_manage_access_cannot_write(self):
-		viewer = make_user(f"dm-budget-view-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		viewer = make_user(f"dm-budget-view-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 		make_access(viewer, cost_center, access_level="View")
 
@@ -44,7 +44,7 @@ class TestCostCenterBudget(UnitTestCase):
 			).insert()
 
 	def test_manage_access_can_upsert_own_budget(self):
-		viewer = make_user(f"dm-budget-manage-{frappe.generate_hash(length=6)}@example.com", ["Cost Center Viewer"])
+		viewer = make_user(f"dm-budget-manage-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center()
 		make_access(viewer, cost_center, access_level="Manage")
 
