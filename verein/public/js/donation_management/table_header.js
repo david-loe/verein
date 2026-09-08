@@ -1,8 +1,5 @@
-/* global verein */
-frappe.provide("verein.donation_management");
-
 // Keep the original header interactive while its table scrolls horizontally.
-verein.donation_management.DonationTableHeader = class DonationTableHeader {
+export class DonationTableHeader {
 	constructor(shell) {
 		this.shell = shell;
 		this.pageContainer = shell.closest(".page-container");
@@ -81,4 +78,4 @@ verein.donation_management.DonationTableHeader = class DonationTableHeader {
 		window.removeEventListener("resize", this.schedule);
 		if (this.head) this.head.style.transform = "";
 	}
-};
+}

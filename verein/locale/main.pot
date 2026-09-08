@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-09-08 12:14+0000\n"
-"PO-Revision-Date: 2026-09-08 12:14+0000\n"
+"POT-Creation-Date: 2026-09-08 12:59+0000\n"
+"PO-Revision-Date: 2026-09-08 12:59+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language-Team: kontakt@david-loe.de\n"
 "MIME-Version: 1.0\n"
@@ -33,8 +33,8 @@ msgstr ""
 msgid "Access Level must be View or Manage."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:813
-#: verein/donation_management/page/donors/donors.js:966
+#: verein/public/js/donation_management/cost_center_bookings.js:206
+#: verein/public/js/donation_management/donors.js:348
 msgid "Account"
 msgstr ""
 
@@ -52,8 +52,8 @@ msgstr ""
 #. Label of the address_section (Section Break) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/page/donors/donors.js:1135
-#: verein/donation_management/page/donors/donors.js:1140
+#: verein/public/js/donation_management/donors.js:517
+#: verein/public/js/donation_management/donors.js:522
 msgid "Address"
 msgstr ""
 
@@ -62,7 +62,7 @@ msgstr ""
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:21
-#: verein/donation_management/page/donors/donors.js:20
+#: verein/public/js/donation_management/donors.js:20
 msgid "Address Line 1"
 msgstr ""
 
@@ -71,15 +71,15 @@ msgstr ""
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:22
-#: verein/donation_management/page/donors/donors.js:21
+#: verein/public/js/donation_management/donors.js:21
 msgid "Address Line 2"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:820
+#: verein/public/js/donation_management/donors.js:215
 msgid "Address Modified"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:923
+#: verein/public/js/donation_management/cost_center_bookings.js:259
 msgid "All Accounts"
 msgstr ""
 
@@ -123,33 +123,33 @@ msgstr ""
 msgid "At least one change is required."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:735
+#: verein/public/js/donation_management/cost_center_overview.js:183
 msgid "Balance"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:667
+#: verein/public/js/donation_management/cost_center_overview.js:111
 msgid "Balance could not be loaded."
 msgstr ""
 
 #. Label of a Workspace Sidebar Item
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:41
-#: verein/donation_management/page/donors/donors.js:815
+#: verein/public/js/donation_management/cost_center_bookings.js:18
+#: verein/public/js/donation_management/donors.js:203
 #: verein/workspace_sidebar/donation_management.json
 msgid "Bookings"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:737
+#: verein/public/js/donation_management/cost_center_bookings.js:145
 msgid "Bookings could not be loaded."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:798
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:877
+#: verein/public/js/donation_management/cost_center_overview.js:241
+#: verein/public/js/donation_management/cost_center_overview.js:324
 msgid "Budget"
 msgstr ""
 
 #. Label of the budget_amount (Currency) field in DocType 'Cost Center Budget'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:919
+#: verein/public/js/donation_management/cost_center_overview.js:366
 msgid "Budget Amount"
 msgstr ""
 
@@ -157,11 +157,11 @@ msgstr ""
 msgid "Budget Amount cannot be negative."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:880
+#: verein/public/js/donation_management/cost_center_overview.js:327
 msgid "Budget Delta"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:841
+#: verein/public/js/donation_management/cost_center_overview.js:286
 msgid "Budget Delta shows the difference between income and budget."
 msgstr ""
 
@@ -178,19 +178,17 @@ msgstr ""
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:20
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:45
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:24
-#: verein/donation_management/page/donors/donors.js:23
+#: verein/public/js/donation_management/donors.js:23
 msgid "City"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:870
+#: verein/public/js/donation_management/donors.js:254
 msgid "Collapse"
 msgstr ""
 
 #. Label of the company (Link) field in DocType 'Cost Center Access'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:282
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:310
-#: verein/donation_management/page/donors/donors.js:366
+#: verein/public/js/donation_management/filters.js:18
 msgid "Company"
 msgstr ""
 
@@ -202,7 +200,7 @@ msgstr ""
 #. Label of the contact_section (Section Break) field in DocType 'Supporter'
 #. Label of the contact_tab (Tab Break) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/page/donors/donors.js:883
+#: verein/public/js/donation_management/donors.js:267
 msgid "Contact"
 msgstr ""
 
@@ -226,11 +224,11 @@ msgstr ""
 #. 'Supporter'
 #. Label of the status (Select) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/page/donors/donors.js:915
+#: verein/public/js/donation_management/donors.js:297
 msgid "Contact Status"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:1181
+#: verein/public/js/donation_management/donors.js:563
 msgid "Contact change request created."
 msgstr ""
 
@@ -251,9 +249,7 @@ msgstr ""
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:289
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:317
-#: verein/donation_management/page/donors/donors.js:373
+#: verein/public/js/donation_management/filters.js:19
 msgid "Cost Center"
 msgstr ""
 
@@ -290,7 +286,7 @@ msgid "Cost Center Number and Name"
 msgstr ""
 
 #. Label of a Workspace Sidebar Item
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:39
+#: verein/public/js/donation_management/cost_center_overview.js:21
 #: verein/workspace_sidebar/donation_management.json
 msgid "Cost Center Overview"
 msgstr ""
@@ -317,7 +313,7 @@ msgstr ""
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:25
-#: verein/donation_management/page/donors/donors.js:24
+#: verein/public/js/donation_management/donors.js:24
 msgid "Country"
 msgstr ""
 
@@ -327,22 +323,26 @@ msgstr ""
 msgid "Current Value"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:5
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:4
-#: verein/donation_management/page/donors/donors.js:5
+#: verein/public/js/donation_management/filters.js:3
 msgid "Custom"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:702
+#: verein/public/js/donation_management/cost_center_overview.js:146
 msgid "Dashboard data could not be loaded."
+msgstr ""
+
+#: verein/public/js/donation_management/filters.js:119
+#: verein/public/js/donation_management/runtime.js:39
+#: verein/public/js/donation_management/table_controls.js:26
+msgid "Data could not be loaded."
 msgstr ""
 
 #. Label of the date (Date) field in DocType 'Experience'
 #. Label of the date (Date) field in DocType 'Supporter Experience'
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:810
-#: verein/donation_management/page/donors/donors.js:964
+#: verein/public/js/donation_management/cost_center_bookings.js:203
+#: verein/public/js/donation_management/donors.js:346
 msgid "Date"
 msgstr ""
 
@@ -385,10 +385,10 @@ msgstr ""
 msgid "Distance (km)"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:811
-#: verein/donation_management/page/donors/donors.js:792
-#: verein/donation_management/page/donors/donors.js:814
-#: verein/donation_management/page/donors/donors.js:965
+#: verein/public/js/donation_management/cost_center_bookings.js:204
+#: verein/public/js/donation_management/donors.js:177
+#: verein/public/js/donation_management/donors.js:199
+#: verein/public/js/donation_management/donors.js:347
 msgid "Donation Amount"
 msgstr ""
 
@@ -421,22 +421,28 @@ msgstr ""
 msgid "Donation Management User"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:1055
+#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:17
+#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:17
+#: verein/donation_management/page/donors/donors.js:17
+msgid "Donation Management could not be loaded. Please reload the page."
+msgstr ""
+
+#: verein/public/js/donation_management/donors.js:437
 msgid "Donation bookings could not be loaded."
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:813
+#: verein/public/js/donation_management/donors.js:196
 msgid "Donor"
 msgstr ""
 
 #. Label of a Workspace Sidebar Item
-#: verein/donation_management/page/donors/donors.js:53
-#: verein/donation_management/page/donors/donors.js:791
+#: verein/public/js/donation_management/donors.js:39
+#: verein/public/js/donation_management/donors.js:176
 #: verein/workspace_sidebar/donation_management.json
 msgid "Donors"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:740
+#: verein/public/js/donation_management/donors.js:135
 msgid "Donors could not be loaded."
 msgstr ""
 
@@ -451,11 +457,11 @@ msgctxt "Supporter"
 msgid "Duplicate"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:849
+#: verein/public/js/donation_management/cost_center_overview.js:296
 msgid "Edit"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:907
+#: verein/public/js/donation_management/cost_center_overview.js:354
 msgid "Edit Budget"
 msgstr ""
 
@@ -466,8 +472,8 @@ msgstr ""
 #. Label of the email_address (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:19
-#: verein/donation_management/page/donors/donors.js:18
-#: verein/donation_management/page/donors/donors.js:1133
+#: verein/public/js/donation_management/donors.js:18
+#: verein/public/js/donation_management/donors.js:515
 msgid "Email Address"
 msgstr ""
 
@@ -480,14 +486,14 @@ msgstr ""
 msgid "Error Message"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:870
+#: verein/public/js/donation_management/donors.js:254
 msgid "Expand"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:789
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:737
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:792
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:875
+#: verein/public/js/donation_management/cost_center_bookings.js:187
+#: verein/public/js/donation_management/cost_center_overview.js:185
+#: verein/public/js/donation_management/cost_center_overview.js:235
+#: verein/public/js/donation_management/cost_center_overview.js:322
 msgid "Expense"
 msgstr ""
 
@@ -543,8 +549,7 @@ msgstr ""
 msgid "Fieldname"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:857
-#: verein/donation_management/page/donors/donors.js:1186
+#: verein/public/js/donation_management/table_controls.js:62
 msgid "Filter {0}"
 msgstr ""
 
@@ -552,14 +557,14 @@ msgstr ""
 msgid "Find Place"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:816
+#: verein/public/js/donation_management/donors.js:207
 msgid "First Donation"
 msgstr ""
 
 #. Label of the first_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:17
-#: verein/donation_management/page/donors/donors.js:16
+#: verein/public/js/donation_management/donors.js:16
 msgid "First Name"
 msgstr ""
 
@@ -568,10 +573,8 @@ msgstr ""
 #. Request'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:304
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:332
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:912
-#: verein/donation_management/page/donors/donors.js:388
+#: verein/public/js/donation_management/cost_center_overview.js:359
+#: verein/public/js/donation_management/filters.js:27
 msgid "From Date"
 msgstr ""
 
@@ -628,10 +631,10 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:788
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:736
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:786
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:874
+#: verein/public/js/donation_management/cost_center_bookings.js:186
+#: verein/public/js/donation_management/cost_center_overview.js:184
+#: verein/public/js/donation_management/cost_center_overview.js:229
+#: verein/public/js/donation_management/cost_center_overview.js:321
 msgid "Income"
 msgstr ""
 
@@ -653,38 +656,30 @@ msgstr ""
 msgid "Invalid status: {0}"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:817
+#: verein/public/js/donation_management/donors.js:211
 msgid "Last Donation"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:7
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:6
-#: verein/donation_management/page/donors/donors.js:7
+#: verein/public/js/donation_management/filters.js:5
 msgid "Last Half Year"
 msgstr ""
 
 #. Label of the last_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:18
-#: verein/donation_management/page/donors/donors.js:17
+#: verein/public/js/donation_management/donors.js:17
 msgid "Last Name"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:6
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:5
-#: verein/donation_management/page/donors/donors.js:6
+#: verein/public/js/donation_management/filters.js:4
 msgid "Last Three Months"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:9
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:8
-#: verein/donation_management/page/donors/donors.js:9
+#: verein/public/js/donation_management/filters.js:7
 msgid "Last Three Years"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:8
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:7
-#: verein/donation_management/page/donors/donors.js:8
+#: verein/public/js/donation_management/filters.js:6
 msgid "Last Year"
 msgstr ""
 
@@ -705,20 +700,17 @@ msgstr ""
 msgid "Linked Supporters"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:341
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:766
-#: verein/donation_management/page/donors/donors.js:424
-#: verein/donation_management/page/donors/donors.js:769
+#: verein/public/js/donation_management/presentation.js:48
 msgid "Load More"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:954
+#: verein/public/js/donation_management/donors.js:336
 msgid "Load More Bookings"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:746
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:712
-#: verein/donation_management/page/donors/donors.js:749
+#: verein/public/js/donation_management/cost_center_bookings.js:154
+#: verein/public/js/donation_management/cost_center_overview.js:157
+#: verein/public/js/donation_management/donors.js:144
 msgid "Loading data..."
 msgstr ""
 
@@ -727,9 +719,8 @@ msgstr ""
 msgid "Loading linked supporters..."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:765
-#: verein/donation_management/page/donors/donors.js:768
-#: verein/donation_management/page/donors/donors.js:935
+#: verein/public/js/donation_management/donors.js:317
+#: verein/public/js/donation_management/presentation.js:47
 msgid "Loading..."
 msgstr ""
 
@@ -783,7 +774,7 @@ msgstr ""
 msgid "Matched Tags"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:873
+#: verein/public/js/donation_management/cost_center_overview.js:320
 msgid "Month"
 msgstr ""
 
@@ -802,9 +793,9 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:790
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:738
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:876
+#: verein/public/js/donation_management/cost_center_bookings.js:188
+#: verein/public/js/donation_management/cost_center_overview.js:186
+#: verein/public/js/donation_management/cost_center_overview.js:323
 msgid "Net"
 msgstr ""
 
@@ -841,25 +832,25 @@ msgstr ""
 msgid "Networks & Experiences"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:830
+#: verein/public/js/donation_management/cost_center_bookings.js:218
 msgid "No bookings found for the selected filters."
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:1165
+#: verein/public/js/donation_management/donors.js:547
 msgid "No contact changes were entered."
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:668
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:613
-#: verein/donation_management/page/donors/donors.js:644
+#: verein/public/js/donation_management/cost_center_bookings.js:79
+#: verein/public/js/donation_management/cost_center_overview.js:60
+#: verein/public/js/donation_management/donors.js:81
 msgid "No cost centers have been shared with you yet."
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:944
+#: verein/public/js/donation_management/donors.js:326
 msgid "No donation bookings found."
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:838
+#: verein/public/js/donation_management/donors.js:228
 msgid "No donors found for the selected filters."
 msgstr ""
 
@@ -924,9 +915,7 @@ msgstr ""
 #. Contact Change Request'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:296
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:324
-#: verein/donation_management/page/donors/donors.js:380
+#: verein/public/js/donation_management/filters.js:23
 msgid "Period"
 msgstr ""
 
@@ -934,8 +923,8 @@ msgstr ""
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:19
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:20
-#: verein/donation_management/page/donors/donors.js:19
-#: verein/donation_management/page/donors/donors.js:1134
+#: verein/public/js/donation_management/donors.js:19
+#: verein/public/js/donation_management/donors.js:516
 msgid "Phone"
 msgstr ""
 
@@ -968,7 +957,7 @@ msgstr ""
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:21
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:46
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:23
-#: verein/donation_management/page/donors/donors.js:22
+#: verein/public/js/donation_management/donors.js:22
 msgid "Postal Code"
 msgstr ""
 
@@ -1025,8 +1014,8 @@ msgstr ""
 msgid "Rejected"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:812
-#: verein/donation_management/page/donors/donors.js:967
+#: verein/public/js/donation_management/cost_center_bookings.js:205
+#: verein/public/js/donation_management/donors.js:349
 msgid "Remarks"
 msgstr ""
 
@@ -1046,8 +1035,8 @@ msgstr ""
 msgid "Request"
 msgstr ""
 
-#: verein/donation_management/page/donors/donors.js:1066
-#: verein/donation_management/page/donors/donors.js:1090
+#: verein/public/js/donation_management/donors.js:448
+#: verein/public/js/donation_management/donors.js:472
 msgid "Request Change"
 msgstr ""
 
@@ -1124,14 +1113,13 @@ msgstr ""
 msgid "Satellite"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:924
+#: verein/public/js/donation_management/cost_center_overview.js:371
 msgid "Save"
 msgstr ""
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:421
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:486
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:862
-#: verein/donation_management/page/donors/donors.js:1191
+#: verein/public/js/donation_management/table_controls.js:67
 msgid "Search"
 msgstr ""
 
@@ -1161,7 +1149,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:810
+#: verein/public/js/donation_management/cost_center_overview.js:253
 msgid "Show or hide {0}"
 msgstr ""
 
@@ -1194,7 +1182,7 @@ msgstr ""
 
 #. Label of the contact_status_details (Long Text) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/page/donors/donors.js:1147
+#: verein/public/js/donation_management/donors.js:529
 msgid "Status Details"
 msgstr ""
 
@@ -1287,9 +1275,7 @@ msgstr ""
 #. Label of the to_date (Date) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:310
-#: verein/donation_management/page/cost_center_overview/cost_center_overview.js:338
-#: verein/donation_management/page/donors/donors.js:394
+#: verein/public/js/donation_management/filters.js:28
 msgid "To Date"
 msgstr ""
 
