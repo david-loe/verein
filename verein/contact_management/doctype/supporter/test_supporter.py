@@ -19,6 +19,50 @@ class TestSupporter(FrappeTestCase):
 		supporter = make_supporter(first_name="Ada", last_name="Lovelace")
 		self.assertEqual(supporter.full_name, get_full_name("Ada", "Lovelace"))
 
+	def test_contact_status_changes_preserve_contact_timestamp_and_location(self):
+		with patch(
+			"verein.contact_management.doctype.supporter.supporter.enqueue_geocoding_job"
+		) as enqueue_geocoding:
+			supporter = make_supporter(
+				first_name="Status",
+				address_line_1="Teststraße 1",
+				city="Berlin",
+				postal_code="10115",
+				country="Germany",
+				latitude=52.52,
+				longitude=13.405,
+			)
+			contact_modified = supporter.contact_or_address_modified
+			enqueue_geocoding.reset_mock()
+			for status in ("Duplicate", "Incomplete Address", "Mailing Notice", ""):
+				with self.subTest(status=status):
+					supporter.status = status
+					supporter.contact_status_details = "Example reason" if status else ""
+					supporter.save()
+					supporter.reload()
+					self.assertEqual(supporter.status, status)
+					self.assertEqual(supporter.contact_status_details, "Example reason" if status else "")
+					self.assertEqual(supporter.contact_or_address_modified, contact_modified)
+					self.assertEqual((supporter.latitude, supporter.longitude), (52.52, 13.405))
+				enqueue_geocoding.assert_not_called()
+
+	def test_contact_status_is_not_copied(self):
+		supporter = make_supporter(
+			first_name="Original",
+			status="Duplicate",
+			contact_status_details="Original contact only",
+		)
+		copied = frappe.copy_doc(supporter, ignore_no_copy=False)
+		self.assertFalse(copied.status)
+		self.assertFalse(copied.contact_status_details)
+
+	def test_native_status_translation_uses_supporter_context(self):
+		# The native indicator translates doc.status with the DocType context.
+		# Keep this noun distinct from the general Duplicate action.
+		with patch.object(frappe.local, "lang", "de"):
+			self.assertEqual(frappe._("Duplicate", context="Supporter"), "Doppelanlage")
+			self.assertEqual(frappe._("Duplicate"), "Duplizieren")
+
 	def test_spouse_link_is_synced_bidirectionally(self):
 		left = make_supporter(first_name="Left")
 		right = make_supporter(first_name="Right")

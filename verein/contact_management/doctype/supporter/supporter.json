@@ -33,6 +33,9 @@
   "geo_map_preview",
   "section_break_jpqs",
   "contact_or_address_modified",
+  "contact_status_section",
+  "status",
+  "contact_status_details",
   "networks_tab",
   "networks",
   "section_break_rnjv",
@@ -194,6 +197,26 @@
    "label": "Contact"
   },
   {
+   "fieldname": "contact_status_section",
+   "fieldtype": "Section Break",
+   "label": "Contact Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Contact Status",
+   "no_copy": 1,
+   "options": "\nDuplicate\nIncomplete Address\nMailing Notice"
+  },
+  {
+   "fieldname": "contact_status_details",
+   "fieldtype": "Long Text",
+   "label": "Status Details",
+   "no_copy": 1
+  },
+  {
    "fieldname": "networks_tab",
    "fieldtype": "Tab Break",
    "label": "Networks & Experiences"
@@ -228,7 +251,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-04-25 08:30:00.000000",
+ "modified": "2026-09-08 11:36:10.000000",
  "modified_by": "Administrator",
  "module": "Contact Management",
  "name": "Supporter",
@@ -263,6 +286,19 @@
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
+ "states": [
+  {
+   "title": "Duplicate",
+   "color": "Red"
+  },
+  {
+   "title": "Incomplete Address",
+   "color": "Orange"
+  },
+  {
+   "title": "Mailing Notice",
+   "color": "Gray"
+  }
+ ],
  "title_field": "full_name"
 }

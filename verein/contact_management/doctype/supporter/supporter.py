@@ -26,6 +26,7 @@ class Supporter(Document):
 		address_line_2: DF.Data | None
 		city: DF.Data | None
 		contact_or_address_modified: DF.Data | None
+		contact_status_details: DF.LongText | None
 		country: DF.Link | None
 		date_of_birth: DF.Date | None
 		email_address: DF.Data | None
@@ -42,6 +43,7 @@ class Supporter(Document):
 		postal_code: DF.Data | None
 		salutation: DF.Link | None
 		spouse: DF.Link | None
+		status: DF.Literal["", "Duplicate", "Incomplete Address", "Mailing Notice"]
 	# end: auto-generated types
 
 	address_fields = REQUIRED_ADDRESS_FIELDS
