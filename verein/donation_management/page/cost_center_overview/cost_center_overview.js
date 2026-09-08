@@ -1,3 +1,4 @@
+/* global verein */
 frappe.provide("verein.donation_management");
 
 const DATE_RANGE_PRESETS = {
@@ -11,7 +12,9 @@ const COST_CENTER_OVERVIEW_FILTER_STORAGE_KEY = "verein.donation_management.cost
 
 frappe.pages["cost-center-overview"].on_page_load = function (wrapper) {
 	if (!wrapper.costCenterOverview) {
-		wrapper.costCenterOverview = new verein.donation_management.CostCenterOverviewPage(wrapper);
+		wrapper.costCenterOverview = new verein.donation_management.CostCenterOverviewPage(
+			wrapper
+		);
 	}
 };
 
@@ -168,6 +171,39 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 			.cost-center-overview .table-shell {
 				overflow-x: auto;
 				overflow-y: hidden;
+			}
+
+			.cost-center-overview .table-shell > table {
+				margin: 0;
+				border: 0;
+				border-collapse: separate;
+				border-spacing: 0;
+			}
+
+			.cost-center-overview .table-shell > table > thead > tr > th,
+			.cost-center-overview .table-shell > table > tbody > tr > td {
+				border: 0;
+				border-right: 1px solid var(--border-color);
+				border-bottom: 1px solid var(--border-color);
+			}
+
+			.cost-center-overview .table-shell > table > thead > tr > th:last-child,
+			.cost-center-overview .table-shell > table > tbody > tr > td:last-child {
+				border-right: 0;
+			}
+
+			.cost-center-overview .table-shell > table > tbody > tr:last-child > td {
+				border-bottom: 0;
+			}
+
+			.cost-center-overview .table-shell > table > thead {
+				position: relative;
+				z-index: 2;
+				background: var(--card-bg);
+			}
+
+			.cost-center-overview .table-shell > table > thead > tr > th {
+				background: var(--card-bg);
 			}
 
 			.cost-center-overview table {
@@ -351,7 +387,9 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 	}
 
 	make_layout() {
-		this.$root = $('<div class="cost-center-overview d-flex flex-column m-2 m-sm-3">').appendTo(this.page.main);
+		this.$root = $(
+			'<div class="cost-center-overview d-flex flex-column m-2 m-sm-3">'
+		).appendTo(this.page.main);
 		this.$filterRow = $('<div class="filter-row">').appendTo(this.$root);
 		this.$filterRow.append(this.companyControl.$wrapper);
 		this.$filterRow.append(this.costCenterControl.$wrapper);
@@ -368,6 +406,13 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 			</div>
 		`).appendTo(this.$root);
 		this.$tableShell = $('<div class="table-shell">').appendTo(this.$root);
+		frappe.require("/assets/verein/js/donation_table_header.js").then(() => {
+			if (this.$tableShell[0].isConnected) {
+				this.tableHeader = new verein.donation_management.DonationTableHeader(
+					this.$tableShell[0]
+				);
+			}
+		});
 	}
 
 	async handle_company_change() {
@@ -419,7 +464,10 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 	}
 
 	async mark_custom_date_range() {
-		if (this.applyingDateRangePreset || this.dateRangeControl.get_value() === DATE_RANGE_PRESETS.CUSTOM) {
+		if (
+			this.applyingDateRangePreset ||
+			this.dateRangeControl.get_value() === DATE_RANGE_PRESETS.CUSTOM
+		) {
 			return;
 		}
 		if (this.current_dates_match_selected_preset()) {
@@ -489,7 +537,10 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 
 		const toDate = frappe.datetime.now_date();
 		const fromDate = this.get_month_start(frappe.datetime.add_months(toDate, -months));
-		return this.fromDateControl.get_value() === fromDate && this.toDateControl.get_value() === toDate;
+		return (
+			this.fromDateControl.get_value() === fromDate &&
+			this.toDateControl.get_value() === toDate
+		);
 	}
 
 	get_month_start(date) {
@@ -498,7 +549,9 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 
 	get_stored_filters() {
 		try {
-			const filters = JSON.parse(sessionStorage.getItem(COST_CENTER_OVERVIEW_FILTER_STORAGE_KEY) || "null");
+			const filters = JSON.parse(
+				sessionStorage.getItem(COST_CENTER_OVERVIEW_FILTER_STORAGE_KEY) || "null"
+			);
 			return filters && typeof filters === "object" ? filters : null;
 		} catch {
 			return null;
@@ -524,7 +577,10 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 
 	configure_company_filter() {
 		this.companies = [...new Set(this.costCenters.map((row) => row.company).filter(Boolean))];
-		this.companyControl.df.options = this.companies.map((company) => ({ label: company, value: company }));
+		this.companyControl.df.options = this.companies.map((company) => ({
+			label: company,
+			value: company,
+		}));
 		this.companyControl.refresh();
 		const showCompany = this.companies.length > 1;
 		this.companyControl.$wrapper.toggle(showCompany);
@@ -554,15 +610,22 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 
 	async restore_filters() {
 		const storedFilters = this.get_stored_filters();
-		const storedCostCenter = this.costCenters.find((row) => row.name === storedFilters?.cost_center);
+		const storedCostCenter = this.costCenters.find(
+			(row) => row.name === storedFilters?.cost_center
+		);
 		const company =
 			storedCostCenter?.company ||
-			(this.companies.includes(storedFilters?.company) ? storedFilters.company : this.companies[0]);
+			(this.companies.includes(storedFilters?.company)
+				? storedFilters.company
+				: this.companies[0]);
 		const options = this.set_cost_center_options(company);
 		const costCenter =
-			storedCostCenter?.company === company ? storedCostCenter.name : options[0]?.value || "";
+			storedCostCenter?.company === company
+				? storedCostCenter.name
+				: options[0]?.value || "";
 		const hasStoredDates = this.has_stored_dates(storedFilters);
-		let period = this.get_valid_stored_period(storedFilters) || DATE_RANGE_PRESETS.LAST_HALF_YEAR;
+		let period =
+			this.get_valid_stored_period(storedFilters) || DATE_RANGE_PRESETS.LAST_HALF_YEAR;
 		if (period === DATE_RANGE_PRESETS.CUSTOM && !hasStoredDates) {
 			period = DATE_RANGE_PRESETS.LAST_HALF_YEAR;
 		}
@@ -571,7 +634,7 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 			? {
 					from_date: storedFilters.from_date,
 					to_date: storedFilters.to_date,
-				}
+			  }
 			: this.get_dates_for_date_range(period);
 
 		this.restoringFilters = true;
@@ -709,7 +772,11 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 		this.$chartShell.hide();
 		this.$tableShell
 			.show()
-			.html(`<div class="loading-state">${this.get_icon("loader-circle")}${__("Loading data...")}</div>`);
+			.html(
+				`<div class="loading-state">${this.get_icon("loader-circle")}${__(
+					"Loading data..."
+				)}</div>`
+			);
 	}
 
 	render() {
@@ -827,7 +894,9 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 	}
 
 	toggle_chart_series(seriesKey) {
-		const visibleKeys = Object.keys(this.visibleChartSeries).filter((key) => this.visibleChartSeries[key]);
+		const visibleKeys = Object.keys(this.visibleChartSeries).filter(
+			(key) => this.visibleChartSeries[key]
+		);
 		if (this.visibleChartSeries[seriesKey] && visibleKeys.length <= 1) {
 			return;
 		}
@@ -846,7 +915,11 @@ verein.donation_management.CostCenterOverviewPage = class CostCenterOverviewPage
 			.sort((a, b) => (b.month || "").localeCompare(a.month || ""))
 			.map((row) => {
 				const budgetAction = canManageBudget
-					? `<button class="btn btn-xs btn-secondary edit-budget" data-from-date="${row.month_start}" data-budget="${row.budget}">${this.get_icon("edit")}${__("Edit")}</button>`
+					? `<button class="btn btn-xs btn-secondary edit-budget" data-from-date="${
+							row.month_start
+					  }" data-budget="${row.budget}">${this.get_icon("edit")}${__(
+							"Edit"
+					  )}</button>`
 					: "";
 				return `
 					<tr>

@@ -77,6 +77,7 @@ def get_donor_rows_and_summary(
 				`tabGL Entry`.`supporter`,
 				sum(`tabGL Entry`.`credit` - `tabGL Entry`.`debit`) as amount,
 				count(`tabGL Entry`.`name`) as booking_count,
+				min(`tabGL Entry`.`posting_date`) as first_donation_date,
 				max(`tabGL Entry`.`posting_date`) as last_donation_date
 			from `tabGL Entry`
 			inner join `tabAccount` on `tabAccount`.`name` = `tabGL Entry`.`account`
@@ -87,6 +88,8 @@ def get_donor_rows_and_summary(
 			select
 				`tabSupporter`.`name`,
 				`tabSupporter`.`full_name`,
+				`tabSupporter`.`status`,
+				`tabSupporter`.`contact_status_details`,
 				`tabSupporter`.`first_name`,
 				`tabSupporter`.`last_name`,
 				`tabSupporter`.`email_address`,
@@ -99,6 +102,7 @@ def get_donor_rows_and_summary(
 				`tabSupporter`.`contact_or_address_modified`,
 				`donor_totals`.`amount`,
 				`donor_totals`.`booking_count`,
+				`donor_totals`.`first_donation_date`,
 				`donor_totals`.`last_donation_date`,
 				count(*) over () as donor_count,
 				sum(`donor_totals`.`amount`) over () as summary_amount
@@ -116,7 +120,9 @@ def get_donor_rows_and_summary(
 	summary = get_summary_from_donor_rows(rows)
 	if not rows and limit_start:
 		summary = get_donor_summary(cost_centers, from_date, to_date, search)
+	status_colors = {state.title: state.color for state in frappe.get_meta("Supporter").states}
 	for row in rows:
+		row["status_color"] = status_colors.get(row.status) if row.status else None
 		row["amount"] = flt(row.amount)
 		row["booking_count"] = cint(row.booking_count)
 		row.pop("donor_count", None)
@@ -195,6 +201,7 @@ def get_order_clause(order_by: str | None, order_direction: str | None) -> str:
 	order_columns = {
 		"full_name": "coalesce(`full_name`, `name`)",
 		"amount": "amount",
+		"first_donation_date": "first_donation_date",
 		"last_donation_date": "last_donation_date",
 		"booking_count": "booking_count",
 		"contact_or_address_modified": "`contact_or_address_modified`",

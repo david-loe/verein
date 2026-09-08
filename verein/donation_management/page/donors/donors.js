@@ -1,3 +1,4 @@
+/* global verein */
 frappe.provide("verein.donation_management");
 
 const DONOR_DATE_RANGE_PRESETS = {
@@ -8,7 +9,6 @@ const DONOR_DATE_RANGE_PRESETS = {
 	LAST_THREE_YEARS: __("Last Three Years"),
 };
 const DONATION_MANAGEMENT_FILTER_STORAGE_KEY = "verein.donation_management.cost_center_filters";
-const DONOR_SEARCH_STORAGE_KEY = "verein.donation_management.donor_search";
 const DONOR_PAGE_LENGTH = 100;
 const DONOR_BOOKING_PAGE_LENGTH = 100;
 const DONOR_CHANGE_FIELDS = [
@@ -38,13 +38,16 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		this.wrapper = wrapper;
 		this.costCenters = [];
 		this.donors = [];
+		this.columnFilters = { search: "" };
+		this.openColumnFilters = new Set();
+		this.pendingColumnFilterField = null;
 		this.summary = {};
 		this.hasMore = false;
 		this.nextLimitStart = 0;
 		this.expandedDonors = new Set();
 		this.donorBookings = {};
 		this.donorRequestGeneration = 0;
-		this.sort = { field: "amount", direction: "desc" };
+		this.sort = null;
 		this.page = frappe.ui.make_app_page({
 			parent: wrapper,
 			title: __("Donors"),
@@ -70,14 +73,14 @@ verein.donation_management.DonorsPage = class DonorsPage {
 
 			.donors-page .filter-row {
 				display: grid;
-				grid-template-columns: minmax(180px, 240px) minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px) minmax(180px, 260px);
+				grid-template-columns: minmax(180px, 240px) minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px);
 				gap: 12px;
 				align-items: end;
 				justify-content: start;
 			}
 
 			.donors-page .filter-row.company-filter-hidden {
-				grid-template-columns: minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px) minmax(180px, 260px);
+				grid-template-columns: minmax(180px, 300px) minmax(140px, 180px) minmax(120px, 150px) minmax(120px, 150px);
 			}
 
 			.donors-page .filter-row > * {
@@ -139,6 +142,39 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				overflow-y: hidden;
 			}
 
+			.donors-page .table-shell > table {
+				margin: 0;
+				border: 0;
+				border-collapse: separate;
+				border-spacing: 0;
+			}
+
+			.donors-page .table-shell > table > thead > tr > th,
+			.donors-page .table-shell > table > tbody > tr > td {
+				border: 0;
+				border-right: 1px solid var(--border-color);
+				border-bottom: 1px solid var(--border-color);
+			}
+
+			.donors-page .table-shell > table > thead > tr > th:last-child,
+			.donors-page .table-shell > table > tbody > tr > td:last-child {
+				border-right: 0;
+			}
+
+			.donors-page .table-shell > table > tbody > tr:last-child > td {
+				border-bottom: 0;
+			}
+
+			.donors-page .table-shell > table > thead {
+				position: relative;
+				z-index: 2;
+				background: var(--card-bg);
+			}
+
+			.donors-page .table-shell > table > thead > tr > th {
+				background: var(--card-bg);
+			}
+
 			.donors-page table {
 				margin-bottom: 0;
 				min-width: 860px;
@@ -169,6 +205,14 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				align-items: center;
 				justify-content: space-between;
 				gap: 12px;
+			}
+
+			.donors-page .donor-identity {
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+				gap: 8px;
+				min-width: 0;
 			}
 
 			.donors-page .donor-name {
@@ -279,6 +323,30 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				justify-content: center;
 			}
 
+			.donors-page .column-heading {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+
+			.donors-page .column-filter-toggle {
+				flex-shrink: 0;
+				color: var(--text-muted);
+			}
+
+			.donors-page .column-filter-toggle.active {
+				color: var(--primary);
+				background: var(--control-bg);
+				box-shadow: inset 0 -2px currentColor;
+			}
+
+			.donors-page .column-filter-input {
+				margin-top: 8px;
+				min-width: 160px;
+				width: 100%;
+				font-weight: normal;
+			}
+
 			@media (max-width: 1000px) {
 				.donors-page .filter-row {
 					grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -360,12 +428,6 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			fieldname: "to_date",
 			change: () => this.handle_date_change(),
 		});
-		this.searchControl = this.make_control({
-			fieldtype: "Data",
-			label: __("Search"),
-			fieldname: "search",
-			change: () => this.handle_search_change(),
-		});
 	}
 
 	make_control(df) {
@@ -377,21 +439,31 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	make_layout() {
-		this.$root = $('<div class="donors-page d-flex flex-column m-2 m-sm-3">').appendTo(this.page.main);
+		this.$root = $('<div class="donors-page d-flex flex-column m-2 m-sm-3">').appendTo(
+			this.page.main
+		);
 		this.$filterRow = $('<div class="filter-row">').appendTo(this.$root);
 		this.$filterRow.append(this.companyControl.$wrapper);
 		this.$filterRow.append(this.costCenterControl.$wrapper);
 		this.$filterRow.append(this.dateRangeControl.$wrapper);
 		this.$filterRow.append(this.fromDateControl.$wrapper);
 		this.$filterRow.append(this.toDateControl.$wrapper);
-		this.$filterRow.append(this.searchControl.$wrapper);
 
 		this.$emptyState = $('<div class="empty-state">').hide().appendTo(this.$root);
 		this.$kpiGrid = $('<div class="kpi-grid">').appendTo(this.$root);
 		this.$tableShell = $('<div class="table-shell">').appendTo(this.$root);
+		frappe.require("/assets/verein/js/donation_table_header.js").then(() => {
+			if (this.$tableShell[0].isConnected) {
+				this.tableHeader = new verein.donation_management.DonationTableHeader(
+					this.$tableShell[0]
+				);
+			}
+		});
 		this.$loadMoreRow = $('<div class="load-more-row">').hide().appendTo(this.$root);
 		this.$loadMoreButton = $(
-			`<button class="btn btn-secondary">${this.get_icon("chevrons-down")}${__("Load More")}</button>`
+			`<button class="btn btn-secondary">${this.get_icon("chevrons-down")}${__(
+				"Load More"
+			)}</button>`
 		)
 			.on("click", () => this.load_donors(false))
 			.appendTo(this.$loadMoreRow);
@@ -401,6 +473,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		if (this.restoringFilters) {
 			return;
 		}
+		this.invalidate_requests();
 
 		const options = this.set_cost_center_options(this.companyControl.get_value());
 		const currentCostCenter = this.costCenterControl.get_value();
@@ -421,6 +494,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		if (this.restoringFilters) {
 			return;
 		}
+		this.invalidate_requests();
 		this.store_filters();
 		this.load_donors(true);
 	}
@@ -436,6 +510,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		if (this.restoringFilters) {
 			return;
 		}
+		this.invalidate_requests();
 		await this.mark_custom_date_range();
 		if (this.applyingDateRangePreset) {
 			return;
@@ -444,21 +519,17 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		this.queue_load();
 	}
 
-	handle_search_change() {
-		if (this.restoringFilters) {
-			return;
-		}
-		this.store_filters();
-		this.queue_load();
-	}
-
 	queue_load() {
+		this.invalidate_requests();
 		clearTimeout(this.refreshTimeout);
 		this.refreshTimeout = setTimeout(() => this.load_donors(true), 300);
 	}
 
 	async mark_custom_date_range() {
-		if (this.applyingDateRangePreset || this.dateRangeControl.get_value() === DONOR_DATE_RANGE_PRESETS.CUSTOM) {
+		if (
+			this.applyingDateRangePreset ||
+			this.dateRangeControl.get_value() === DONOR_DATE_RANGE_PRESETS.CUSTOM
+		) {
 			return;
 		}
 		if (this.current_dates_match_selected_preset()) {
@@ -503,12 +574,14 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	get_months_for_date_range(selectedRange) {
-		return {
-			[DONOR_DATE_RANGE_PRESETS.LAST_THREE_MONTHS]: 3,
-			[DONOR_DATE_RANGE_PRESETS.LAST_HALF_YEAR]: 6,
-			[DONOR_DATE_RANGE_PRESETS.LAST_YEAR]: 12,
-			[DONOR_DATE_RANGE_PRESETS.LAST_THREE_YEARS]: 36,
-		}[selectedRange] || 6;
+		return (
+			{
+				[DONOR_DATE_RANGE_PRESETS.LAST_THREE_MONTHS]: 3,
+				[DONOR_DATE_RANGE_PRESETS.LAST_HALF_YEAR]: 6,
+				[DONOR_DATE_RANGE_PRESETS.LAST_YEAR]: 12,
+				[DONOR_DATE_RANGE_PRESETS.LAST_THREE_YEARS]: 36,
+			}[selectedRange] || 6
+		);
 	}
 
 	current_dates_match_selected_preset() {
@@ -517,7 +590,10 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			return false;
 		}
 		const dates = this.get_dates_for_date_range(selectedRange);
-		return this.fromDateControl.get_value() === dates.from_date && this.toDateControl.get_value() === dates.to_date;
+		return (
+			this.fromDateControl.get_value() === dates.from_date &&
+			this.toDateControl.get_value() === dates.to_date
+		);
 	}
 
 	get_month_start(date) {
@@ -526,19 +602,12 @@ verein.donation_management.DonorsPage = class DonorsPage {
 
 	get_stored_filters() {
 		try {
-			const filters = JSON.parse(sessionStorage.getItem(DONATION_MANAGEMENT_FILTER_STORAGE_KEY) || "null");
+			const filters = JSON.parse(
+				sessionStorage.getItem(DONATION_MANAGEMENT_FILTER_STORAGE_KEY) || "null"
+			);
 			return filters && typeof filters === "object" ? filters : null;
 		} catch {
 			return null;
-		}
-	}
-
-	get_stored_search() {
-		try {
-			const value = sessionStorage.getItem(DONOR_SEARCH_STORAGE_KEY);
-			return typeof value === "string" ? value : "";
-		} catch {
-			return "";
 		}
 	}
 
@@ -554,7 +623,6 @@ verein.donation_management.DonorsPage = class DonorsPage {
 					to_date: this.toDateControl.get_value() || null,
 				})
 			);
-			sessionStorage.setItem(DONOR_SEARCH_STORAGE_KEY, this.searchControl.get_value() || "");
 		} catch {
 			// Ignore storage failures; filters still work in memory.
 		}
@@ -562,7 +630,10 @@ verein.donation_management.DonorsPage = class DonorsPage {
 
 	configure_company_filter() {
 		this.companies = [...new Set(this.costCenters.map((row) => row.company).filter(Boolean))];
-		this.companyControl.df.options = this.companies.map((company) => ({ label: company, value: company }));
+		this.companyControl.df.options = this.companies.map((company) => ({
+			label: company,
+			value: company,
+		}));
 		this.companyControl.refresh();
 		const showCompany = this.companies.length > 1;
 		this.companyControl.$wrapper.toggle(showCompany);
@@ -611,19 +682,26 @@ verein.donation_management.DonorsPage = class DonorsPage {
 
 	async restore_filters() {
 		const storedFilters = this.get_stored_filters();
-		const storedCostCenter = this.costCenters.find((row) => row.name === storedFilters?.cost_center);
+		const storedCostCenter = this.costCenters.find(
+			(row) => row.name === storedFilters?.cost_center
+		);
 		const company =
 			storedCostCenter?.company ||
-			(this.companies.includes(storedFilters?.company) ? storedFilters.company : this.companies[0]);
+			(this.companies.includes(storedFilters?.company)
+				? storedFilters.company
+				: this.companies[0]);
 		const options = this.set_cost_center_options(company);
 		const costCenter =
-			storedCostCenter?.company === company ? storedCostCenter.name : options[0]?.value || "";
+			storedCostCenter?.company === company
+				? storedCostCenter.name
+				: options[0]?.value || "";
 		const period = Object.values(DONOR_DATE_RANGE_PRESETS).includes(storedFilters?.period)
 			? storedFilters.period
 			: DONOR_DATE_RANGE_PRESETS.LAST_HALF_YEAR;
-		const dates = storedFilters?.from_date && storedFilters?.to_date
-			? { from_date: storedFilters.from_date, to_date: storedFilters.to_date }
-			: this.get_dates_for_date_range(period);
+		const dates =
+			storedFilters?.from_date && storedFilters?.to_date
+				? { from_date: storedFilters.from_date, to_date: storedFilters.to_date }
+				: this.get_dates_for_date_range(period);
 
 		this.restoringFilters = true;
 		try {
@@ -632,7 +710,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			await this.dateRangeControl.set_value(period);
 			await this.fromDateControl.set_value(dates.from_date);
 			await this.toDateControl.set_value(dates.to_date);
-			await this.searchControl.set_value(this.get_stored_search());
+			this.sync_column_filters();
 		} finally {
 			this.restoringFilters = false;
 		}
@@ -640,6 +718,10 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	async load_donors(reset) {
+		clearTimeout(this.columnFilterTimeout);
+		this.columnFilterTimeout = null;
+		this.pendingColumnFilterField = null;
+		clearTimeout(this.refreshTimeout);
 		const costCenter = this.costCenterControl.get_value();
 		if (!costCenter) {
 			return;
@@ -665,11 +747,11 @@ verein.donation_management.DonorsPage = class DonorsPage {
 					cost_center: costCenter,
 					from_date: this.fromDateControl.get_value(),
 					to_date: this.toDateControl.get_value(),
-					search: this.searchControl.get_value(),
+					search: this.columnFilters.search,
 					limit_start: reset ? 0 : this.nextLimitStart,
 					limit: DONOR_PAGE_LENGTH,
-					order_by: this.sort.field,
-					order_direction: this.sort.direction,
+					order_by: this.sort?.field || "amount",
+					order_direction: this.sort?.direction || "desc",
 				},
 			});
 			if (requestGeneration !== this.donorRequestGeneration) {
@@ -685,7 +767,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			if (requestGeneration !== this.donorRequestGeneration) {
 				return;
 			}
-			this.show_empty(error.message || __("Donors could not be loaded."));
+			this.show_table_message(error.message || __("Donors could not be loaded."));
 		} finally {
 			if (requestGeneration === this.donorRequestGeneration) {
 				this.set_load_more_loading(false);
@@ -694,11 +776,18 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	show_loading() {
+		this.show_table_message(__("Loading data..."));
+	}
+
+	show_table_message(message) {
 		this.$emptyState.hide();
 		this.$kpiGrid.hide();
-		this.$tableShell
-			.show()
-			.html(`<div class="loading-state">${this.get_icon("loader-circle")}${__("Loading data...")}</div>`);
+		this.$loadMoreRow.hide();
+		this.$tableShell.show();
+		this.render_table();
+		this.$tableBody.html(
+			`<tr><td colspan="7" class="table-empty-state">${this.escape(message)}</td></tr>`
+		);
 	}
 
 	set_load_more_loading(loading) {
@@ -744,30 +833,48 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	render_table() {
-		if (!this.donors.length) {
-			this.$tableShell.html(`<div class="table-empty-state">${__("No donors found for the selected period.")}</div>`);
-			return;
-		}
-
 		const rows = this.donors.map((row) => this.render_row(row)).join("");
-		this.$tableShell.html(`
+		if (!this.$tableBody) {
+			this.$tableShell.html(`
 			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th class="expand-cell"></th>
-						<th>${this.render_sort_header("full_name", __("Donor"))}</th>
-						<th class="date-cell">${this.render_sort_header("last_donation_date", __("Last Donation"))}</th>
-						<th class="count-cell">${this.render_sort_header("booking_count", __("Bookings"))}</th>
+						<th>${this.render_column_header("full_name", __("Donor"), "search")}</th>
 						<th class="amount-cell">${this.render_sort_header("amount", __("Donation Amount"))}</th>
-						<th class="datetime-cell">${this.render_sort_header("contact_or_address_modified", __("Address Modified"))}</th>
+						<th class="count-cell">${this.render_sort_header("booking_count", __("Bookings"))}</th>
+						<th class="date-cell">${this.render_sort_header("first_donation_date", __("First Donation"))}</th>
+						<th class="date-cell">${this.render_sort_header("last_donation_date", __("Last Donation"))}</th>
+						<th class="datetime-cell">${this.render_sort_header(
+							"contact_or_address_modified",
+							__("Address Modified")
+						)}</th>
 					</tr>
 				</thead>
-				<tbody>${rows}</tbody>
+				<tbody></tbody>
 			</table>
 		`);
-		this.$tableShell.find(".sort-button").on("click", (event) => {
-			this.update_sort($(event.currentTarget).data("sort-field"));
+			this.$tableBody = this.$tableShell.find("table > tbody").first();
+			this.bind_column_filters();
+		}
+		this.sync_column_filters();
+		this.$tableShell.find(".sort-button").each((_, button) => {
+			$(button)
+				.find(".sort-indicator")
+				.html(this.get_sort_indicator($(button).data("sort-field")));
 		});
+		this.$tableBody.html(
+			rows ||
+				`<tr><td colspan="7" class="table-empty-state">${__(
+					"No donors found for the selected filters."
+				)}</td></tr>`
+		);
+		this.$tableShell
+			.find(".sort-button")
+			.off("click")
+			.on("click", (event) => {
+				this.update_sort($(event.currentTarget).data("sort-field"));
+			});
 		this.$tableShell.find(".expand-button").on("click", (event) => {
 			this.toggle_donor_bookings($(event.currentTarget).data("donor-name"));
 		});
@@ -788,31 +895,62 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		return `
 			<tr class="donor-row" data-donor-name="${this.escape_attr(row.name)}">
 				<td class="expand-cell">
-					<button type="button" class="btn btn-xs btn-secondary expand-button" data-donor-name="${this.escape_attr(row.name)}" title="${this.escape_attr(expanded ? __("Collapse") : __("Expand"))}">
+					<button type="button" class="btn btn-xs btn-secondary expand-button" data-donor-name="${this.escape_attr(
+						row.name
+					)}" title="${this.escape_attr(expanded ? __("Collapse") : __("Expand"))}">
 						${this.get_icon(expanded ? "chevron-down" : "chevron-right")}
 					</button>
 				</td>
 				<td class="donor-cell">
 					<div class="donor-cell-content">
-						<span class="donor-name">${this.escape(row.full_name || row.name)}</span>
-						<button type="button" class="btn btn-xs btn-secondary contact-button" data-donor-name="${this.escape_attr(row.name)}">
+						<span class="donor-identity">
+							<span class="donor-name">${this.escape(row.full_name || row.name)}</span>
+							${this.render_donor_status(row)}
+						</span>
+						<button type="button" class="btn btn-xs btn-secondary contact-button" data-donor-name="${this.escape_attr(
+							row.name
+						)}">
 							${this.get_icon("contact")}${__("Contact")}
 						</button>
 					</div>
 				</td>
-				<td class="date-cell">${row.last_donation_date ? frappe.datetime.str_to_user(row.last_donation_date) : ""}</td>
-				<td class="count-cell">${this.escape(String(row.booking_count || 0))}</td>
 				<td class="amount-cell">${this.format_currency(row.amount)}</td>
-				<td class="datetime-cell">${this.escape(this.format_datetime(row.contact_or_address_modified))}</td>
+				<td class="count-cell">${this.escape(String(row.booking_count || 0))}</td>
+				<td class="date-cell">${
+					row.first_donation_date
+						? frappe.datetime.str_to_user(row.first_donation_date)
+						: ""
+				}</td>
+				<td class="date-cell">${
+					row.last_donation_date
+						? frappe.datetime.str_to_user(row.last_donation_date)
+						: ""
+				}</td>
+				<td class="datetime-cell">${this.escape(
+					this.format_datetime(row.contact_or_address_modified)
+				)}</td>
 			</tr>
 			${expanded ? this.render_donor_bookings_row(row) : ""}
 		`;
 	}
 
+	render_donor_status(row) {
+		if (!row.status) {
+			return "";
+		}
+		const color = frappe.scrub(row.status_color || "Gray", "-");
+		return `<span class="donor-status indicator-pill ${this.escape_attr(
+			color
+		)} no-indicator-dot"
+			title="${this.escape_attr(__("Contact Status"))}">
+			${this.escape(__(row.status, null, "Supporter"))}
+		</span>`;
+	}
+
 	render_donor_bookings_row(row) {
 		return `
 			<tr class="donor-bookings-row" data-donor-name="${this.escape_attr(row.name)}">
-				<td colspan="6">
+				<td colspan="7">
 					<div class="donor-bookings-shell">
 						${this.render_donor_bookings_content(row.name)}
 					</div>
@@ -832,13 +970,17 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		}
 
 		if (!state.rows.length) {
-			return `<div class="donor-bookings-empty">${this.escape(__("No donation bookings found."))}</div>`;
+			return `<div class="donor-bookings-empty">${this.escape(
+				__("No donation bookings found.")
+			)}</div>`;
 		}
 
 		const rows = state.rows.map((booking) => this.render_booking_row(booking)).join("");
 		const loadMore = state.hasMore
 			? `<div class="mt-2">
-				<button type="button" class="btn btn-xs btn-secondary donor-bookings-load-more" data-donor-name="${this.escape_attr(donorName)}">
+				<button type="button" class="btn btn-xs btn-secondary donor-bookings-load-more" data-donor-name="${this.escape_attr(
+					donorName
+				)}">
 					${this.get_icon("chevrons-down")}${__("Load More Bookings")}
 				</button>
 			</div>`
@@ -868,7 +1010,9 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				<td class="date-cell">${frappe.datetime.str_to_user(booking.posting_date)}</td>
 				<td class="amount-cell">${this.format_currency(booking.amount)}</td>
 				<td>${this.escape(booking.account_name || booking.account)}</td>
-				<td class="booking-remarks-cell" title="${this.escape_attr(booking.remarks || "")}">${this.escape(booking.remarks || "")}</td>
+				<td class="booking-remarks-cell" title="${this.escape_attr(booking.remarks || "")}">${this.escape(
+			booking.remarks || ""
+		)}</td>
 			</tr>
 		`;
 	}
@@ -882,7 +1026,12 @@ verein.donation_management.DonorsPage = class DonorsPage {
 
 		this.expandedDonors.add(donorName);
 		if (!this.donorBookings[donorName]) {
-			this.donorBookings[donorName] = { rows: [], hasMore: false, nextLimitStart: 0, loading: true };
+			this.donorBookings[donorName] = {
+				rows: [],
+				hasMore: false,
+				nextLimitStart: 0,
+				loading: true,
+			};
 			this.render_table();
 			await this.load_donor_bookings(donorName, true);
 			return;
@@ -891,7 +1040,11 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	async load_donor_bookings(donorName, reset) {
-		const existing = this.donorBookings[donorName] || { rows: [], hasMore: false, nextLimitStart: 0 };
+		const existing = this.donorBookings[donorName] || {
+			rows: [],
+			hasMore: false,
+			nextLimitStart: 0,
+		};
 		this.donorBookings[donorName] = {
 			...existing,
 			rows: reset ? [] : existing.rows,
@@ -899,6 +1052,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			loading: true,
 			error: null,
 		};
+		const requestState = this.donorBookings[donorName];
 		this.render_table();
 
 		try {
@@ -913,6 +1067,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 					limit: DONOR_BOOKING_PAGE_LENGTH,
 				},
 			});
+			if (this.donorBookings[donorName] !== requestState) return;
 			const data = response.message || {};
 			const rows = reset ? data.bookings || [] : existing.rows.concat(data.bookings || []);
 			this.donorBookings[donorName] = {
@@ -923,6 +1078,7 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				error: null,
 			};
 		} catch (error) {
+			if (this.donorBookings[donorName] !== requestState) return;
 			this.donorBookings[donorName] = {
 				...existing,
 				loading: false,
@@ -940,8 +1096,8 @@ verein.donation_management.DonorsPage = class DonorsPage {
 				label: __("Request Change"),
 				collapsible: 1,
 			},
-			...["first_name", "phone", "address_line_1", "address_line_2", "country"].map((fieldname) =>
-				this.make_contact_dialog_field(fieldname, donor)
+			...["first_name", "phone", "address_line_1", "address_line_2", "country"].map(
+				(fieldname) => this.make_contact_dialog_field(fieldname, donor)
 			),
 			{ fieldtype: "Column Break" },
 			...["last_name", "email_address", "city", "postal_code"].map((fieldname) =>
@@ -949,7 +1105,10 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			),
 		];
 		const dialog = new frappe.ui.Dialog({
-			title: donor.full_name || donor.name,
+			title: `<span class="d-flex align-items-center flex-wrap" style="gap: 8px;">
+				<span>${this.escape(donor.full_name || donor.name)}</span>
+				${this.render_donor_status(donor)}
+			</span>`,
 			fields: [
 				{
 					fieldname: "contact_html",
@@ -968,7 +1127,9 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	bind_contact_change_button_visibility(dialog) {
 		const $section = dialog.$wrapper.find('[data-fieldname="contact_change_section"]');
 		const syncButton = () => {
-			dialog.get_primary_btn().toggleClass("hide", $section.find(".section-body").hasClass("hide"));
+			dialog
+				.get_primary_btn()
+				.toggleClass("hide", $section.find(".section-body").hasClass("hide"));
 		};
 		syncButton();
 		$section.find(".section-head").on("click keyup", () => {
@@ -989,7 +1150,12 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	render_contact_html(donor) {
-		const address = [donor.address_line_1, donor.address_line_2, [donor.postal_code, donor.city].filter(Boolean).join(" "), donor.country]
+		const address = [
+			donor.address_line_1,
+			donor.address_line_2,
+			[donor.postal_code, donor.city].filter(Boolean).join(" "),
+			donor.country,
+		]
 			.filter(Boolean)
 			.map((value) => this.escape(value))
 			.join("<br>");
@@ -998,12 +1164,21 @@ verein.donation_management.DonorsPage = class DonorsPage {
 			[__("Phone"), donor.phone],
 			[__("Address"), address],
 		]
-			.map(([label, value]) => `
+			.map(
+				([label, value]) => `
 				<div class="label">${this.escape(label)}</div>
 				<div>${label === __("Address") ? value || "" : this.escape(value || "")}</div>
-			`)
+			`
+			)
 			.join("");
-		return `<div class="donor-contact-grid">${rows}</div>`;
+		const statusDetails = donor.contact_status_details?.trim();
+		const statusDetailsHtml = statusDetails
+			? `<div class="donor-status-details mb-4">
+				<div class="text-muted mb-2">${this.escape(__("Status Details"))}</div>
+				<div style="white-space: pre-wrap; overflow-wrap: anywhere;">${this.escape(statusDetails)}</div>
+			</div>`
+			: "";
+		return `${statusDetailsHtml}<div class="donor-contact-grid">${rows}</div>`;
 	}
 
 	async submit_change_request(dialog, donor, values) {
@@ -1036,6 +1211,93 @@ verein.donation_management.DonorsPage = class DonorsPage {
 		frappe.show_alert({ message: __("Contact change request created."), indicator: "green" });
 	}
 
+	render_column_header(sortField, label, filterField) {
+		const id = `donors-page-filter-${filterField}`;
+		const filterLabel = this.escape_attr(__("Filter {0}", [label]));
+		const input =
+			filterField === "account"
+				? `<select id="${id}" class="form-control column-filter-input" data-filter-field="${filterField}" aria-label="${filterLabel}" hidden></select>`
+				: `<input id="${id}" type="search" class="form-control column-filter-input" data-filter-field="${filterField}" aria-label="${filterLabel}" placeholder="${this.escape_attr(
+						__("Search")
+				  )}" hidden>`;
+		return `<div class="column-heading">
+			${this.render_sort_header(sortField, label)}
+			<button type="button" class="btn btn-xs column-filter-toggle" data-filter-field="${filterField}" aria-label="${filterLabel}" title="${filterLabel}" aria-controls="${id}" aria-expanded="false">
+				${this.get_icon("filter")}
+			</button>
+		</div>${input}`;
+	}
+
+	bind_column_filters() {
+		this.$tableShell.on("click", ".column-filter-toggle", (event) => {
+			const field = $(event.currentTarget).data("filter-field");
+			if (this.openColumnFilters.has(field)) {
+				this.openColumnFilters.delete(field);
+				if (this.columnFilters[field] || this.pendingColumnFilterField === field) {
+					this.set_column_filter(field, "", 0);
+				}
+			} else {
+				this.openColumnFilters.add(field);
+			}
+			this.sync_column_filters();
+			if (this.openColumnFilters.has(field)) {
+				this.$tableShell
+					.find(`.column-filter-input[data-filter-field="${field}"]`)
+					.trigger("focus");
+			}
+		});
+		this.$tableShell.on("input", "input.column-filter-input", (event) =>
+			this.change_column_filter(event, 300)
+		);
+		this.$tableShell.on("change", "select.column-filter-input", (event) =>
+			this.change_column_filter(event, 0)
+		);
+	}
+
+	change_column_filter(event, delay) {
+		const field = $(event.currentTarget).data("filter-field");
+		this.set_column_filter(field, event.currentTarget.value, delay);
+	}
+
+	set_column_filter(field, value, delay) {
+		this.columnFilters[field] = value;
+		this.sync_column_filters();
+		this.invalidate_requests();
+		clearTimeout(this.columnFilterTimeout);
+		this.columnFilterTimeout = null;
+		this.pendingColumnFilterField = null;
+		if (delay) {
+			this.pendingColumnFilterField = field;
+			this.columnFilterTimeout = setTimeout(() => this.load_donors(true), delay);
+		} else {
+			this.load_donors(true);
+		}
+	}
+
+	invalidate_requests() {
+		++this.donorRequestGeneration;
+		this.expandedDonors.clear();
+		this.donorBookings = {};
+		this.$loadMoreButton?.prop("disabled", true);
+	}
+
+	sync_column_filters() {
+		if (!this.$tableBody) return;
+
+		this.$tableShell.find(".column-filter-input").each((_, input) => {
+			const field = $(input).data("filter-field");
+			const value = this.columnFilters[field] || "";
+			if (input.value !== value) $(input).val(value);
+			input.hidden = !this.openColumnFilters.has(field);
+		});
+		this.$tableShell.find(".column-filter-toggle").each((_, button) => {
+			const field = $(button).data("filter-field");
+			$(button)
+				.toggleClass("active", Boolean(this.columnFilters[field]?.trim()))
+				.attr("aria-expanded", String(this.openColumnFilters.has(field)));
+		});
+	}
+
 	render_sort_header(field, label) {
 		return `
 			<button type="button" class="sort-button" data-sort-field="${this.escape_attr(field)}">
@@ -1046,22 +1308,21 @@ verein.donation_management.DonorsPage = class DonorsPage {
 	}
 
 	get_sort_indicator(field) {
-		if (this.sort.field !== field) {
+		if (this.sort?.field !== field) {
 			return "";
 		}
 		return this.sort.direction === "asc" ? "&uarr;" : "&darr;";
 	}
 
 	update_sort(field) {
-		if (this.sort.field === field) {
-			this.sort.direction = this.sort.direction === "asc" ? "desc" : "asc";
+		if (this.sort?.field !== field) {
+			this.sort = { field, direction: "asc" };
+		} else if (this.sort.direction === "asc") {
+			this.sort = { field, direction: "desc" };
 		} else {
-			this.sort = {
-				field,
-				direction: ["amount", "last_donation_date", "contact_or_address_modified"].includes(field) ? "desc" : "asc",
-			};
+			this.sort = null;
 		}
-		this.load_donors(true);
+		return this.load_donors(true);
 	}
 
 	format_currency(value) {

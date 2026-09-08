@@ -42,7 +42,7 @@ class TestSupporterDonors(UnitTestCase):
 		user = make_user(f"dm-donors-leaf-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
 		cost_center = make_cost_center(company=company)
 		other = make_cost_center(company=company)
-		supporter = make_supporter(first_name="Ada", last_name="Donor")
+		supporter = make_supporter(first_name="Ada", last_name="Donor", status="Duplicate")
 		expense_supporter = make_supporter(first_name="Expense", last_name="Only")
 		other_supporter = make_supporter(first_name="Other", last_name="Cost Center")
 		make_access(user, cost_center)
@@ -59,6 +59,8 @@ class TestSupporterDonors(UnitTestCase):
 		self.assertEqual([row.name for row in data["donors"]], [supporter.name])
 		self.assertEqual(data["donors"][0].first_name, "Ada")
 		self.assertEqual(data["donors"][0].last_name, "Donor")
+		self.assertEqual(data["donors"][0].status, "Duplicate")
+		self.assertEqual(data["donors"][0].status_color, "Red")
 		self.assertEqual(data["donors"][0].booking_count, 2)
 		self.assertEqual(data["donors"][0].contact_or_address_modified, supporter.contact_or_address_modified)
 
@@ -77,6 +79,66 @@ class TestSupporterDonors(UnitTestCase):
 
 		self.assertEqual(data["summary"]["donor_count"], 1)
 		self.assertEqual(data["donors"][0].name, supporter.name)
+		self.assertFalse(data["donors"][0].status)
+		self.assertIsNone(data["donors"][0].status_color)
+		self.assertEqual(str(data["donors"][0].first_donation_date), "2026-02-10")
+		self.assertEqual(str(data["donors"][0].last_donation_date), "2026-02-10")
+
+	def test_donation_dates_respect_period_and_booking_filters(self):
+		company = get_company()
+		income_account = get_account(company, "Income")
+		expense_account = get_account(company, "Expense")
+		cost_center = make_cost_center(company=company)
+		other = make_cost_center(company=company)
+		user = make_user(f"dm-donor-dates-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
+		make_access(user, cost_center)
+		supporter = make_supporter(first_name="Dates", last_name="Donor")
+		for posting_date in ("2025-12-31", "2026-01-01", "2026-01-15", "2026-01-31", "2026-02-01"):
+			make_gl_entry(cost_center, income_account, posting_date, credit=100, supporter=supporter.name)
+		make_gl_entry(cost_center, income_account, "2026-01-02", credit=100, supporter=supporter.name, is_cancelled=1)
+		make_gl_entry(cost_center, income_account, "2026-01-30", credit=100, supporter=supporter.name, is_cancelled=1)
+		make_gl_entry(cost_center, expense_account, "2026-01-03", debit=100, supporter=supporter.name)
+		make_gl_entry(cost_center, expense_account, "2026-01-29", debit=100, supporter=supporter.name)
+		make_gl_entry(other, income_account, "2026-01-04", credit=100, supporter=supporter.name)
+		make_gl_entry(other, income_account, "2026-01-28", credit=100, supporter=supporter.name)
+
+		frappe.set_user(user)
+		data = get_donors(cost_center, "2026-01-01", "2026-01-31")
+		row = data["donors"][0]
+		self.assertEqual(str(row.first_donation_date), "2026-01-01")
+		self.assertEqual(str(row.last_donation_date), "2026-01-31")
+		self.assertEqual(row.booking_count, 3)
+		self.assertEqual(row.amount, 300)
+
+		data = get_donors(cost_center, "2026-01-02", "2026-01-30")
+		row = data["donors"][0]
+		self.assertEqual(str(row.first_donation_date), "2026-01-15")
+		self.assertEqual(str(row.last_donation_date), "2026-01-15")
+		self.assertEqual(row.booking_count, 1)
+		self.assertEqual(row.amount, 100)
+
+	def test_sorting_by_first_donation_date_before_pagination(self):
+		company = get_company()
+		income_account = get_account(company, "Income")
+		cost_center = make_cost_center(company=company)
+		user = make_user(f"dm-donor-first-sort-{frappe.generate_hash(length=6)}@example.com", ["Donation Management User"])
+		make_access(user, cost_center)
+		earlier = make_supporter(first_name="Zoe", last_name="Earlier")
+		later = make_supporter(first_name="Ada", last_name="Later")
+		make_gl_entry(cost_center, income_account, "2026-01-05", credit=100, supporter=earlier.name)
+		make_gl_entry(cost_center, income_account, "2026-01-25", credit=100, supporter=earlier.name)
+		make_gl_entry(cost_center, income_account, "2026-01-10", credit=500, supporter=later.name)
+
+		frappe.set_user(user)
+		for direction, expected in (("asc", [earlier.name, later.name]), ("desc", [later.name, earlier.name])):
+			with self.subTest(direction=direction):
+				for offset, name in enumerate(expected):
+					data = get_donors(
+						cost_center, "2026-01-01", "2026-01-31", limit=1, limit_start=offset,
+						order_by="first_donation_date", order_direction=direction,
+					)
+					self.assertEqual([row.name for row in data["donors"]], [name])
+					self.assertEqual(data["summary"], {"donor_count": 2, "amount": 700})
 
 	def test_sorting_by_contact_or_address_modified(self):
 		company = get_company()
