@@ -302,6 +302,7 @@ for (const [Page, load, generation, resultField] of [
         costCenterControl: { get_value: () => "a1" },
         fromDateControl: { get_value: () => "2026-01-01" },
         toDateControl: { get_value: () => "2026-09-08" },
+        get_period_label: () => "01.01.-08.09.",
         cancel_pending() {},
       },
       tableControls: { filters: {}, sort: null, cancel_pending() {} },

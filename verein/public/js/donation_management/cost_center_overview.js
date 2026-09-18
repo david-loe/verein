@@ -1,6 +1,6 @@
 import { DonationFilters } from "./filters.js";
 import { DonationTableHeader } from "./table_header.js";
-import { format_money, get_icon, render_kpis } from "./presentation.js";
+import { format_money, get_icon, render_kpis, dispose_kpi_tooltips } from "./presentation.js";
 
 export class CostCenterOverviewPage {
 	constructor(wrapper) {
@@ -138,6 +138,7 @@ export class CostCenterOverviewPage {
 				return;
 			}
 			this.data = response.message;
+			this.kpiPeriodLabel = this.filters.get_period_label(this.data);
 			this.render();
 		} catch (error) {
 			if (requestGeneration !== this.dashboardRequestGeneration) {
@@ -179,15 +180,21 @@ export class CostCenterOverviewPage {
 
 	render_kpis() {
 		const summary = this.data.summary || {};
+		const period = this.kpiPeriodLabel;
 		const items = [
-			[__("Balance"), this.currentBalance],
-			[__("Income"), summary.income],
-			[__("Expense"), summary.expense],
-			[__("Net"), summary.net],
+			[__("Balance"), this.currentBalance, __("current")],
+			[__("Income"), summary.income, period],
+			[__("Expense"), summary.expense, period],
+			[__("Difference"), summary.net, period, __("Income - Expense")],
 		];
 		render_kpis(
 			this.$kpiGrid,
-			items.map(([label, value]) => [label, this.format_kpi_currency(value)])
+			items.map(([label, value, subtitle, tooltip]) => [
+				label,
+				this.format_kpi_currency(value),
+				subtitle,
+				tooltip,
+			])
 		);
 	}
 
@@ -416,6 +423,7 @@ export class CostCenterOverviewPage {
 		this.filters.destroy();
 		this.tableHeader.destroy();
 		this.chart?.destroy?.();
+		dispose_kpi_tooltips(this.$kpiGrid);
 		this.$root.remove();
 	}
 }

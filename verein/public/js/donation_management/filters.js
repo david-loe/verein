@@ -1,3 +1,5 @@
+import { format_date_range } from "./presentation.js";
+
 const FILTER_STORAGE_KEY = "verein.donation_management.cost_center_filters";
 const DATE_RANGE_PRESETS = {
 	CUSTOM: __("Custom"),
@@ -51,6 +53,13 @@ export class DonationFilters {
 			from_date: this.fromDateControl.get_value() || null,
 			to_date: this.toDateControl.get_value() || null,
 		};
+	}
+
+	get_period_label({ from_date, to_date }) {
+		const selectedRange = this.dateRangeControl.get_value();
+		return this.get_months_for_date_range(selectedRange)
+			? selectedRange
+			: format_date_range(from_date, to_date);
 	}
 
 	async refresh() {

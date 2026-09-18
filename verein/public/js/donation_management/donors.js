@@ -124,6 +124,7 @@ export class DonorsPage {
 			}
 			const data = response.message || {};
 			this.summary = data.summary || {};
+			this.kpiPeriodLabel = this.filters.get_period_label(data);
 			this.hasMore = Boolean(data.has_more);
 			this.nextLimitStart = data.next_limit_start || 0;
 			this.donors = reset ? data.donors || [] : this.donors.concat(data.donors || []);
@@ -181,6 +182,7 @@ export class DonorsPage {
 			items.map(([label, value]) => [
 				label,
 				typeof value === "number" ? escape_html(String(value)) : value,
+				this.kpiPeriodLabel,
 			])
 		);
 	}

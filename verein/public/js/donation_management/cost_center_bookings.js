@@ -1,6 +1,13 @@
 import { DonationFilters } from "./filters.js";
 import { DonationTableHeader } from "./table_header.js";
-import { escape_html, escape_attr, format_money, render_kpis, LoadMore } from "./presentation.js";
+import {
+	escape_html,
+	escape_attr,
+	format_money,
+	render_kpis,
+	dispose_kpi_tooltips,
+	LoadMore,
+} from "./presentation.js";
 import { DonationTableControls } from "./table_controls.js";
 
 const BOOKING_PAGE_LENGTH = 200;
@@ -134,6 +141,7 @@ export class CostCenterBookingsPage {
 				return;
 			}
 			this.summary = data.summary || {};
+			this.kpiPeriodLabel = this.filters.get_period_label(data);
 			this.hasMore = Boolean(data.has_more);
 			this.nextLimitStart = data.next_limit_start || 0;
 			this.entries = reset ? data.entries || [] : this.entries.concat(data.entries || []);
@@ -182,14 +190,20 @@ export class CostCenterBookingsPage {
 	}
 
 	render_kpis() {
+		const period = this.kpiPeriodLabel;
 		const items = [
-			[__("Income"), this.summary.income],
-			[__("Expense"), this.summary.expense],
-			[__("Net"), this.summary.net],
+			[__("Income"), this.summary.income, period],
+			[__("Expense"), this.summary.expense, period],
+			[__("Difference"), this.summary.net, period, __("Income - Expense")],
 		];
 		render_kpis(
 			this.$kpiGrid,
-			items.map(([label, value]) => [label, format_money(value)])
+			items.map(([label, value, subtitle, tooltip]) => [
+				label,
+				format_money(value),
+				subtitle,
+				tooltip,
+			])
 		);
 	}
 
@@ -246,6 +260,7 @@ export class CostCenterBookingsPage {
 		this.tableHeader.destroy();
 		this.tableControls.destroy();
 		this.loadMore.destroy();
+		dispose_kpi_tooltips(this.$kpiGrid);
 		this.$root.remove();
 	}
 

@@ -283,11 +283,22 @@
 }
 
 .donation-management .kpi-label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
 	color: var(--text-muted);
 	font-size: 0.75rem;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-bottom: 0.35rem;
+}
+
+.donation-management .kpi-subtitle {
+	color: var(--text-muted);
+	font-size: 0.75rem;
+	line-height: 1.4;
+	margin-bottom: 0.35rem;
+	overflow-wrap: anywhere;
 }
 
 .donation-management .kpi-value {
@@ -413,7 +424,7 @@
 	gap: 6px;
 }
 
-.cost-center-overview .info-icon-button {
+.donation-management .info-icon-button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -422,6 +433,7 @@
 	background: transparent;
 	color: var(--text-muted);
 	cursor: help;
+	flex-shrink: 0;
 }
 
 .cost-center-overview .amount-positive {
