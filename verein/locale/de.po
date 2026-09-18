@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-09-08 12:59+0000\n"
+"POT-Creation-Date: 2026-09-18 08:48+0000\n"
 "PO-Revision-Date: 2026-03-23 12:50+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language: de\n"
@@ -44,6 +44,18 @@ msgstr "Konto"
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 msgid "Active"
 msgstr "Aktiv"
+
+#. Label of the active_since (Datetime) field in DocType 'Donation Notification
+#. Delivery'
+#. Rule'
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+#: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
+msgid "Active Since"
+msgstr "Aktiv seit"
+
+#: verein/public/js/donation_management/notifications.js:85
+msgid "Add Cost Center"
+msgstr "Kostenstelle hinzufügen"
 
 #: verein/contact_management/doctype/experience/experience.js:6
 #: verein/contact_management/doctype/network/network.js:7
@@ -191,6 +203,7 @@ msgstr "Einklappen"
 #. Label of the company (Link) field in DocType 'Cost Center Access'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/public/js/donation_management/filters.js:18
+#: verein/public/js/donation_management/notifications.js:154
 msgid "Company"
 msgstr "Unternehmen"
 
@@ -246,12 +259,19 @@ msgstr "Koordinaten"
 
 #. Label of the cost_center (Link) field in DocType 'Cost Center Access'
 #. Label of the cost_center (Link) field in DocType 'Cost Center Budget'
+#. Label of the cost_center (Data) field in DocType 'Donation Notification
+#. Delivery'
+#. Label of the cost_center (Link) field in DocType 'Donation Notification
+#. Rule'
 #. Label of the cost_center (Link) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+#: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/public/js/donation_management/filters.js:19
+#: verein/public/js/donation_management/notifications.js:176
 msgid "Cost Center"
 msgstr "Kostenstelle"
 
@@ -394,6 +414,12 @@ msgstr "Distanz (km)"
 msgid "Donation Amount"
 msgstr "Spendenbetrag"
 
+#. Label of the notify_large_donation (Check) field in DocType 'Donation
+#. Notification Rule'
+#: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
+msgid "Donation At or Above Threshold"
+msgstr "Spende ab Schwellenbetrag"
+
 #. Label of a Desktop Icon
 #. Title of a Workspace Sidebar
 #: verein/desktop_icon/donation_management.json
@@ -405,6 +431,7 @@ msgstr "Spendenverwaltung"
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Donation Management Manager"
 msgstr "Spendenverwaltung Manager"
@@ -419,19 +446,44 @@ msgstr "Einstellungen der Spendenverwaltung"
 #. Name of a role
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Donation Management User"
 msgstr "Spendenverwaltung Benutzer"
 
 #: verein/donation_management/page/cost_center_bookings/cost_center_bookings.js:17
 #: verein/donation_management/page/cost_center_overview/cost_center_overview.js:17
+#: verein/donation_management/page/donation_notifications/donation_notifications.js:17
 #: verein/donation_management/page/donors/donors.js:17
 msgid "Donation Management could not be loaded. Please reload the page."
 msgstr "Die Spendenverwaltung konnte nicht geladen werden. Bitte laden Sie die Seite neu."
 
+#. Name of a DocType
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+msgid "Donation Notification Delivery"
+msgstr "Versand einer Spendenbenachrichtigung"
+
+#. Name of a DocType
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
+msgid "Donation Notification Preferences"
+msgstr "Persönliche Spendenbenachrichtigungen"
+
+#. Name of a DocType
+#: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
+msgid "Donation Notification Rule"
+msgstr "Spendenbenachrichtigungsregel"
+
+#: verein/donation_management/notifications.py:312
+msgid "Donation at or above threshold"
+msgstr "Spende ab Schwellenbetrag"
+
 #: verein/public/js/donation_management/donors.js:437
 msgid "Donation bookings could not be loaded."
 msgstr "Spendenbuchungen konnten nicht geladen werden."
+
+#: verein/donation_management/notifications.py:296
+msgid "Donation summary"
+msgstr "Spendenübersicht"
 
 #: verein/public/js/donation_management/donors.js:196
 msgid "Donor"
@@ -479,9 +531,20 @@ msgstr "E-Mail"
 msgid "Email Address"
 msgstr "E-Mail-Adresse"
 
+#. Label of the email_queue (Data) field in DocType 'Donation Notification
+#. Delivery'
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+msgid "Email Queue"
+msgstr "E-Mail-Warteschlange"
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:444
 msgid "Enter a place or set a pin on the map"
 msgstr "Einen Ort eingeben oder einen Pin auf der Karte setzen"
+
+#: verein/donation_management/notifications.py:109
+#: verein/public/js/donation_management/notifications.js:232
+msgid "Enter a positive threshold for large donations."
+msgstr "Bitte gib einen positiven Schwellenbetrag für große Spenden ein."
 
 #. Label of the error_message (Text) field in DocType 'Geocoding Job'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
@@ -589,6 +652,12 @@ msgstr "Das Von-Datum darf nicht nach dem Bis-Datum liegen."
 msgid "Full Name"
 msgstr "Vollständiger Name"
 
+#. Label of the gl_entry (Data) field in DocType 'Donation Notification
+#. Delivery'
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+msgid "GL Entry"
+msgstr "Hauptbuchbuchung"
+
 #. Label of the gender (Link) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 msgid "Gender"
@@ -657,9 +726,20 @@ msgstr ""
 "z. B.: https://map.service.com/get?adr={{ address_line_1 }}, {{ city }}..\n"
 "(Es besteht direkter Zugriff auf alle Adressfelder des referenzierten Dokuments.)"
 
+#: verein/donation_management/notifications.py:68
+#: verein/donation_management/notifications.py:78
+msgid "Invalid notification settings."
+msgstr "Ungültige Benachrichtigungseinstellungen."
+
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:79
 msgid "Invalid status: {0}"
 msgstr "Ungültiger Status: {0}"
+
+#. Label of the last_digest_date (Date) field in DocType 'Donation Notification
+#. Preferences'
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
+msgid "Last Digest Date"
+msgstr "Datum der letzten Zusammenfassung"
 
 #: verein/public/js/donation_management/donors.js:211
 msgid "Last Donation"
@@ -747,6 +827,10 @@ msgstr "Versandhinweis"
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 msgid "Manage"
 msgstr "Verwalten"
+
+#: verein/donation_management/notifications.py:340
+msgid "Manage my donation notifications"
+msgstr "Meine Spendenbenachrichtigungen verwalten"
 
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:802
 msgid "Manually moved pin"
@@ -837,6 +921,20 @@ msgstr "Netzwerke"
 msgid "Networks & Experiences"
 msgstr "Netzwerke & Begegnungen"
 
+#. Label of the notify_new_donor (Check) field in DocType 'Donation
+#. Notification Rule'
+#: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
+msgid "New Donor"
+msgstr "Neuer Spender"
+
+#: verein/donation_management/notifications.py:262
+msgid "New donation"
+msgstr "Neue Spende"
+
+#: verein/donation_management/notifications.py:310
+msgid "New donor"
+msgstr "Neuer Spender"
+
 #: verein/public/js/donation_management/cost_center_bookings.js:218
 msgid "No bookings found for the selected filters."
 msgstr "Keine Buchungen für die ausgewählten Filter gefunden."
@@ -848,6 +946,7 @@ msgstr "Es wurden keine Kontaktänderungen eingetragen."
 #: verein/public/js/donation_management/cost_center_bookings.js:79
 #: verein/public/js/donation_management/cost_center_overview.js:60
 #: verein/public/js/donation_management/donors.js:81
+#: verein/public/js/donation_management/notifications.js:108
 msgid "No cost centers have been shared with you yet."
 msgstr "Es wurden noch keine Kostenstellen für Sie freigegeben."
 
@@ -872,6 +971,10 @@ msgstr "Noch keine verknüpften Unterstützer."
 msgid "No matching places found."
 msgstr "Keine passenden Orte gefunden."
 
+#: verein/public/js/donation_management/notifications.js:105
+msgid "No notifications configured. Add a cost center to get started."
+msgstr "Noch keine Benachrichtigungen eingerichtet. Füge zunächst eine Kostenstelle hinzu."
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:927
 msgid "No results"
 msgstr "Keine Treffer"
@@ -879,6 +982,10 @@ msgstr "Keine Treffer"
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:932
 msgid "No results within the radius."
 msgstr "Keine Treffer im Umkreis."
+
+#: verein/public/js/donation_management/notifications.js:74
+msgid "Not Saved"
+msgstr "Nicht gespeichert"
 
 #. Label of the note (Data) field in DocType 'Supporter Experience'
 #. Label of the note (Data) field in DocType 'Supporter Network'
@@ -891,6 +998,30 @@ msgstr "Notiz"
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 msgid "Notes"
 msgstr "Notizen"
+
+#. Label of the rules (Table) field in DocType 'Donation Notification
+#. Preferences'
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
+msgid "Notification Rules"
+msgstr "Benachrichtigungsregeln"
+
+#: verein/public/js/donation_management/notifications.js:246
+msgid "Notification settings saved."
+msgstr "Benachrichtigungseinstellungen gespeichert."
+
+#. Label of a Workspace Sidebar Item
+#: verein/public/js/donation_management/notifications.js:20
+#: verein/workspace_sidebar/donation_management.json
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: verein/public/js/donation_management/notifications.js:133
+msgid "Notify me about donations at or above a threshold"
+msgstr "Über Spenden ab einem Schwellenbetrag benachrichtigen"
+
+#: verein/public/js/donation_management/notifications.js:132
+msgid "Notify me about new donors"
+msgstr "Über neue Spender benachrichtigen"
 
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:97
 msgid "Only pending requests can be approved."
@@ -907,9 +1038,12 @@ msgid "Optional: Provide additional header values to be used for the API request
 msgstr "Optional: Zusätzliche Header-Werte für API-Anfragen angeben."
 
 #. Option for the 'Status' (Select) field in DocType 'Geocoding Job'
+#. Option for the 'Status' (Select) field in DocType 'Donation Notification
+#. Delivery'
 #. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Pending"
 msgstr "Ausstehend"
@@ -970,6 +1104,12 @@ msgstr "PLZ"
 msgid "Preset start point"
 msgstr "Vorgegebener Startpunkt"
 
+#. Option for the 'Status' (Select) field in DocType 'Donation Notification
+#. Delivery'
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+msgid "Queued"
+msgstr "In der Warteschlange"
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:449
 msgid "Radius"
 msgstr "Radius"
@@ -990,6 +1130,14 @@ msgstr "Der Radius muss eine ganze Zahl größer als 0 sein."
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:164
 msgid "Radius must be greater than zero."
 msgstr "Der Radius muss größer als 0 sein."
+
+#: verein/public/js/donation_management/notifications.js:92
+msgid "Recipient"
+msgstr "Empfänger"
+
+#: verein/public/js/donation_management/notifications.js:89
+msgid "Recipient: {0}"
+msgstr "Empfänger: {0}"
 
 #. Label of the reference_doctype (Select) field in DocType 'Geocoding Job'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
@@ -1026,6 +1174,7 @@ msgstr "Bemerkungen"
 
 #: verein/contact_management/doctype/experience/experience.js:77
 #: verein/contact_management/doctype/network/network.js:78
+#: verein/public/js/donation_management/notifications.js:129
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -1119,6 +1268,7 @@ msgid "Satellite"
 msgstr "Satellit"
 
 #: verein/public/js/donation_management/cost_center_overview.js:371
+#: verein/public/js/donation_management/notifications.js:26
 msgid "Save"
 msgstr "Speichern"
 
@@ -1145,6 +1295,14 @@ msgstr "Ort wird gesucht..."
 msgid "Searching..."
 msgstr "Suche läuft..."
 
+#: verein/donation_management/notifications.py:103
+msgid "Select an accessible, active cost center that is not a group."
+msgstr "Wähle eine aktive, für dich freigegebene Kostenstelle aus, die keine Gruppe ist."
+
+#: verein/donation_management/notifications.py:99
+msgid "Select each cost center only once."
+msgstr "Wähle jede Kostenstelle nur einmal aus."
+
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:781
 msgid "Selected place"
 msgstr "Ausgewählter Ort"
@@ -1157,6 +1315,12 @@ msgstr "Einstellungen"
 #: verein/public/js/donation_management/cost_center_overview.js:253
 msgid "Show or hide {0}"
 msgstr "{0} ein- oder ausblenden"
+
+#. Option for the 'Status' (Select) field in DocType 'Donation Notification
+#. Delivery'
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+msgid "Skipped"
+msgstr "Übersprungen"
 
 #. Description of the 'Result Parameter' (Section Break) field in DocType 'Geo
 #. Settings'
@@ -1178,9 +1342,12 @@ msgid "Start point: {0} {1}"
 msgstr "Startpunkt: {0} {1}"
 
 #. Label of the status (Select) field in DocType 'Geocoding Job'
+#. Label of the status (Select) field in DocType 'Donation Notification
+#. Delivery'
 #. Label of the status (Select) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Status"
 msgstr "Status"
@@ -1248,6 +1415,7 @@ msgstr "Unterstützer"
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "System Manager"
 msgstr "System Manager"
@@ -1257,6 +1425,10 @@ msgstr "System Manager"
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1041
 msgid "Tags"
 msgstr "Tags"
+
+#: verein/donation_management/notifications.py:270
+msgid "The donation summary could not be added to the email queue."
+msgstr "Die Spendenzusammenfassung konnte nicht in die E-Mail-Warteschlange aufgenommen werden."
 
 #: verein/contact_management/doctype/supporter/supporter.py:118
 msgid "The selected spouse does not exist."
@@ -1271,6 +1443,16 @@ msgstr "Der Supporter hat für diese Kostenstelle im ausgewählten Zeitraum kein
 #: verein/contact_management/doctype/geo_settings/geo_settings.json
 msgid "The time interval to wait between API requests. (in milliseconds)"
 msgstr "Zeitintervall zwischen API-Anfragen (in Millisekunden)"
+
+#. Label of the threshold (Currency) field in DocType 'Donation Notification
+#. Rule'
+#: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
+msgid "Threshold"
+msgstr "Schwellenbetrag"
+
+#: verein/public/js/donation_management/notifications.js:136
+msgid "Threshold ({0})"
+msgstr "Schwellenbetrag ({0})"
 
 #. Label of the network_name (Data) field in DocType 'Network'
 #: verein/contact_management/doctype/network/network.json
@@ -1304,7 +1486,12 @@ msgid "Unsupported search doctype: {0}"
 msgstr "Nicht unterstützter Such-DocType: {0}"
 
 #. Label of the user (Link) field in DocType 'Cost Center Access'
+#. Label of the user (Link) field in DocType 'Donation Notification Delivery'
+#. Label of the user (Link) field in DocType 'Donation Notification
+#. Preferences'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
+#: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
+#: verein/donation_management/doctype/donation_notification_preferences/donation_notification_preferences.json
 msgid "User"
 msgstr "Benutzer"
 
@@ -1312,6 +1499,10 @@ msgstr "Benutzer"
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
 msgid "View"
 msgstr "Ansehen"
+
+#: verein/donation_management/notifications.py:337
+msgid "View bookings"
+msgstr "Buchungen ansehen"
 
 #: verein/donation_management/cost_center_bookings.py:30
 #: verein/donation_management/cost_center_dashboard.py:63
@@ -1326,9 +1517,17 @@ msgstr "Sie dürfen nicht auf diese Kostenstelle zugreifen."
 msgid "You are not allowed to manage budgets for this cost center."
 msgstr "Sie dürfen Budgets für diese Kostenstelle nicht verwalten."
 
+#: verein/donation_management/notifications.py:38
+msgid "You are not allowed to manage donation notifications."
+msgstr "Du darfst keine Spendenbenachrichtigungen verwalten."
+
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:126
 msgid "You are not allowed to review supporter contact change requests."
 msgstr "Sie dürfen Supporter-Kontaktänderungsanfragen nicht prüfen."
+
+#: verein/donation_management/notifications.py:93
+msgid "You can only change your own notification settings."
+msgstr "Du kannst nur deine eigenen Benachrichtigungseinstellungen ändern."
 
 #: verein/contact_management/doctype/supporter/supporter.py:122
 msgid "{0} is already linked to {1}."

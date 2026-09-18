@@ -12,3 +12,4 @@ verein.patches.add_donation_management_gl_entry_index
 verein.patches.drop_legacy_location_columns
 verein.patches.drop_legacy_geocoding_job_supporter_column
 verein.patches.backfill_cost_center_access_company
+verein.patches.add_donation_notification_indexes

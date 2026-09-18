@@ -87,6 +87,7 @@ app_license = "agpl-3.0"
 
 # before_install = "verein.install.before_install"
 after_install = "verein.install.after_install"
+after_migrate = "verein.donation_management.indexes.ensure_donation_management_indexes"
 
 # Uninstallation
 # ------------
@@ -121,12 +122,14 @@ after_install = "verein.install.after_install"
 # Permissions evaluated in scripted ways
 
 permission_query_conditions = {
+    "Donation Notification Preferences": "verein.donation_management.notifications.preferences_query",
     "Cost Center Access": "verein.donation_management.permissions.get_permission_query_conditions_for_access",
     "Cost Center Budget": "verein.donation_management.permissions.get_permission_query_conditions_for_budget",
     "Supporter Contact Change Request": "verein.donation_management.permissions.get_permission_query_conditions_for_supporter_contact_change_request",
 }
 
 has_permission = {
+    "Donation Notification Preferences": "verein.donation_management.notifications.preferences_permission",
     "Cost Center Access": "verein.donation_management.permissions.has_access_permission",
     "Cost Center Budget": "verein.donation_management.permissions.has_budget_permission",
     "Supporter Contact Change Request": "verein.donation_management.permissions.has_supporter_contact_change_request_permission",
@@ -135,6 +138,10 @@ has_permission = {
 # Document Events
 # ---------------
 # Hook on document methods and events
+
+doc_events = {
+    "GL Entry": {"on_submit": "verein.donation_management.notifications.record_donation"},
+}
 
 # doc_events = {
 # 	"*": {
@@ -148,6 +155,7 @@ has_permission = {
 # ---------------
 
 scheduler_events = {
+    "cron": {"0 8 * * *": ["verein.donation_management.notifications.send_daily_digests"]},
     "hourly_long": ["verein.contact_management.doctype.geocoding_job.geocoding_job.process_geocoding_queue"],
     "daily": ["verein.contact_management.doctype.geocoding_job.geocoding_job.delete_successfull_jobs_older_than_1_week"],
 }

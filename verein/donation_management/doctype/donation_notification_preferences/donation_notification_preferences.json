@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-18 06:14:37.951731",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "rules",
+  "last_digest_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "unique": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rules",
+   "fieldtype": "Table",
+   "label": "Notification Rules",
+   "options": "Donation Notification Rule"
+  },
+  {
+   "fieldname": "last_digest_date",
+   "fieldtype": "Date",
+   "label": "Last Digest Date",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-18 06:14:37.951731",
+ "modified_by": "Administrator",
+ "module": "Donation Management",
+ "name": "Donation Notification Preferences",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1
+  },
+  {
+   "role": "Donation Management Manager",
+   "read": 1
+  },
+  {
+   "role": "Donation Management User",
+   "read": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "field:user"
+}

@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-09-18 06:14:37.951731",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user",
+  "gl_entry",
+  "cost_center",
+  "active_since",
+  "status",
+  "email_queue"
+ ],
+ "fields": [
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "gl_entry",
+   "fieldtype": "Data",
+   "label": "GL Entry",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Data",
+   "label": "Cost Center",
+   "reqd": 1
+  },
+  {
+   "fieldname": "active_since",
+   "fieldtype": "Datetime",
+   "label": "Active Since",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nQueued\nSkipped",
+   "default": "Pending",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "email_queue",
+   "fieldtype": "Data",
+   "label": "Email Queue"
+  }
+ ],
+ "links": [],
+ "modified": "2026-09-18 06:14:37.951731",
+ "modified_by": "Administrator",
+ "module": "Donation Management",
+ "name": "Donation Notification Delivery",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "prompt"
+}

@@ -45,6 +45,18 @@
   {
    "child": 0,
    "collapsible": 1,
+   "icon": "bell",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Notifications",
+   "link_to": "donation-notifications",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
    "icon": "settings",
    "indent": 1,
    "keep_closed": 1,
@@ -102,7 +114,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-08-31 00:00:00.000000",
+ "modified": "2026-09-18 07:22:06.442571",
  "modified_by": "Administrator",
  "name": "Donation Management",
  "owner": "Administrator",
