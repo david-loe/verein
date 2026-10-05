@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-09-18 11:18+0000\n"
-"PO-Revision-Date: 2026-09-18 11:18+0000\n"
+"POT-Creation-Date: 2026-10-05 07:16+0000\n"
+"PO-Revision-Date: 2026-10-05 07:16+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language-Team: kontakt@david-loe.de\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Active Since"
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:85
+#: verein/public/js/donation_management/notifications.js:87
 msgid "Add Cost Center"
 msgstr ""
 
@@ -201,8 +201,8 @@ msgstr ""
 
 #. Label of the company (Link) field in DocType 'Cost Center Access'
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
-#: verein/public/js/donation_management/filters.js:20
-#: verein/public/js/donation_management/notifications.js:154
+#: verein/public/js/donation_management/filters.js:21
+#: verein/public/js/donation_management/notifications.js:156
 msgid "Company"
 msgstr ""
 
@@ -269,8 +269,8 @@ msgstr ""
 #: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
 #: verein/donation_management/doctype/donation_notification_rule/donation_notification_rule.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/public/js/donation_management/filters.js:21
-#: verein/public/js/donation_management/notifications.js:176
+#: verein/public/js/donation_management/cost_center_select.js:29
+#: verein/public/js/donation_management/filters.js:22
 msgid "Cost Center"
 msgstr ""
 
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Current Value"
 msgstr ""
 
-#: verein/public/js/donation_management/filters.js:5
+#: verein/public/js/donation_management/filters.js:6
 msgid "Custom"
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr ""
 msgid "Dashboard data could not be loaded."
 msgstr ""
 
-#: verein/public/js/donation_management/filters.js:128
+#: verein/public/js/donation_management/filters.js:136
 #: verein/public/js/donation_management/runtime.js:39
 #: verein/public/js/donation_management/table_controls.js:26
 msgid "Data could not be loaded."
@@ -546,7 +546,7 @@ msgid "Enter a place or set a pin on the map"
 msgstr ""
 
 #: verein/donation_management/notifications.py:109
-#: verein/public/js/donation_management/notifications.js:232
+#: verein/public/js/donation_management/notifications.js:222
 msgid "Enter a positive threshold for large donations."
 msgstr ""
 
@@ -643,7 +643,7 @@ msgstr ""
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 #: verein/public/js/donation_management/cost_center_overview.js:366
-#: verein/public/js/donation_management/filters.js:29
+#: verein/public/js/donation_management/filters.js:30
 msgid "From Date"
 msgstr ""
 
@@ -751,7 +751,7 @@ msgstr ""
 msgid "Last Donation"
 msgstr ""
 
-#: verein/public/js/donation_management/filters.js:7
+#: verein/public/js/donation_management/filters.js:8
 msgid "Last Half Year"
 msgstr ""
 
@@ -762,15 +762,15 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: verein/public/js/donation_management/filters.js:6
+#: verein/public/js/donation_management/filters.js:7
 msgid "Last Three Months"
 msgstr ""
 
-#: verein/public/js/donation_management/filters.js:9
+#: verein/public/js/donation_management/filters.js:10
 msgid "Last Three Years"
 msgstr ""
 
-#: verein/public/js/donation_management/filters.js:8
+#: verein/public/js/donation_management/filters.js:9
 msgid "Last Year"
 msgstr ""
 
@@ -950,7 +950,7 @@ msgstr ""
 #: verein/public/js/donation_management/cost_center_bookings.js:86
 #: verein/public/js/donation_management/cost_center_overview.js:60
 #: verein/public/js/donation_management/donors.js:81
-#: verein/public/js/donation_management/notifications.js:108
+#: verein/public/js/donation_management/notifications.js:110
 msgid "No cost centers have been shared with you yet."
 msgstr ""
 
@@ -975,7 +975,7 @@ msgstr ""
 msgid "No matching places found."
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:105
+#: verein/public/js/donation_management/notifications.js:107
 msgid "No notifications configured. Add a cost center to get started."
 msgstr ""
 
@@ -987,7 +987,7 @@ msgstr ""
 msgid "No results within the radius."
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:74
+#: verein/public/js/donation_management/notifications.js:75
 msgid "Not Saved"
 msgstr ""
 
@@ -1009,21 +1009,21 @@ msgstr ""
 msgid "Notification Rules"
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:246
+#: verein/public/js/donation_management/notifications.js:236
 msgid "Notification settings saved."
 msgstr ""
 
 #. Label of a Workspace Sidebar Item
-#: verein/public/js/donation_management/notifications.js:20
+#: verein/public/js/donation_management/notifications.js:21
 #: verein/workspace_sidebar/donation_management.json
 msgid "Notifications"
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:133
+#: verein/public/js/donation_management/notifications.js:135
 msgid "Notify me about donations at or above a threshold"
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:132
+#: verein/public/js/donation_management/notifications.js:134
 msgid "Notify me about new donors"
 msgstr ""
 
@@ -1058,7 +1058,7 @@ msgstr ""
 #. Contact Change Request'
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/public/js/donation_management/filters.js:25
+#: verein/public/js/donation_management/filters.js:26
 msgid "Period"
 msgstr ""
 
@@ -1135,11 +1135,11 @@ msgstr ""
 msgid "Radius must be greater than zero."
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:92
+#: verein/public/js/donation_management/notifications.js:94
 msgid "Recipient"
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:89
+#: verein/public/js/donation_management/notifications.js:91
 msgid "Recipient: {0}"
 msgstr ""
 
@@ -1178,7 +1178,7 @@ msgstr ""
 
 #: verein/contact_management/doctype/experience/experience.js:77
 #: verein/contact_management/doctype/network/network.js:78
-#: verein/public/js/donation_management/notifications.js:129
+#: verein/public/js/donation_management/notifications.js:131
 msgid "Remove"
 msgstr ""
 
@@ -1272,7 +1272,7 @@ msgid "Satellite"
 msgstr ""
 
 #: verein/public/js/donation_management/cost_center_overview.js:378
-#: verein/public/js/donation_management/notifications.js:26
+#: verein/public/js/donation_management/notifications.js:27
 msgid "Save"
 msgstr ""
 
@@ -1454,7 +1454,7 @@ msgstr ""
 msgid "Threshold"
 msgstr ""
 
-#: verein/public/js/donation_management/notifications.js:136
+#: verein/public/js/donation_management/notifications.js:138
 msgid "Threshold ({0})"
 msgstr ""
 
@@ -1466,7 +1466,7 @@ msgstr ""
 #. Label of the to_date (Date) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/public/js/donation_management/filters.js:30
+#: verein/public/js/donation_management/filters.js:31
 msgid "To Date"
 msgstr ""
 

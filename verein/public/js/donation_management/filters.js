@@ -1,4 +1,5 @@
 import { format_date_range } from "./presentation.js";
+import { make_cost_center_select } from "./cost_center_select.js";
 
 const FILTER_STORAGE_KEY = "verein.donation_management.cost_center_filters";
 const DATE_RANGE_PRESETS = {
@@ -30,6 +31,13 @@ export class DonationFilters {
 			["toDateControl", "to_date", __("To Date"), "Date"],
 		];
 		this.controls = fields.map(([property, fieldname, label, fieldtype, options]) => {
+			if (fieldname === "cost_center") {
+				this[property] = make_cost_center_select({
+					parent: $("<div>"),
+					change: () => this.change(fieldname),
+				});
+				return this[property];
+			}
 			this[property] = frappe.ui.form.make_control({
 				parent: $("<div>"),
 				render_input: true,
@@ -138,6 +146,7 @@ export class DonationFilters {
 		this.destroyed = true;
 		++this.version;
 		this.cancel_pending();
+		this.costCenterControl.destroy();
 		this.$filterRow?.remove();
 	}
 	get_dates_for_date_range(selectedRange) {
@@ -211,15 +220,9 @@ export class DonationFilters {
 	}
 
 	set_cost_center_options(company) {
-		const options = this.costCenters
-			.filter((row) => row.company === company)
-			.map((row) => ({
-				label: row.display_name || row.cost_center_name || row.name,
-				value: row.name,
-			}));
-		this.costCenterControl.df.options = options;
-		this.costCenterControl.refresh();
-		return options;
+		return this.costCenterControl.set_cost_centers(
+			this.costCenters.filter((row) => row.company === company)
+		);
 	}
 
 	get_valid_stored_period(storedFilters) {

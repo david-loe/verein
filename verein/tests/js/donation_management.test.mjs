@@ -101,6 +101,11 @@ beforeEach(() => {
           return {
             df,
             $wrapper: element(),
+            $input: element(),
+            awesomplete: { close() {}, destroy() {} },
+            set_input(value) {
+              this.value = value;
+            },
             value: "",
             refresh() {},
             get_value() {

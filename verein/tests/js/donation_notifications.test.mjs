@@ -81,6 +81,7 @@ beforeEach(() => {
             df,
             $wrapper: new Element(),
             $input: new Element(),
+            awesomplete: { close() {}, destroy() {} },
             value: "",
             refresh() {},
             set_input(value) {
@@ -250,10 +251,10 @@ test("inline picker follows company and excludes configured cost centers", async
   assert.equal(page.$root.find(".add-notification").properties.disabled, false);
   assert.equal(page.costCenterControl.get_value(), "c1");
   await page.companyControl.set_value("Second");
-  assert.equal(page.costCenterControl.get_value(), "c2");
+  assert.equal(page.costCenterControl.get_value(), "c3");
   assert.deepEqual(
     page.costCenterControl.df.options.map((row) => row.value),
-    ["c2", "c3"]
+    ["c3", "c2"]
   );
   await page.costCenterControl.set_value("c3");
   page.add();

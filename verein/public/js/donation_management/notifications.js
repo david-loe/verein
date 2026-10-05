@@ -1,4 +1,5 @@
 import { escape_html, escape_attr, get_icon } from "./presentation.js";
+import { make_cost_center_select } from "./cost_center_select.js";
 
 const API = "verein.donation_management.notifications.";
 
@@ -75,6 +76,7 @@ export class DonationNotificationsPage {
 	}
 
 	render() {
+		this.costCenterControl?.destroy();
 		this.$root.html(`
 			<fieldset class="notification-fields">
 				<div class="notification-toolbar">
@@ -168,17 +170,10 @@ export class DonationNotificationsPage {
 		this.$root
 			.find(".notification-picker")
 			.toggleClass("company-filter-hidden", companies.length <= 1);
-		this.costCenterControl = frappe.ui.form.make_control({
+		this.costCenterControl = make_cost_center_select({
 			parent: this.$root.find(".notification-cost-center"),
-			render_input: true,
-			df: {
-				fieldname: "cost_center",
-				label: __("Cost Center"),
-				fieldtype: "Select",
-				options: [],
-				change: () => {
-					this.selectedCostCenter = this.costCenterControl.get_value();
-				},
+			change: () => {
+				this.selectedCostCenter = this.costCenterControl.get_value();
 			},
 		});
 		this.update_cost_center_options();
@@ -190,16 +185,11 @@ export class DonationNotificationsPage {
 				center.company === this.selectedCompany &&
 				!this.rules.some((rule) => rule.cost_center === center.name)
 		);
-		if (!choices.some((row) => row.name === this.selectedCostCenter)) {
-			this.selectedCostCenter = choices[0]?.name || "";
+		const options = this.costCenterControl.set_cost_centers(choices);
+		if (!options.some((row) => row.value === this.selectedCostCenter)) {
+			this.selectedCostCenter = options[0]?.value || "";
 		}
-		this.costCenterControl.df.options = choices.map((row) => ({
-			label: escape_html(row.display_name || row.cost_center_name || row.name),
-			value: row.name,
-		}));
-		this.costCenterControl.refresh();
 		this.costCenterControl.set_input(this.selectedCostCenter);
-		this.costCenterControl.$input.prop("disabled", !choices.length);
 		this.$root
 			.find(".add-notification")
 			.prop("disabled", !choices.length || Boolean(this.saving));
@@ -259,6 +249,7 @@ export class DonationNotificationsPage {
 	destroy() {
 		this.destroyed = true;
 		++this.version;
+		this.costCenterControl?.destroy();
 		this.$root.off().remove();
 	}
 }
