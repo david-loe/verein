@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 from typing import Any
 
 import frappe
 from frappe import _
-from frappe.utils import cint, flt
+from frappe.utils import cint, flt, now_datetime
 
 from verein.donation_management.cost_center_dashboard import normalize_period
 from verein.donation_management.doctype.supporter_contact_change_request.supporter_contact_change_request import (
@@ -46,6 +46,9 @@ def get_donors(
 	)
 	has_more = len(rows) > limit
 	rows = rows[:limit]
+	change_requests = get_latest_contact_change_requests([row.name for row in rows])
+	for row in rows:
+		row["latest_contact_change_request"] = change_requests.get(row.name)
 
 	return {
 		"cost_center": cost_center,
@@ -58,6 +61,40 @@ def get_donors(
 		"summary": summary,
 		"donors": rows,
 	}
+
+
+def get_latest_contact_change_requests(supporters: list[str]) -> dict[str, dict[str, Any]]:
+	if not supporters:
+		return {}
+
+	# Rank before applying the expiry rule so older requests never reappear.
+	requests = frappe.db.sql(
+		"""
+		with ranked_requests as (
+			select
+				supporter, name, status, requested_on, reviewed_on,
+				row_number() over (
+					partition by supporter
+					order by requested_on desc, creation desc, name desc
+				) as request_rank
+			from `tabSupporter Contact Change Request`
+			where requested_by = %(user)s and supporter in %(supporters)s
+		)
+		select supporter, name, status, requested_on, reviewed_on
+		from ranked_requests
+		where request_rank = 1 and (
+			status = 'Pending'
+			or (status in ('Approved', 'Rejected') and reviewed_on >= %(cutoff)s)
+		)
+		""",
+		{
+			"user": frappe.session.user,
+			"supporters": tuple(supporters),
+			"cutoff": now_datetime() - timedelta(days=30),
+		},
+		as_dict=True,
+	)
+	return {row.pop("supporter"): row for row in requests}
 
 
 def get_donor_rows_and_summary(

@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from datetime import datetime, timedelta
+from unittest.mock import patch
+
 import frappe
 from frappe.tests import UnitTestCase
 
@@ -63,6 +66,7 @@ class TestSupporterDonors(UnitTestCase):
 		self.assertEqual(data["donors"][0].status_color, "Red")
 		self.assertEqual(data["donors"][0].booking_count, 2)
 		self.assertEqual(data["donors"][0].contact_or_address_modified, supporter.contact_or_address_modified)
+		self.assertIsNone(data["donors"][0].latest_contact_change_request)
 
 	def test_group_access_includes_child_cost_centers(self):
 		company = get_company()
@@ -368,6 +372,8 @@ class TestSupporterDonors(UnitTestCase):
 		request = frappe.get_doc("Supporter Contact Change Request", result["name"])
 		self.assertEqual(request.status, "Pending")
 		self.assertEqual(len(request.changes), 2)
+		donors = get_donors(cost_center, "2026-04-01", "2026-04-30")["donors"]
+		self.assertEqual(donors[0].latest_contact_change_request.status, "Pending")
 
 		with self.assertRaises(frappe.ValidationError):
 			approve_request(request.name)
@@ -379,6 +385,12 @@ class TestSupporterDonors(UnitTestCase):
 		self.assertEqual(supporter.email_address, "new@example.com")
 		self.assertEqual(supporter.city, "Berlin")
 		self.assertEqual(frappe.db.get_value("Supporter Contact Change Request", request.name, "status"), "Approved")
+		frappe.set_user(user)
+		donors = get_donors(cost_center, "2026-04-01", "2026-04-30")["donors"]
+		latest_request = donors[0].latest_contact_change_request
+		self.assertEqual(latest_request.name, request.name)
+		self.assertEqual(latest_request.status, "Approved")
+		self.assertIsNotNone(latest_request.reviewed_on)
 
 	def test_reject_contact_change_request_keeps_supporter_unchanged(self):
 		company = get_company()
@@ -408,6 +420,9 @@ class TestSupporterDonors(UnitTestCase):
 		supporter.reload()
 		self.assertEqual(supporter.phone, "123")
 		self.assertEqual(frappe.db.get_value("Supporter Contact Change Request", result["name"], "status"), "Rejected")
+		frappe.set_user(user)
+		donors = get_donors(cost_center, "2026-05-01", "2026-05-31")["donors"]
+		self.assertEqual(donors[0].latest_contact_change_request.status, "Rejected")
 
 	def test_unsupported_change_field_is_rejected(self):
 		company = get_company()
@@ -427,3 +442,133 @@ class TestSupporterDonors(UnitTestCase):
 				"2026-06-30",
 				{"spouse": "invalid"},
 			)
+
+
+class TestDonorChangeRequestStatus(UnitTestCase):
+	def setUp(self):
+		frappe.set_user("Administrator")
+		self.company = get_company()
+		self.account = get_account(self.company, "Income")
+		self.cost_center = make_cost_center(company=self.company)
+		self.user = make_user(
+			f"dm-request-status-{frappe.generate_hash(length=6)}@example.com",
+			["Donation Management User"],
+		)
+		self.supporter = make_supporter()
+		make_access(self.user, self.cost_center)
+		for posting_date in ("2026-01-15", "2026-02-15"):
+			make_gl_entry(
+				self.cost_center, self.account, posting_date, credit=100, supporter=self.supporter.name
+			)
+		self.addCleanup(frappe.set_user, "Administrator")
+		frappe.set_user(self.user)
+
+	def make_request(
+		self,
+		requested_on="2026-01-01 12:00:00",
+		cost_center=None,
+		from_date="2026-01-01",
+		to_date="2026-01-31",
+	):
+		result = create_contact_change_request(
+			self.supporter.name,
+			cost_center or self.cost_center,
+			from_date,
+			to_date,
+			{"city": "Berlin"},
+		)
+		frappe.db.set_value("Supporter Contact Change Request", result["name"], "requested_on", requested_on)
+		return result["name"]
+
+	def get_request(self, **kwargs):
+		data = get_donors(self.cost_center, "2026-02-01", "2026-02-28", **kwargs)
+		return data["donors"][0].latest_contact_change_request
+
+	def test_only_own_requests_are_visible_even_to_privileged_users(self):
+		own_request = self.make_request()
+		frappe.set_user("Administrator")
+		other_request = self.make_request(requested_on="2026-02-01 12:00:00")
+		self.assertEqual(self.get_request().name, other_request)
+
+		frappe.set_user(self.user)
+		self.assertEqual(self.get_request().name, own_request)
+		frappe.delete_doc("Supporter Contact Change Request", own_request, ignore_permissions=True)
+		self.assertIsNone(self.get_request())
+
+	def test_old_pending_request_remains_visible_across_periods_and_cost_centers(self):
+		frappe.set_user("Administrator")
+		other_cost_center = make_cost_center(company=self.company)
+		access = make_access(self.user, other_cost_center)
+		make_gl_entry(
+			other_cost_center, self.account, "2025-01-15", credit=100, supporter=self.supporter.name
+		)
+		frappe.set_user(self.user)
+		request = self.make_request(
+			requested_on="2025-01-01 12:00:00",
+			cost_center=other_cost_center,
+			from_date="2025-01-01",
+			to_date="2025-01-31",
+		)
+		frappe.db.set_value("Cost Center Access", access.name, "active", 0)
+		self.assertEqual(self.get_request().name, request)
+		self.assertEqual(self.get_request().status, "Pending")
+		self.assertTrue(frappe.get_doc("Supporter Contact Change Request", request).has_permission("read"))
+
+	def test_completed_requests_expire_only_after_thirty_days(self):
+		request = self.make_request()
+		now = datetime(2026, 11, 2, 12)
+		cutoff = now - timedelta(days=30)
+		with patch("verein.donation_management.supporter_donors.now_datetime", return_value=now):
+			for status in ("Approved", "Rejected"):
+				for offset, visible in ((1, True), (0, True), (-1, False)):
+					with self.subTest(status=status, offset=offset):
+						frappe.db.set_value(
+							"Supporter Contact Change Request",
+							request,
+							{"status": status, "reviewed_on": cutoff + timedelta(microseconds=offset)},
+						)
+						latest = self.get_request()
+						if visible:
+							self.assertEqual(latest.name, request)
+							self.assertEqual(latest.status, status)
+						else:
+							self.assertIsNone(latest)
+
+	def test_newest_completed_request_takes_precedence_and_does_not_fall_back(self):
+		older = self.make_request()
+		newest = self.make_request(requested_on="2026-02-01 12:00:00")
+		now = datetime(2026, 11, 2, 12)
+		with patch("verein.donation_management.supporter_donors.now_datetime", return_value=now):
+			for status in ("Approved", "Rejected"):
+				with self.subTest(status=status):
+					frappe.db.set_value("Supporter Contact Change Request", older, "status", "Pending")
+					frappe.db.set_value(
+						"Supporter Contact Change Request",
+						newest,
+						{"status": status, "reviewed_on": now},
+					)
+					self.assertEqual(self.get_request().name, newest)
+					frappe.db.set_value(
+						"Supporter Contact Change Request", newest, "reviewed_on", now - timedelta(days=31)
+					)
+					for older_status in ("Pending", "Approved"):
+						frappe.db.set_value(
+							"Supporter Contact Change Request",
+							older,
+							{
+								"status": older_status,
+								"reviewed_on": now if older_status == "Approved" else None,
+							},
+						)
+						self.assertIsNone(self.get_request())
+
+	def test_request_order_uses_submission_then_creation_then_name(self):
+		first = self.make_request(requested_on="2026-01-02 12:00:00")
+		second = self.make_request(requested_on="2026-01-01 12:00:00")
+		self.assertEqual(self.get_request().name, first)
+		frappe.db.set_value("Supporter Contact Change Request", second, "requested_on", "2026-01-02 12:00:00")
+		for name, creation in ((first, "2026-01-01 12:00:00"), (second, "2026-01-02 12:00:00")):
+			frappe.db.set_value("Supporter Contact Change Request", name, "creation", creation)
+		self.assertEqual(self.get_request().name, second)
+		frappe.db.set_value("Supporter Contact Change Request", first, "creation", "2026-01-02 12:00:00")
+		self.assertEqual(self.get_request().name, max(first, second))

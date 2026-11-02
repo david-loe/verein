@@ -262,6 +262,7 @@ export class DonorsPage {
 						<span class="donor-identity">
 							<span class="donor-name">${escape_html(row.full_name || row.name)}</span>
 							${this.render_donor_status(row)}
+							${this.render_change_request_status(row)}
 						</span>
 						<button type="button" class="btn btn-xs btn-secondary contact-button" data-donor-name="${escape_attr(
 							row.name
@@ -299,6 +300,25 @@ export class DonorsPage {
 			title="${escape_attr(__("Contact Status"))}">
 			${escape_html(__(row.status, null, "Supporter"))}
 		</span>`;
+	}
+
+	render_change_request_status(row) {
+		const request = row.latest_contact_change_request;
+		if (!request) return "";
+		const statuses = {
+			Pending: { label: __("Pending"), color: "orange" },
+			Approved: { label: __("Approved"), color: "green" },
+			Rejected: { label: __("Rejected"), color: "red" },
+		};
+		const status = statuses[request.status];
+		if (!status) return "";
+		const link = frappe.utils.get_form_link("Supporter Contact Change Request", request.name);
+		return `<a class="donor-change-request-status indicator-pill ${
+			status.color
+		} no-indicator-dot"
+			href="${escape_attr(link)}" title="${escape_attr(__("Open Change Request"))}">
+			${escape_html(__("Change Request: {0}", [status.label]))}
+		</a>`;
 	}
 
 	render_donor_bookings_row(row) {
@@ -563,6 +583,9 @@ export class DonorsPage {
 		});
 		dialog.hide();
 		frappe.show_alert({ message: __("Contact change request created."), indicator: "green" });
+		if (!this.destroyed) {
+			await this.load_donors(true);
+		}
 	}
 
 	invalidate_requests() {

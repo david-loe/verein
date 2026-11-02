@@ -4,7 +4,8 @@ import { readFile } from "node:fs/promises";
 import vm from "node:vm";
 import moment from "../../../../frappe/node_modules/moment/moment.js";
 
-globalThis.__ = (text) => text;
+globalThis.__ = (text, values) =>
+  text.replace(/\{(\d+)\}/g, (match, index) => values?.[index] ?? match);
 globalThis.moment = moment;
 globalThis.flt = (value) => Number(value) || 0;
 const { DonationFilters } = await import(
@@ -330,6 +331,101 @@ for (const [Page, load, generation, resultField] of [
     assert.equal(renders, 1);
   });
 }
+
+test("donors show a linked badge for each request status beside the donor name", () => {
+  const page = Object.create(DonorsPage.prototype);
+  page.expandedDonors = new Set();
+  globalThis.format_currency = (value) => String(value);
+  const links = [];
+  frappe.utils.get_form_link = (doctype, name) => {
+    links.push([doctype, name]);
+    return "/desk/supporter-contact-change-request/" + encodeURIComponent(name);
+  };
+  for (const [status, color] of [
+    ["Pending", "orange"],
+    ["Approved", "green"],
+    ["Rejected", "red"],
+  ]) {
+    const html = page.render_row({
+      name: "supporter-1",
+      full_name: "Ada <Donor>",
+      latest_contact_change_request: { name: 'request-"1', status },
+    });
+    assert.match(html, /Ada &lt;Donor>/);
+    assert.match(
+      html,
+      new RegExp(`donor-change-request-status indicator-pill ${color}`)
+    );
+    assert.match(html, new RegExp(`Change Request: ${status}`));
+    assert.match(
+      html,
+      /href="\/desk\/supporter-contact-change-request\/request-%221"/
+    );
+    assert.match(html, /title="Open Change Request"/);
+    assert.deepEqual(links.at(-1), [
+      "Supporter Contact Change Request",
+      'request-"1',
+    ]);
+  }
+});
+
+test("donors without a visible request do not show a request badge", () => {
+  const page = Object.create(DonorsPage.prototype);
+  assert.equal(page.render_change_request_status({}), "");
+  assert.equal(
+    page.render_change_request_status({ latest_contact_change_request: null }),
+    ""
+  );
+});
+
+test("successful change requests refresh donors after submission completes", async () => {
+  const pending = deferred();
+  const events = [];
+  frappe.call = (options) => {
+    events.push(["submit", options]);
+    return pending.promise;
+  };
+  frappe.show_alert = () => events.push(["alert"]);
+  const page = Object.create(DonorsPage.prototype);
+  page.filters = {
+    costCenterControl: { get_value: () => "a1" },
+    fromDateControl: { get_value: () => "2026-01-01" },
+    toDateControl: { get_value: () => "2026-09-08" },
+  };
+  page.load_donors = async (reset) => events.push(["refresh", reset]);
+  const dialog = { hide: () => events.push(["hide"]) };
+  const submitted = page.submit_change_request(
+    dialog,
+    { name: "donor-1" },
+    { city: "Berlin" }
+  );
+  assert.equal(events.length, 1);
+  assert.deepEqual(events[0][1].args.changes, { city: "Berlin" });
+  pending.resolve({ message: { name: "request-1", status: "Pending" } });
+  await submitted;
+  assert.deepEqual(events.slice(1), [["hide"], ["alert"], ["refresh", true]]);
+});
+
+test("failed change requests keep the dialog open without refreshing donors", async () => {
+  const page = Object.create(DonorsPage.prototype);
+  page.filters = {
+    costCenterControl: { get_value: () => "a1" },
+    fromDateControl: { get_value: () => "2026-01-01" },
+    toDateControl: { get_value: () => "2026-09-08" },
+  };
+  page.load_donors = () =>
+    assert.fail("must not refresh after a failed submission");
+  frappe.call = async () => {
+    throw new Error("Submission failed");
+  };
+  const dialog = {
+    hide: () => assert.fail("must not close after a failed submission"),
+  };
+  await assert.rejects(
+    page.submit_change_request(dialog, { name: "donor-1" }, { city: "Berlin" }),
+    /Submission failed/
+  );
+});
 
 test("runtime coalesces first load/refresh and cleans up only detached wrappers", async () => {
   let observerCallback;

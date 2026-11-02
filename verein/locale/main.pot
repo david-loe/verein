@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-11-02 11:38+0000\n"
-"PO-Revision-Date: 2026-11-02 11:38+0000\n"
+"POT-Creation-Date: 2026-11-02 13:07+0000\n"
+"PO-Revision-Date: 2026-11-02 13:07+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language-Team: kontakt@david-loe.de\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgid "Access Level must be View or Manage."
 msgstr ""
 
 #: verein/public/js/donation_management/cost_center_bookings.js:220
-#: verein/public/js/donation_management/donors.js:350
+#: verein/public/js/donation_management/donors.js:370
 msgid "Account"
 msgstr ""
 
@@ -65,8 +65,8 @@ msgstr ""
 #. Label of the address_section (Section Break) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/public/js/donation_management/donors.js:519
-#: verein/public/js/donation_management/donors.js:524
+#: verein/public/js/donation_management/donors.js:539
+#: verein/public/js/donation_management/donors.js:544
 msgid "Address"
 msgstr ""
 
@@ -129,6 +129,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+#: verein/public/js/donation_management/donors.js:310
 msgid "Approved"
 msgstr ""
 
@@ -178,6 +179,10 @@ msgstr ""
 msgid "Budget Delta shows the difference between income and budget."
 msgstr ""
 
+#: verein/public/js/donation_management/donors.js:320
+msgid "Change Request: {0}"
+msgstr ""
+
 #. Label of the changes (Table) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
@@ -214,7 +219,7 @@ msgstr ""
 #. Label of the contact_section (Section Break) field in DocType 'Supporter'
 #. Label of the contact_tab (Tab Break) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/public/js/donation_management/donors.js:269
+#: verein/public/js/donation_management/donors.js:270
 msgid "Contact"
 msgstr ""
 
@@ -238,11 +243,11 @@ msgstr ""
 #. 'Supporter'
 #. Label of the status (Select) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/public/js/donation_management/donors.js:299
+#: verein/public/js/donation_management/donors.js:300
 msgid "Contact Status"
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:565
+#: verein/public/js/donation_management/donors.js:585
 msgid "Contact change request created."
 msgstr ""
 
@@ -321,7 +326,7 @@ msgstr ""
 #: verein/donation_management/cost_center_dashboard.py:111
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.py:35
 #: verein/donation_management/supporter_donors.py:39
-#: verein/donation_management/supporter_donors.py:231
+#: verein/donation_management/supporter_donors.py:268
 msgid "Cost Center {0} was not found."
 msgstr ""
 
@@ -363,7 +368,7 @@ msgstr ""
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
 #: verein/public/js/donation_management/cost_center_bookings.js:217
-#: verein/public/js/donation_management/donors.js:348
+#: verein/public/js/donation_management/donors.js:368
 msgid "Date"
 msgstr ""
 
@@ -414,7 +419,7 @@ msgstr ""
 #: verein/public/js/donation_management/cost_center_bookings.js:218
 #: verein/public/js/donation_management/donors.js:178
 #: verein/public/js/donation_management/donors.js:201
-#: verein/public/js/donation_management/donors.js:349
+#: verein/public/js/donation_management/donors.js:369
 msgid "Donation Amount"
 msgstr ""
 
@@ -481,7 +486,7 @@ msgstr ""
 msgid "Donation at or above threshold"
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:439
+#: verein/public/js/donation_management/donors.js:459
 msgid "Donation bookings could not be loaded."
 msgstr ""
 
@@ -531,7 +536,7 @@ msgstr ""
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:19
 #: verein/public/js/donation_management/donors.js:18
-#: verein/public/js/donation_management/donors.js:517
+#: verein/public/js/donation_management/donors.js:537
 msgid "Email Address"
 msgstr ""
 
@@ -795,7 +800,7 @@ msgstr ""
 msgid "Load More"
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:338
+#: verein/public/js/donation_management/donors.js:358
 msgid "Load More Bookings"
 msgstr ""
 
@@ -810,7 +815,7 @@ msgstr ""
 msgid "Loading linked supporters..."
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:319
+#: verein/public/js/donation_management/donors.js:339
 #: verein/public/js/donation_management/presentation.js:80
 msgid "Loading..."
 msgstr ""
@@ -943,7 +948,7 @@ msgstr ""
 msgid "No bookings found for the selected filters."
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:549
+#: verein/public/js/donation_management/donors.js:569
 msgid "No contact changes were entered."
 msgstr ""
 
@@ -954,7 +959,7 @@ msgstr ""
 msgid "No cost centers have been shared with you yet."
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:328
+#: verein/public/js/donation_management/donors.js:348
 msgid "No donation bookings found."
 msgstr ""
 
@@ -1035,6 +1040,10 @@ msgstr ""
 msgid "Only pending requests can be rejected."
 msgstr ""
 
+#: verein/public/js/donation_management/donors.js:319
+msgid "Open Change Request"
+msgstr ""
+
 #. Description of the 'section_break_hirm' (Section Break) field in DocType
 #. 'Geo Settings'
 #: verein/contact_management/doctype/geo_settings/geo_settings.json
@@ -1049,6 +1058,7 @@ msgstr ""
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 #: verein/donation_management/doctype/donation_notification_delivery/donation_notification_delivery.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+#: verein/public/js/donation_management/donors.js:309
 msgid "Pending"
 msgstr ""
 
@@ -1067,7 +1077,7 @@ msgstr ""
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:19
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:20
 #: verein/public/js/donation_management/donors.js:19
-#: verein/public/js/donation_management/donors.js:518
+#: verein/public/js/donation_management/donors.js:538
 msgid "Phone"
 msgstr ""
 
@@ -1168,11 +1178,12 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
 #. Request'
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
+#: verein/public/js/donation_management/donors.js:311
 msgid "Rejected"
 msgstr ""
 
 #: verein/public/js/donation_management/cost_center_bookings.js:219
-#: verein/public/js/donation_management/donors.js:351
+#: verein/public/js/donation_management/donors.js:371
 msgid "Remarks"
 msgstr ""
 
@@ -1193,8 +1204,8 @@ msgstr ""
 msgid "Request"
 msgstr ""
 
-#: verein/public/js/donation_management/donors.js:450
-#: verein/public/js/donation_management/donors.js:474
+#: verein/public/js/donation_management/donors.js:470
+#: verein/public/js/donation_management/donors.js:494
 msgid "Request Change"
 msgstr ""
 
@@ -1358,7 +1369,7 @@ msgstr ""
 
 #. Label of the contact_status_details (Long Text) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/public/js/donation_management/donors.js:531
+#: verein/public/js/donation_management/donors.js:551
 msgid "Status Details"
 msgstr ""
 
@@ -1513,7 +1524,7 @@ msgstr ""
 #: verein/donation_management/cost_center_dashboard.py:107
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:67
 #: verein/donation_management/supporter_donors.py:34
-#: verein/donation_management/supporter_donors.py:226
+#: verein/donation_management/supporter_donors.py:263
 msgid "You are not allowed to access this cost center."
 msgstr ""
 
