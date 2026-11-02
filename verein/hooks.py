@@ -4,22 +4,23 @@ app_publisher = "david-loe"
 app_description = "Verwaltung für gemeinnützige Vereine"
 app_email = "kontakt@david-loe.de"
 app_license = "agpl-3.0"
+app_logo_url = "/assets/verein/icons/desktop_icons/solid/contact_management.svg"
 
 # Apps
 # ------------------
 
 # required_apps = []
 
-# Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "verein",
-# 		"logo": "/assets/verein/logo.png",
-# 		"title": "Verein",
-# 		"route": "/verein",
-# 		"has_permission": "verein.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": app_name,
+		"title": app_title,
+		"logo": app_logo_url,
+		# The classic icon generator also reads this route.
+		"route": "/api/method/verein.config.desktop.open_app",
+		"has_permission": "verein.config.desktop.has_app_permission",
+	}
+]
 
 # Includes in <head>
 # ------------------

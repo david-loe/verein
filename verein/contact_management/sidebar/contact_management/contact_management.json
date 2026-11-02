@@ -2,7 +2,7 @@
  "app": "verein",
  "creation": "2026-03-23 14:51:45.467672",
  "docstatus": 0,
- "doctype": "Workspace Sidebar",
+ "doctype": "Sidebar",
  "header_icon": "book-user",
  "idx": 0,
  "items": [
@@ -55,8 +55,9 @@
    "type": "Link"
   }
  ],
- "modified": "2026-03-25 09:30:00.000000",
+ "modified": "2026-11-02 11:36:53.559239",
  "modified_by": "Administrator",
+ "module": "Contact Management",
  "name": "Contact Management",
  "owner": "Administrator",
  "standard": 1,

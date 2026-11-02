@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-10-05 07:16+0000\n"
+"POT-Creation-Date: 2026-11-02 11:38+0000\n"
 "PO-Revision-Date: 2026-03-23 12:50+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language: de\n"
@@ -145,10 +145,10 @@ msgstr "Saldo"
 msgid "Balance could not be loaded."
 msgstr "Saldo konnte nicht geladen werden."
 
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 #: verein/public/js/donation_management/cost_center_bookings.js:25
 #: verein/public/js/donation_management/donors.js:205
-#: verein/workspace_sidebar/donation_management.json
 msgid "Bookings"
 msgstr "Buchungen"
 
@@ -219,10 +219,10 @@ msgstr "Abgeschlossen"
 msgid "Contact"
 msgstr "Kontakt"
 
+#. Title of a Sidebar
 #. Label of a Desktop Icon
-#. Title of a Workspace Sidebar
+#: verein/contact_management/sidebar/contact_management/contact_management.json
 #: verein/desktop_icon/contact_management.json
-#: verein/workspace_sidebar/contact_management.json
 msgid "Contact Management"
 msgstr "Kontaktverwaltung"
 
@@ -276,16 +276,16 @@ msgid "Cost Center"
 msgstr "Kostenstelle"
 
 #. Name of a DocType
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
 #: verein/donation_management/doctype/cost_center_access/cost_center_access.json
-#: verein/workspace_sidebar/donation_management.json
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 msgid "Cost Center Access"
 msgstr "Kostenstellenzugriff"
 
 #. Name of a DocType
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
 #: verein/donation_management/doctype/cost_center_budget/cost_center_budget.json
-#: verein/workspace_sidebar/donation_management.json
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 msgid "Cost Center Budget"
 msgstr "Kostenstellenbudget"
 
@@ -307,9 +307,9 @@ msgstr "Kostenstellenname"
 msgid "Cost Center Number and Name"
 msgstr "Kostenstellennummer und -name"
 
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 #: verein/public/js/donation_management/cost_center_overview.js:21
-#: verein/workspace_sidebar/donation_management.json
 msgid "Cost Center Overview"
 msgstr "Kostenstellenübersicht"
 
@@ -426,9 +426,9 @@ msgid "Donation At or Above Threshold"
 msgstr "Spende ab Schwellenbetrag"
 
 #. Label of a Desktop Icon
-#. Title of a Workspace Sidebar
+#. Title of a Sidebar
 #: verein/desktop_icon/donation_management.json
-#: verein/workspace_sidebar/donation_management.json
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 msgid "Donation Management"
 msgstr "Spendenverwaltung"
 
@@ -442,9 +442,9 @@ msgid "Donation Management Manager"
 msgstr "Spendenverwaltung Manager"
 
 #. Name of a DocType
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
 #: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
-#: verein/workspace_sidebar/donation_management.json
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 msgid "Donation Management Settings"
 msgstr "Einstellungen der Spendenverwaltung"
 
@@ -494,10 +494,10 @@ msgstr "Spendenübersicht"
 msgid "Donor"
 msgstr "Spender"
 
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 #: verein/public/js/donation_management/donors.js:39
 #: verein/public/js/donation_management/donors.js:177
-#: verein/workspace_sidebar/donation_management.json
 msgid "Donors"
 msgstr "Spender"
 
@@ -569,11 +569,11 @@ msgstr "Ausgaben"
 
 #. Name of a DocType
 #. Label of the experience (Link) field in DocType 'Supporter Experience'
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
 #: verein/contact_management/doctype/experience/experience.json
 #: verein/contact_management/doctype/supporter_experience/supporter_experience.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1034
-#: verein/workspace_sidebar/contact_management.json
+#: verein/contact_management/sidebar/contact_management/contact_management.json
 msgid "Experience"
 msgstr "Begegnung"
 
@@ -899,12 +899,12 @@ msgstr "Netto"
 #. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
 #. Name of a DocType
 #. Label of the network (Link) field in DocType 'Supporter Network'
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter_network/supporter_network.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:1027
-#: verein/workspace_sidebar/contact_management.json
+#: verein/contact_management/sidebar/contact_management/contact_management.json
 msgid "Network"
 msgstr "Netzwerk"
 
@@ -1017,9 +1017,9 @@ msgstr "Benachrichtigungsregeln"
 msgid "Notification settings saved."
 msgstr "Benachrichtigungseinstellungen gespeichert."
 
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 #: verein/public/js/donation_management/notifications.js:21
-#: verein/workspace_sidebar/donation_management.json
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -1126,8 +1126,8 @@ msgstr "Radius"
 msgid "Radius (km)"
 msgstr "Radius (km)"
 
-#. Label of a Workspace Sidebar Item
-#: verein/workspace_sidebar/contact_management.json
+#. Label of a Sidebar Item
+#: verein/contact_management/sidebar/contact_management/contact_management.json
 msgid "Radius Search"
 msgstr "Umkreissuche"
 
@@ -1315,8 +1315,8 @@ msgstr "Wähle jede Kostenstelle nur einmal aus."
 msgid "Selected place"
 msgstr "Ausgewählter Ort"
 
-#. Label of a Workspace Sidebar Item
-#: verein/workspace_sidebar/donation_management.json
+#. Label of a Sidebar Item
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -1368,13 +1368,13 @@ msgstr "Statushinweise"
 
 #. Option for the 'Reference DocType' (Select) field in DocType 'Geocoding Job'
 #. Name of a DocType
+#. Label of a Sidebar Item
 #. Label of the supporter (Link) field in DocType 'Supporter Contact Change
 #. Request'
-#. Label of a Workspace Sidebar Item
 #: verein/contact_management/doctype/geocoding_job/geocoding_job.json
 #: verein/contact_management/doctype/supporter/supporter.json
+#: verein/contact_management/sidebar/contact_management/contact_management.json
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/workspace_sidebar/contact_management.json
 msgid "Supporter"
 msgstr "Unterstützer"
 
@@ -1384,9 +1384,9 @@ msgid "Supporter Change Reviewer"
 msgstr "Supporter-Änderungsprüfer"
 
 #. Name of a DocType
-#. Label of a Workspace Sidebar Item
+#. Label of a Sidebar Item
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
-#: verein/workspace_sidebar/donation_management.json
+#: verein/donation_management/sidebar/donation_management/donation_management.json
 msgid "Supporter Contact Change Request"
 msgstr "Supporter-Kontaktänderungsanfrage"
 

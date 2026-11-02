@@ -2,7 +2,7 @@
  "app": "verein",
  "creation": "2026-07-02 00:00:00.000000",
  "docstatus": 0,
- "doctype": "Workspace Sidebar",
+ "doctype": "Sidebar",
  "header_icon": "chart-no-axes-combined",
  "idx": 0,
  "items": [
@@ -114,8 +114,9 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-18 07:22:06.442571",
+ "modified": "2026-11-02 11:36:53.559239",
  "modified_by": "Administrator",
+ "module": "Donation Management",
  "name": "Donation Management",
  "owner": "Administrator",
  "standard": 1,

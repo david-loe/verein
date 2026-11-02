@@ -8,7 +8,7 @@ requires-python = ">=3.14"
 readme = "README.md"
 dynamic = ["version"]
 dependencies = [
-    # "frappe~=16.0.0" # Installed and managed by bench.
+    # Frappe is installed and managed by bench.
 ]
 
 [build-system]
@@ -61,5 +61,5 @@ indent-style = "tab"
 docstring-code-format = true
 
 [tool.bench.frappe-dependencies]
-frappe = ">=16.0.0,<17.0.0"
+frappe = ">=16.50.0,<17.0.0"
 erpnext = ">=16.0.0,<17.0.0"

@@ -1,0 +1,31 @@
+{
+ "app": "verein",
+ "creation": "2026-11-02 11:36:53.559239",
+ "docstatus": 0,
+ "doctype": "Dock",
+ "idx": 0,
+ "items": [
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "chart-no-axes-combined",
+   "link_to": "Donation Management",
+   "link_type": "Sidebar",
+   "title": "Donation Management"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
+   "icon": "book-user",
+   "link_to": "Contact Management",
+   "link_type": "Sidebar",
+   "title": "Contact Management"
+  }
+ ],
+ "modified": "2026-11-02 11:36:53.559239",
+ "modified_by": "Administrator",
+ "name": "verein",
+ "owner": "Administrator",
+ "standard": 1,
+ "user": ""
+}
