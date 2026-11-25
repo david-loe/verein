@@ -4,10 +4,12 @@ from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import frappe
+from frappe.desk.form.load import getdoc, run_onload
 from frappe.tests import UnitTestCase
 
 from verein.donation_management.doctype.supporter_contact_change_request.supporter_contact_change_request import (
 	approve_request,
+	get_next_pending_request,
 	reject_request,
 )
 from verein.donation_management.supporter_donors import (
@@ -572,3 +574,100 @@ class TestDonorChangeRequestStatus(UnitTestCase):
 		self.assertEqual(self.get_request().name, second)
 		frappe.db.set_value("Supporter Contact Change Request", first, "creation", "2026-01-02 12:00:00")
 		self.assertEqual(self.get_request().name, max(first, second))
+
+	def test_review_navigation_only_moves_to_older_pending_requests(self):
+		doctype = "Supporter Contact Change Request"
+		newest = self.make_request(requested_on="1900-01-03 12:00:00")
+		first = self.make_request(requested_on="1900-01-02 12:00:00")
+		second = self.make_request(requested_on="1900-01-02 12:00:00")
+		completed = self.make_request(requested_on="1900-01-01 12:00:00")
+		legacy = self.make_request()
+		for name in (first, second):
+			frappe.db.set_value(doctype, name, "creation", "1900-01-02 12:00:00")
+		frappe.db.set_value(doctype, legacy, {"requested_on": None, "creation": "1900-01-01 12:00:00"})
+
+		with self.assertRaises(frappe.ValidationError):
+			get_next_pending_request(newest)
+
+		frappe.set_user("Administrator")
+		reviewer = make_user(
+			f"dm-request-navigation-{frappe.generate_hash(length=6)}@example.com",
+			["Supporter Change Reviewer"],
+		)
+		frappe.get_doc(
+			{
+				"doctype": "User Permission",
+				"user": reviewer,
+				"allow": "Cost Center",
+				"for_value": self.cost_center,
+				"apply_to_all_doctypes": 0,
+				"applicable_for": doctype,
+			}
+		).insert()
+		frappe.set_user(reviewer)
+		reject_request(completed)
+		smaller, larger = sorted((first, second))
+		self.assertEqual(get_next_pending_request(newest), larger)
+		self.assertEqual(get_next_pending_request(larger), smaller)
+		self.assertEqual(frappe.db.get_value(doctype, newest, "status"), "Pending")
+		self.assertEqual(
+			approve_request(smaller, "Verified", continue_review=True),
+			{"status": "Approved", "next_request": legacy},
+		)
+		with self.assertRaises(frappe.ValidationError):
+			approve_request(smaller, "Duplicate review", continue_review=True)
+		self.assertEqual(frappe.db.get_value(doctype, smaller, "review_note"), "Verified")
+		self.assertIsNone(get_next_pending_request(legacy))
+
+	def test_request_reader_sees_only_configured_supporter_field(self):
+		doctype = "Supporter Contact Change Request"
+		name = self.make_request()
+		frappe.set_user("Administrator")
+		settings = frappe.get_single("Donation Management Settings")
+		settings_field = "review_supporter_display_field"
+		original = settings.get(settings_field)
+		self.addCleanup(frappe.db.set_single_value, settings.doctype, settings_field, original)
+		settings.set(settings_field, "first_name")
+		settings.save()
+		frappe.set_user(self.user)
+		request = frappe.get_doc(doctype, name)
+		self.assertTrue(request.has_permission("read"))
+		self.assertFalse(frappe.get_doc("Supporter", self.supporter.name).has_permission("read"))
+		run_onload(request)
+		self.assertEqual(
+			request.get_onload("supporter_display"),
+			{"label": "First Name", "value": self.supporter.first_name},
+		)
+
+		frappe.set_user("Administrator")
+		other_user = make_user(
+			f"dm-request-other-reader-{frappe.generate_hash(length=6)}@example.com",
+			["Donation Management User"],
+		)
+		frappe.set_user(other_user)
+		with self.assertRaises(frappe.PermissionError):
+			getdoc(doctype, name)
+
+		frappe.set_user("Administrator")
+		manager = make_user(
+			f"dm-request-settings-manager-{frappe.generate_hash(length=6)}@example.com",
+			["Donation Management Manager"],
+		)
+		frappe.set_user(manager)
+		manager_settings = frappe.get_single(settings.doctype)
+		run_onload(manager_settings)
+		self.assertNotIn("review_supporter_display_fields", manager_settings.get_onload())
+		manager_settings.set(settings_field, "last_name")
+		manager_settings.save()
+		self.assertEqual(frappe.db.get_single_value(settings.doctype, settings_field), "first_name")
+
+		frappe.set_user("Administrator")
+		settings.reload()
+		settings.set(settings_field, "contact_or_address_modified")
+		with self.assertRaises(frappe.ValidationError):
+			settings.save()
+
+		# Existing selections may become invalid when a site removes or restricts a field.
+		frappe.db.set_single_value(settings.doctype, settings_field, "custom_removed_field")
+		run_onload(request)
+		self.assertNotIn("supporter_display", request.get_onload())

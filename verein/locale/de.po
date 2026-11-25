@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Verein VERSION\n"
 "Report-Msgid-Bugs-To: kontakt@david-loe.de\n"
-"POT-Creation-Date: 2026-11-02 13:07+0000\n"
+"POT-Creation-Date: 2026-11-25 15:50+0000\n"
 "PO-Revision-Date: 2026-03-23 12:50+0000\n"
 "Last-Translator: kontakt@david-loe.de\n"
 "Language: de\n"
@@ -75,7 +75,7 @@ msgstr "Adresse"
 #. Label of the address_line_1 (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:21
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:24
 #: verein/public/js/donation_management/donors.js:20
 msgid "Address Line 1"
 msgstr "Adresszeile 1"
@@ -84,7 +84,7 @@ msgstr "Adresszeile 1"
 #. Label of the address_line_2 (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:22
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:25
 #: verein/public/js/donation_management/donors.js:21
 msgid "Address Line 2"
 msgstr "Adresszeile 2"
@@ -119,13 +119,18 @@ msgstr "Betrag"
 msgid "An active Cost Center Access already exists for this user and cost center."
 msgstr "Für diesen Benutzer und diese Kostenstelle existiert bereits ein aktiver Kostenstellenzugriff."
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:11
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:20
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:77
 msgid "Approve"
 msgstr "Genehmigen"
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:17
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:66
 msgid "Approve Request"
 msgstr "Anfrage genehmigen"
+
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:81
+msgid "Approve and Next"
+msgstr "Genehmigen und weiter"
 
 #. Option for the 'Status' (Select) field in DocType 'Supporter Contact Change
 #. Request'
@@ -134,7 +139,7 @@ msgstr "Anfrage genehmigen"
 msgid "Approved"
 msgstr "Genehmigt"
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:83
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:101
 msgid "At least one change is required."
 msgstr "Mindestens eine Änderung ist erforderlich."
 
@@ -196,7 +201,7 @@ msgstr "Änderungen"
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:20
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:45
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:24
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:27
 #: verein/public/js/donation_management/donors.js:23
 msgid "City"
 msgstr "Ort"
@@ -339,7 +344,7 @@ msgstr "Ort konnte nicht aufgelöst werden."
 #. Label of the country (Link) field in DocType 'Supporter'
 #: verein/contact_management/doctype/network/network.json
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:25
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:28
 #: verein/public/js/donation_management/donors.js:24
 msgid "Country"
 msgstr "Land"
@@ -535,7 +540,7 @@ msgstr "E-Mail"
 
 #. Label of the email_address (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:19
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:22
 #: verein/public/js/donation_management/donors.js:18
 #: verein/public/js/donation_management/donors.js:537
 msgid "Email Address"
@@ -609,12 +614,12 @@ msgstr "Fehlgeschlagen"
 msgid "Field Label"
 msgstr "Feldbezeichnung"
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:88
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:189
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:106
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:207
 msgid "Field {0} cannot be changed through this request."
 msgstr "Feld {0} kann über diese Anfrage nicht geändert werden."
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:90
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:108
 msgid "Field {0} is listed more than once."
 msgstr "Feld {0} ist mehrfach aufgeführt."
 
@@ -638,7 +643,7 @@ msgstr "Erste Spende"
 
 #. Label of the first_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:17
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:20
 #: verein/public/js/donation_management/donors.js:16
 msgid "First Name"
 msgstr "Vorname"
@@ -746,7 +751,7 @@ msgstr ""
 msgid "Invalid notification settings."
 msgstr "Ungültige Benachrichtigungseinstellungen."
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:79
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:97
 msgid "Invalid status: {0}"
 msgstr "Ungültiger Status: {0}"
 
@@ -766,7 +771,7 @@ msgstr "Letztes Halbjahr"
 
 #. Label of the last_name (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:18
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:21
 #: verein/public/js/donation_management/donors.js:17
 msgid "Last Name"
 msgstr "Nachname"
@@ -948,6 +953,10 @@ msgstr "Neue Spende"
 msgid "New donor"
 msgstr "Neuer Spender"
 
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:29
+msgid "Next"
+msgstr "Weiter"
+
 #: verein/public/js/donation_management/cost_center_bookings.js:232
 msgid "No bookings found for the selected filters."
 msgstr "Keine Buchungen für die ausgewählten Filter gefunden."
@@ -1036,11 +1045,11 @@ msgstr "Über Spenden ab einem Schwellenbetrag benachrichtigen"
 msgid "Notify me about new donors"
 msgstr "Über neue Spender benachrichtigen"
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:97
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:115
 msgid "Only pending requests can be approved."
 msgstr "Nur offene Anfragen können genehmigt werden."
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:114
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:132
 msgid "Only pending requests can be rejected."
 msgstr "Nur offene Anfragen können abgelehnt werden."
 
@@ -1079,7 +1088,7 @@ msgstr "Zeitraum"
 #. Label of the phone (Data) field in DocType 'Supporter'
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:19
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:20
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:23
 #: verein/public/js/donation_management/donors.js:19
 #: verein/public/js/donation_management/donors.js:538
 msgid "Phone"
@@ -1113,7 +1122,7 @@ msgstr "Bitte zuerst einen Startpunkt per Ortssuche oder Karten-Pin festlegen."
 #: verein/contact_management/doctype/supporter/supporter.json
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:21
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.py:46
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:23
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:26
 #: verein/public/js/donation_management/donors.js:22
 msgid "Postal Code"
 msgstr "PLZ"
@@ -1171,11 +1180,11 @@ msgstr "Referenz-DocType muss einer der folgenden Werte sein: {0}"
 msgid "Reference Name"
 msgstr "Referenzname"
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:12
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:25
 msgid "Reject"
 msgstr "Ablehnen"
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:17
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:66
 msgid "Reject Request"
 msgstr "Anfrage ablehnen"
 
@@ -1252,15 +1261,16 @@ msgstr "Treffer"
 
 #. Label of the review_section (Section Break) field in DocType 'Supporter
 #. Contact Change Request'
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:11
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:12
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:22
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:27
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:29
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Review"
 msgstr "Prüfung"
 
 #. Label of the review_note (Small Text) field in DocType 'Supporter Contact
 #. Change Request'
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:24
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.js:74
 #: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.json
 msgid "Review Note"
 msgstr "Prüfnotiz"
@@ -1313,6 +1323,10 @@ msgstr "Ort wird gesucht..."
 #: verein/contact_management/page/geo_radius_search/geo_radius_search.js:890
 msgid "Searching..."
 msgstr "Suche läuft..."
+
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.py:53
+msgid "Select a Supporter field that can be shared with request readers."
+msgstr "Wählen Sie ein Unterstützerfeld, das für Personen mit Lesezugriff auf die Anfrage freigegeben werden kann."
 
 #: verein/donation_management/notifications.py:103
 msgid "Select an accessible, active cost center that is not a group."
@@ -1411,6 +1425,12 @@ msgstr "Supporter-Kontaktänderungsanfrage-Feld"
 msgid "Supporter Experience"
 msgstr "Unterstützer-Begegnung"
 
+#. Label of the review_supporter_display_field (Select) field in DocType
+#. 'Donation Management Settings'
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+msgid "Supporter Field in Contact Change Requests"
+msgstr "Unterstützerfeld in Kontaktänderungsanfragen"
+
 #. Name of a DocType
 #: verein/contact_management/doctype/supporter_network/supporter_network.json
 msgid "Supporter Network"
@@ -1449,11 +1469,17 @@ msgstr "Tags"
 msgid "The donation summary could not be added to the email queue."
 msgstr "Die Spendenzusammenfassung konnte nicht in die E-Mail-Warteschlange aufgenommen werden."
 
+#. Description of the 'Supporter Field in Contact Change Requests' (Select)
+#. field in DocType 'Donation Management Settings'
+#: verein/donation_management/doctype/donation_management_settings/donation_management_settings.json
+msgid "The selected field is visible to everyone who can read the contact change request."
+msgstr "Alle Personen mit Lesezugriff auf die Kontaktänderungsanfrage sehen das ausgewählte Feld."
+
 #: verein/contact_management/doctype/supporter/supporter.py:118
 msgid "The selected spouse does not exist."
 msgstr "Der ausgewählte Ehepartner existiert nicht."
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:75
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:93
 msgid "The supporter has no donations for this cost center in the selected period."
 msgstr "Der Supporter hat für diese Kostenstelle im ausgewählten Zeitraum keine Spenden."
 
@@ -1526,7 +1552,7 @@ msgstr "Buchungen ansehen"
 #: verein/donation_management/cost_center_bookings.py:30
 #: verein/donation_management/cost_center_dashboard.py:63
 #: verein/donation_management/cost_center_dashboard.py:107
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:67
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:85
 #: verein/donation_management/supporter_donors.py:34
 #: verein/donation_management/supporter_donors.py:263
 msgid "You are not allowed to access this cost center."
@@ -1540,7 +1566,7 @@ msgstr "Sie dürfen Budgets für diese Kostenstelle nicht verwalten."
 msgid "You are not allowed to manage donation notifications."
 msgstr "Du darfst keine Spendenbenachrichtigungen verwalten."
 
-#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:126
+#: verein/donation_management/doctype/supporter_contact_change_request/supporter_contact_change_request.py:144
 msgid "You are not allowed to review supporter contact change requests."
 msgstr "Sie dürfen Supporter-Kontaktänderungsanfragen nicht prüfen."
 

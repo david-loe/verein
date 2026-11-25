@@ -7,6 +7,9 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import flt, now_datetime
 
+from verein.donation_management.doctype.donation_management_settings.donation_management_settings import (
+	get_review_supporter_display_fields,
+)
 from verein.donation_management.permissions import (
 	can_review_supporter_contact_change_requests,
 	get_descendant_cost_centers,
@@ -52,6 +55,21 @@ class SupporterContactChangeRequest(Document):
 		to_date: DF.Date | None
 	# end: auto-generated types
 
+	def onload(self) -> None:
+		fieldname = frappe.get_single("Donation Management Settings").get("review_supporter_display_field")
+		if not fieldname or not self.supporter:
+			return
+
+		field = get_review_supporter_display_fields().get(fieldname)
+		if field:
+			self.set_onload(
+				"supporter_display",
+				{
+					"label": field.label or fieldname,
+					"value": frappe.db.get_value("Supporter", self.supporter, fieldname, ignore=True),
+				},
+			)
+
 	def before_insert(self) -> None:
 		self.requested_by = self.requested_by or frappe.session.user
 		self.requested_on = self.requested_on or now_datetime()
@@ -96,7 +114,7 @@ class SupporterContactChangeRequest(Document):
 		if self.status != PENDING:
 			frappe.throw(_("Only pending requests can be approved."))
 
-		supporter = frappe.get_doc("Supporter", self.supporter)
+		supporter = frappe.get_doc("Supporter", self.supporter, for_update=True)
 		for row in self.changes:
 			supporter.set(row.fieldname, row.requested_value or None)
 		supporter.save(ignore_permissions=True)
@@ -207,11 +225,50 @@ def make_change_request(
 	return doc
 
 
+def get_next_pending_request_name(request: SupporterContactChangeRequest) -> str | None:
+	table = frappe.qb.DocType(request.doctype)
+	older_by_creation = (table.creation < request.creation) | (
+		(table.creation == request.creation) & (table.name < request.name)
+	)
+	if request.requested_on is None:
+		older = table.requested_on.isnull() & older_by_creation
+	else:
+		older = (
+			(table.requested_on < request.requested_on)
+			| table.requested_on.isnull()
+			| ((table.requested_on == request.requested_on) & older_by_creation)
+		)
+
+	names = frappe.qb.get_query(
+		request.doctype,
+		fields=["name"],
+		filters=(table.status == PENDING) & older,
+		order_by="requested_on desc, creation desc, name desc",
+		limit=1,
+		ignore_permissions=False,
+	).run(pluck=True)
+	return names[0] if names else None
+
+
+@frappe.whitelist(methods=["GET"])
+def get_next_pending_request(name: str) -> str | None:
+	assert_can_review()
+	request = frappe.get_doc("Supporter Contact Change Request", name)
+	request.check_permission("read")
+	return get_next_pending_request_name(request)
+
+
 @frappe.whitelist()
-def approve_request(name: str, review_note: str | None = None) -> dict[str, str]:
-	return frappe.get_doc("Supporter Contact Change Request", name).approve(review_note)
+def approve_request(
+	name: str, review_note: str | None = None, continue_review: bool = False
+) -> dict[str, str | None]:
+	request = frappe.get_doc("Supporter Contact Change Request", name, for_update=True)
+	result: dict[str, str | None] = {**request.approve(review_note)}
+	if continue_review:
+		result["next_request"] = get_next_pending_request_name(request)
+	return result
 
 
 @frappe.whitelist()
 def reject_request(name: str, review_note: str | None = None) -> dict[str, str]:
-	return frappe.get_doc("Supporter Contact Change Request", name).reject(review_note)
+	return frappe.get_doc("Supporter Contact Change Request", name, for_update=True).reject(review_note)
